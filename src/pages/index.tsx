@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { trpc } from "../utils/trpc";
@@ -15,30 +14,12 @@ const Home: NextPage = () => {
         <meta name="description" content="Burleskiyhdistys" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-cyan-800">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-center">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            Ihanaa Elämää ry
+          <h1 className="text-6xl font-extrabold tracking-tight text-white">
+            Title
           </h1>
-          <div className="text-4xl font-bold text-white">
-            🚧 Uusi sivusto on rakenteilla! 🚧
-          </div>
-          <div className="text-2xl text-white">
-            Tämä sivusto on vielä keskeneräinen. Löydät tiedot uusista
-            tapahtumista ja uutisista sosiaalisessa mediassa:
-          </div>
-          <div className="mt-6 flex flex-row flex-wrap justify-center gap-16 align-middle">
-            <Link href="https://www.facebook.com/ihanaaelamaa/">
-              <span className="rounded-xl border border-blue-400 p-4 text-3xl font-bold text-blue-400 ring-blue-400 hover:ring-8">
-                Facebook
-              </span>
-            </Link>
-            <Link href="https://www.instagram.com/ihanaaelamaayhdistys/">
-              <span className="rounded-xl border border-red-300 p-4 text-3xl font-bold text-red-300 ring-red-300 hover:ring-8">
-                Instagram
-              </span>
-            </Link>
-          </div>
+          <p className="text-3xl text-white">This is a paragraph.</p>
         </div>
       </main>
     </>
