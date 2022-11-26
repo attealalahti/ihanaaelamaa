@@ -15,7 +15,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Burleskiyhdistys" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-rose-900 to-violet-900">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-center">
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             Ihanaa Elämää ry
@@ -29,12 +29,12 @@ const Home: NextPage = () => {
           </div>
           <div className="mt-6 flex flex-row flex-wrap justify-center gap-16 align-middle">
             <Link href="https://www.facebook.com/ihanaaelamaa/">
-              <span className="rounded-xl border border-blue-400 p-4 text-3xl font-bold text-blue-400 ring-blue-400 hover:ring-8">
+              <span className="rounded-xl border-4 border-blue-300 p-4 text-3xl font-bold text-blue-300 ring-blue-300 hover:ring-8">
                 Facebook
               </span>
             </Link>
             <Link href="https://www.instagram.com/ihanaaelamaayhdistys/">
-              <span className="rounded-xl border border-red-300 p-4 text-3xl font-bold text-red-300 ring-red-300 hover:ring-8">
+              <span className="rounded-xl border-4 border-red-200 p-4 text-3xl font-bold text-red-200 ring-red-200 hover:ring-8">
                 Instagram
               </span>
             </Link>
