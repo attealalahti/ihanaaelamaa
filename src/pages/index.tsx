@@ -1,8 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
+// import { signIn, signOut, useSession } from "next-auth/react";
 
-import { trpc } from "../utils/trpc";
+// import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   //const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
@@ -56,6 +56,7 @@ const Home: NextPage = () => {
 
 export default Home;
 
+/*
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
@@ -79,3 +80,4 @@ const AuthShowcase: React.FC = () => {
     </div>
   );
 };
+*/
