@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Header from "../components/header";
+import LinkButton from "../components/link-button";
 // import { signIn, signOut, useSession } from "next-auth/react";
 
 // import { trpc } from "../utils/trpc";
@@ -18,7 +19,7 @@ const Home: NextPage = () => {
       <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-rose-900 to-violet-900">
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center">
-          <div className="container flex max-w-4xl flex-col items-center justify-center gap-12 p-16 px-8 text-center text-white">
+          <div className="container flex max-w-4xl flex-col items-center justify-center gap-16 p-16 px-8 text-center text-white">
             <h1 className="text-5xl font-bold tracking-tight">
               Tervetuloa sivuillemme!
             </h1>
@@ -50,6 +51,10 @@ const Home: NextPage = () => {
                 Jäsenemme ovat etusijalla esiintyjävalinnoissa! Älä epäröi ottaa
                 yhteyttä jos haluat nousta lavalle!
               </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-20">
+              <LinkButton href="/join">Liity jäseneksi!</LinkButton>
+              <LinkButton href="/contact">Ota yhteyttä!</LinkButton>
             </div>
           </div>
         </main>
