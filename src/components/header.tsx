@@ -3,7 +3,7 @@ import NavButton from "./nav-button";
 
 const Header: React.FC = () => {
   return (
-    <header className="flex h-20 w-screen text-white">
+    <header className="flex h-20 w-full text-white">
       <div className="flex flex-1 items-center justify-start">
         <span className="ml-12">
           <Link href="/">
