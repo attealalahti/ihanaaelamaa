@@ -10,7 +10,7 @@ const NavButton: React.FC<Props> = ({ href, children }) => {
     <li className="flex md:items-center md:justify-center">
       <Link
         href={href}
-        className="w-screen rounded-3xl border border-transparent p-4 text-xl transition-colors duration-300 hover:border-white md:w-auto"
+        className="w-screen rounded-3xl border border-transparent p-4 pl-6 text-xl transition-colors duration-300 hover:border-white md:w-auto md:pl-4"
       >
         {children}
       </Link>

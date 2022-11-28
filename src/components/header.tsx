@@ -13,10 +13,10 @@ const Header: React.FC = () => {
   return (
     <header className="flex w-full flex-col bg-[#34136680] text-white md:h-20 md:flex-row md:bg-transparent">
       <div className="flex flex-col justify-start md:flex-1 md:flex-row md:items-center">
-        <span className="flex w-full md:ml-12 md:w-auto">
+        <span className="flex w-full md:ml-4 md:w-auto lg:ml-12">
           <Link
             href="/"
-            className="rounded-3xl border border-transparent p-4 text-2xl transition-colors duration-300 hover:border-white"
+            className="ml-2 rounded-3xl border border-transparent p-4 text-2xl transition-colors duration-300 hover:border-white md:ml-0"
           >
             Ihanaa Elämää ry
           </Link>
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
           </button>
         </span>
       </div>
-      <nav className={`${!navOpen ? "hidden md:block" : ""} md:mr-12`}>
+      <nav className={`${!navOpen ? "hidden md:block" : ""} md:mr-4 lg:mr-12`}>
         <ul className="h-full w-full md:flex md:flex-row md:gap-2">
           <NavButton href="/">Koti</NavButton>
           <NavButton href="/join">Liity</NavButton>
