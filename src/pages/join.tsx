@@ -16,10 +16,10 @@ const Join: NextPage = () => {
         <Header />
         <main className="flex flex-1 flex-wrap items-center justify-center">
           <div className="m-10 flex max-w-4xl flex-col gap-16 text-white">
-            <h1 className="text-5xl font-bold tracking-tight">
+            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
               Liity IE Burleskipoppoon jäseneksi!
             </h1>
-            <div className="flex flex-col gap-6 text-xl">
+            <div className="flex flex-col gap-6 text-lg lg:text-xl">
               <p>
                 Ihanaa Elämää ry on yhdistys, jonka alun perin perusti suurehko
                 kaveriporukka ympäri Suomen, jotka haluavat tarjota mielekästä
@@ -42,10 +42,10 @@ const Join: NextPage = () => {
                 vain jäsenille.
               </p>
             </div>
-            <h2 className="text-2xl font-bold">
+            <h2 className="text-xl font-bold lg:text-2xl">
               Yksityishenkilön kannatusjäsenyys maksaa 5 euroa vuonna 2022.
             </h2>
-            <div className="flex flex-col gap-6 text-xl">
+            <div className="flex flex-col gap-6 text-lg lg:text-xl">
               <p className="font-bold">
                 Jos haluat liittyä IE Burleskipoppooseen, toimi näin:
               </p>

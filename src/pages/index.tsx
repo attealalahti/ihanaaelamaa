@@ -20,10 +20,10 @@ const Home: NextPage = () => {
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center">
           <div className="flex max-w-4xl flex-col items-center justify-center gap-16 p-16 px-8 text-center text-white">
-            <h1 className="text-5xl font-bold tracking-tight">
+            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
               Tervetuloa sivuillemme!
             </h1>
-            <div className="flex flex-col gap-6 text-xl">
+            <div className="flex flex-col gap-6 text-lg lg:text-xl">
               <p>
                 Ihanaa Elämää ry:n Burleskipoppoon tarkoituksena on ylläpitää
                 sekä edistää aikuisten monipuolista harrastus- ja
