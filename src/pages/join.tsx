@@ -50,8 +50,7 @@ const Join: NextPage = () => {
                 Jos haluat liittyä IE Burleskipoppooseen, toimi näin:
               </p>
               <p>
-                1) Täytä jäsentietolomake alla olevasta linkistä (jollei linkki
-                toimi, kopioi osoite selaimesi osoiteriville):{" "}
+                1) Täytä jäsentietolomake tästä linkistä{" "}
                 <a
                   href="https://forms.gle/mpbTfS9tzJ2yLFav6"
                   className="text-blue-300 hover:underline"
