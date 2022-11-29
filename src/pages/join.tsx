@@ -15,7 +15,7 @@ const Join: NextPage = () => {
       <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-rose-900 to-violet-900">
         <Header />
         <main className="flex flex-1 flex-wrap items-center justify-center">
-          <div className="m-10 flex max-w-4xl flex-col gap-16 text-white">
+          <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16">
             <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
               Liity IE Burleskipoppoon jäseneksi!
             </h1>
