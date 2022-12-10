@@ -5,6 +5,7 @@ import SocialButton from "../components/social-button";
 import emailIcon from "../../public/images/email_icon.svg";
 import instagramIcon from "../../public/images/instagram_logo.svg";
 import facebookIcon from "../../public/images/facebook_logo.svg";
+import Footer from "../components/footer";
 
 const Contact: NextPage = () => {
   return (
@@ -44,6 +45,7 @@ const Contact: NextPage = () => {
             />
           </div>
         </main>
+        <Footer />
       </div>
     </>
   );

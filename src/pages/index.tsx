@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import Footer from "../components/footer";
 import Header from "../components/header";
 import LinkButton from "../components/link-button";
 // import { signIn, signOut, useSession } from "next-auth/react";
@@ -58,6 +59,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </main>
+        <Footer />
       </div>
     </>
   );

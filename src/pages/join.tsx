@@ -3,6 +3,7 @@ import Header from "../components/header";
 import Image from "next/image";
 import joinImage from "../../public/images/liity.jpg";
 import Head from "next/head";
+import Footer from "../components/footer";
 
 const Join: NextPage = () => {
   return (
@@ -71,6 +72,7 @@ const Join: NextPage = () => {
             className="m-10 shadow-md shadow-black"
           />
         </main>
+        <Footer />
       </div>
     </>
   );
