@@ -29,12 +29,12 @@ const Home: NextPage = () => {
           </div>
           <div className="mt-6 flex flex-row flex-wrap justify-center gap-16 align-middle">
             <Link href="https://www.facebook.com/ihanaaelamaa/">
-              <span className="rounded-xl border-4 border-blue-300 p-4 text-3xl font-bold text-blue-300 ring-blue-300 hover:ring-8">
+              <span className="rounded-xl border-4 border-blue-300 p-4 text-3xl font-bold text-blue-300 ring-blue-300 hover:underline">
                 Facebook
               </span>
             </Link>
             <Link href="https://www.instagram.com/ihanaaelamaayhdistys/">
-              <span className="rounded-xl border-4 border-red-200 p-4 text-3xl font-bold text-red-200 ring-red-200 hover:ring-8">
+              <span className="rounded-xl border-4 border-red-200 p-4 text-3xl font-bold text-red-200 ring-red-200 hover:underline">
                 Instagram
               </span>
             </Link>
