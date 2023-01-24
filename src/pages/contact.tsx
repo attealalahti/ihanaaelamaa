@@ -15,7 +15,7 @@ const Contact: NextPage = () => {
         <meta name="description" content="Burleskiyhdistys" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-rose-900 to-violet-900">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-900 to-green-700">
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center gap-4 text-white lg:gap-6">
           <h1 className="my-10 text-4xl font-bold tracking-tight lg:text-5xl">
@@ -27,21 +27,18 @@ const Contact: NextPage = () => {
               imageSrc={emailIcon}
               imageAlt="Sähköposti"
               href="mailto:burleskia@ihanaaelamaa.fi"
-              className="hover:bg-violet-900"
             />
             <SocialButton
               text="facebook.com/ihanaaelamaa"
               imageSrc={facebookIcon}
               imageAlt="Facebook"
               href="https://www.facebook.com/ihanaaelamaa/"
-              className="hover:bg-blue-900"
             />
             <SocialButton
               text="@ihanaaelamaayhdistys"
               imageSrc={instagramIcon}
               imageAlt="Instagram"
               href="https://www.instagram.com/ihanaaelamaayhdistys/"
-              className="hover:bg-rose-900"
             />
           </div>
         </main>

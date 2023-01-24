@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   const [navOpen, setNavOpen] = useState(false);
 
   return (
-    <header className="flex w-full flex-col bg-[#34136680] text-white md:h-20 md:flex-row md:bg-transparent">
+    <header className="flex w-full flex-col bg-gray-800 bg-opacity-50 text-white md:h-20 md:flex-row md:bg-transparent">
       <div className="flex flex-col justify-start md:flex-1 md:flex-row md:items-center">
         <span className="flex w-full md:ml-4 md:w-auto lg:ml-12">
           <Link
