@@ -4,11 +4,28 @@ import Footer from "../components/footer";
 import Header from "../components/header";
 import LinkButton from "../components/link-button";
 // import { signIn, signOut, useSession } from "next-auth/react";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { appRouter } from "../server/trpc/router/_app";
+import superjson from "superjson";
+import { createContext } from "../server/trpc/context";
+import { trpc } from "../utils/trpc";
 
-// import { trpc } from "../utils/trpc";
+export const getStaticProps = async () => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContext(),
+    transformer: superjson,
+  });
+  await ssg.event.getAll.prefetch();
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};
 
 const Home: NextPage = () => {
-  //const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  const events = trpc.event.getAll.useQuery();
 
   return (
     <>
@@ -57,6 +74,18 @@ const Home: NextPage = () => {
               <LinkButton href="/join">Liity jäseneksi!</LinkButton>
               <LinkButton href="/contact">Ota yhteyttä!</LinkButton>
             </div>
+          </div>
+          <div className="text-white">
+            {events.data ? (
+              events.data.map(({ id, text }, index) => (
+                <div key={index}>
+                  <div>{id}</div>
+                  <div>{text}</div>
+                </div>
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
           </div>
         </main>
         <Footer />

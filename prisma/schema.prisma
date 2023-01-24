@@ -65,3 +65,8 @@ model Event {
   content    String    @db.VarChar(4096)
   created_at DateTime? @default(now()) @db.Timestamp(0)
 }
+
+model posts {
+  id   Int     @id @default(autoincrement())
+  text String? @db.VarChar(255)
+}

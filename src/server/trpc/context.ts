@@ -6,7 +6,7 @@ import { getServerAuthSession } from "../common/get-server-auth-session";
 import { prisma } from "../db/client";
 
 type CreateContextOptions = {
-  session: Session | null;
+  session: Session | null | undefined;
 };
 
 /** Use this helper for:
@@ -25,11 +25,9 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  * This is the actual context you'll use in your router
  * @link https://trpc.io/docs/context
  **/
-export const createContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
-
+export const createContext = async (opts?: CreateNextContextOptions) => {
   // Get the session from the server using the unstable_getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
+  const session = opts ? await getServerAuthSession(opts) : undefined;
 
   return await createContextInner({
     session,
