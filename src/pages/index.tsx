@@ -11,6 +11,7 @@ import { createContext } from "../server/trpc/context";
 import { trpc } from "../utils/trpc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Page from "../components/page";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -36,7 +37,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Burleskiyhdistys" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-900 to-green-700">
+      <Page>
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center">
           <div className="flex max-w-4xl flex-col items-center justify-center gap-16 p-16 px-8 text-center text-white">
@@ -92,7 +93,7 @@ const Home: NextPage = () => {
                   >
                     <div>
                       <p className="text-sm">1.1.2020 {id}</p>
-                      <h3 className="text-lg font-bold group-hover:underline">
+                      <h3 className="text-lg font-bold group-hover:underline lg:text-xl">
                         {text}
                       </h3>
                       <p>
@@ -113,7 +114,7 @@ const Home: NextPage = () => {
           </div>
         </main>
         <Footer />
-      </div>
+      </Page>
     </>
   );
 };

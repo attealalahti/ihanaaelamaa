@@ -6,6 +6,7 @@ import emailIcon from "../../public/images/email_icon.svg";
 import instagramIcon from "../../public/images/instagram_logo.svg";
 import facebookIcon from "../../public/images/facebook_logo.svg";
 import Footer from "../components/footer";
+import Page from "../components/page";
 
 const Contact: NextPage = () => {
   return (
@@ -15,7 +16,7 @@ const Contact: NextPage = () => {
         <meta name="description" content="Burleskiyhdistys" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-900 to-green-700">
+      <Page>
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center gap-4 text-white lg:gap-6">
           <h1 className="my-10 text-4xl font-bold tracking-tight lg:text-5xl">
@@ -43,7 +44,7 @@ const Contact: NextPage = () => {
           </div>
         </main>
         <Footer />
-      </div>
+      </Page>
     </>
   );
 };

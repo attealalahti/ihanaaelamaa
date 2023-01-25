@@ -4,6 +4,7 @@ import Image from "next/image";
 import joinImage from "../../public/images/liity.jpg";
 import Head from "next/head";
 import Footer from "../components/footer";
+import Page from "../components/page";
 
 const Join: NextPage = () => {
   return (
@@ -13,7 +14,7 @@ const Join: NextPage = () => {
         <meta name="description" content="Burleskiyhdistys" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-900 to-green-700">
+      <Page>
         <Header />
         <main className="flex flex-1 flex-wrap items-center justify-center">
           <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16">
@@ -73,7 +74,7 @@ const Join: NextPage = () => {
           />
         </main>
         <Footer />
-      </div>
+      </Page>
     </>
   );
 };
