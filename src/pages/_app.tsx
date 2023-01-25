@@ -7,6 +7,10 @@ import { trpc } from "../utils/trpc";
 import "../styles/globals.css";
 import { Rosario } from "@next/font/google";
 
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
 const rosario = Rosario({
   subsets: ["latin"],
   variable: "--font-rosario",
