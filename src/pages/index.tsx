@@ -74,17 +74,28 @@ const Home: NextPage = () => {
               <LinkButton href="/join">Liity jäseneksi!</LinkButton>
               <LinkButton href="/contact">Ota yhteyttä!</LinkButton>
             </div>
-          </div>
-          <div className="text-white">
-            {events.data ? (
-              events.data.map(({ id, text }, index) => (
-                <div key={index}>
-                  <div>{id}</div>
-                  <div>{text}</div>
-                </div>
-              ))
-            ) : (
-              <div>Loading...</div>
+            {events.data && (
+              <section className="mt-4 w-full">
+                <h2 className="mt-2 w-full rounded-t-xl bg-gray-800 bg-opacity-50 p-3 text-2xl lg:mt-4 lg:text-3xl">
+                  Tulevat tapahtumat
+                </h2>
+                {events.data.map(({ id, text }, index) => (
+                  <button
+                    key={index}
+                    className={`${
+                      index === events.data.length - 1 ? "rounded-b-xl" : ""
+                    } w-full bg-white px-4 py-3 text-left text-black hover:bg-slate-200`}
+                  >
+                    <p className="text-sm">1.1.2020 {id}</p>
+                    <h3 className="text-lg font-bold">{text}</h3>
+                    <p>
+                      Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
+                      ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum{" "}
+                      Lorem{" "}
+                    </p>
+                  </button>
+                ))}
+              </section>
             )}
           </div>
         </main>
