@@ -3,7 +3,6 @@ import Head from "next/head";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import LinkButton from "../components/link-button";
-// import { signIn, signOut, useSession } from "next-auth/react";
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { appRouter } from "../server/trpc/router/_app";
 import superjson from "superjson";
