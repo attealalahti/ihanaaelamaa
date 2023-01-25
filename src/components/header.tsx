@@ -22,6 +22,7 @@ const Header: React.FC = () => {
           </Link>
           <div className="flex-1 md:hidden" />
           <button
+            aria-label="Toggle Menu"
             className="px-3 md:hidden"
             onClick={() => setNavOpen((value) => !value)}
           >
