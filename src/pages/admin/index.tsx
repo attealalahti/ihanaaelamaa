@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import Unauthorized from "../../components/unauthorized";
 import SignedOut from "../../components/signed-out";
 import AdminHeader from "../../components/admin-header";
+import Link from "next/link";
 
 const AdminHome: NextPage = () => {
   const { data: session } = useSession();
@@ -24,9 +25,12 @@ const AdminHome: NextPage = () => {
           ) : !session.user?.isAdmin ? (
             <Unauthorized session={session} />
           ) : (
-            <>
-              <div className="text-white">placeholder</div>
-            </>
+            <Link
+              href="/admin/events"
+              className="rounded-xl bg-white p-4 text-2xl text-black"
+            >
+              Tapahtumat
+            </Link>
           )}
         </main>
       </Page>
