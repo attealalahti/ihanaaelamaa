@@ -1,9 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Page from "../../components/page";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Unauthorized from "../../components/unauthorized";
 import SignedOut from "../../components/signed-out";
+import AdminHeader from "../../components/admin-header";
 
 const AdminHome: NextPage = () => {
   const { data: session } = useSession();
@@ -16,6 +17,7 @@ const AdminHome: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Page admin>
+        <AdminHeader session={session} />
         <main className="flex flex-1 flex-col items-center justify-center">
           {!session ? (
             <SignedOut />
@@ -23,15 +25,7 @@ const AdminHome: NextPage = () => {
             <Unauthorized session={session} />
           ) : (
             <>
-              <div className="p-2 text-xl text-white">
-                Kirjauduttu sisään nimellä {session.user?.name}
-              </div>
-              <button
-                className="rounded-xl bg-white p-3 text-xl"
-                onClick={() => signOut()}
-              >
-                Kirjaudu ulos
-              </button>
+              <div className="text-white">placeholder</div>
             </>
           )}
         </main>
