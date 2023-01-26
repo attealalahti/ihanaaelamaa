@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Page from "../../components/page";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Unauthorized from "../../components/unauthorized";
 
 const AdminHome: NextPage = () => {
   const { data: session } = useSession();
@@ -23,20 +24,7 @@ const AdminHome: NextPage = () => {
               Kirjaudu sisään
             </button>
           ) : !session.user?.isAdmin ? (
-            <>
-              <div className="p-2 text-xl text-white">
-                Kirjauduttu sisään nimellä {session.user?.name}
-              </div>
-              <div className="p-2 text-xl text-white">
-                Sinulla ei ole muokkausoikeuksia.
-              </div>
-              <button
-                className="rounded-xl bg-white p-3 text-xl"
-                onClick={() => signOut()}
-              >
-                Kirjaudu ulos
-              </button>
-            </>
+            <Unauthorized session={session} />
           ) : (
             <>
               <div className="p-2 text-xl text-white">
