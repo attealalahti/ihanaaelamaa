@@ -22,6 +22,21 @@ const AdminHome: NextPage = () => {
             >
               Kirjaudu sisään
             </button>
+          ) : !session.user?.isAdmin ? (
+            <>
+              <div className="p-2 text-xl text-white">
+                Kirjauduttu sisään nimellä {session.user?.name}
+              </div>
+              <div className="p-2 text-xl text-white">
+                Sinulla ei ole muokkausoikeuksia.
+              </div>
+              <button
+                className="rounded-xl bg-white p-3 text-xl"
+                onClick={() => signOut()}
+              >
+                Kirjaudu ulos
+              </button>
+            </>
           ) : (
             <>
               <div className="p-2 text-xl text-white">
