@@ -102,7 +102,7 @@ const Home: NextPage = () => {
                       </p>
                     </div>
                     <div className="flex h-full">
-                      <span className="mt-auto p-1 opacity-75 transition-all duration-300 group-hover:scale-[1.3] group-hover:opacity-100">
+                      <span className="mt-auto p-1 pl-4 opacity-75 transition-all duration-300 group-hover:scale-[1.3] group-hover:opacity-100">
                         <FontAwesomeIcon icon={faArrowRight} size="2x" />
                       </span>
                     </div>
