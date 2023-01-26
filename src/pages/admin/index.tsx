@@ -15,7 +15,7 @@ const AdminHome: NextPage = () => {
         <meta name="description" content="Burleskiyhdistys" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Page>
+      <Page admin>
         <main className="flex flex-1 flex-col items-center justify-center">
           {!session ? (
             <SignedOut />
