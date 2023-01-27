@@ -21,4 +21,9 @@ export const eventRouter = router({
       await ctx.prisma.event.create({ data: input });
       return;
     }),
+  findOne: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.event.findFirst({ where: { id: input.id } });
+    }),
 });

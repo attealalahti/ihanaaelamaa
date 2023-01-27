@@ -9,13 +9,25 @@ type Props = {
     date: string
   ) => void;
   saveButtonText: string;
+  defaultValues?: {
+    title: string;
+    description: string;
+    content: string;
+    date: string;
+  };
 };
 
-const EventForm: React.FC<Props> = ({ handleSubmit, saveButtonText }) => {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [date, setDate] = useState<string>("");
+const EventForm: React.FC<Props> = ({
+  handleSubmit,
+  saveButtonText,
+  defaultValues,
+}) => {
+  const [title, setTitle] = useState<string>(defaultValues?.title ?? "");
+  const [description, setDescription] = useState<string>(
+    defaultValues?.description ?? ""
+  );
+  const [content, setContent] = useState<string>(defaultValues?.content ?? "");
+  const [date, setDate] = useState<string>(defaultValues?.date ?? "");
 
   return (
     <form

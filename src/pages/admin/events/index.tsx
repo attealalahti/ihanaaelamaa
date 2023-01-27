@@ -23,9 +23,10 @@ const AdminEvents: NextPage = () => {
               <FontAwesomeIcon icon={faPlus} size="lg" />
             </span>
           </Link>
-          {events.data.map(({ title, description, date }, index) => (
-            <button
+          {events.data.map(({ id, title, description, date }, index) => (
+            <Link
               key={index}
+              href={`/admin/events/${id}`}
               className={`${
                 index === events.data.length - 1
                   ? "rounded-b-xl"
@@ -46,7 +47,7 @@ const AdminEvents: NextPage = () => {
                   <FontAwesomeIcon icon={faArrowRight} size="2x" />
                 </span>
               </div>
-            </button>
+            </Link>
           ))}
         </section>
       ) : events.isError ? (
