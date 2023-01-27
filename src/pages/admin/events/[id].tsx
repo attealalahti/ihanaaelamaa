@@ -35,7 +35,11 @@ const EditEvent: NextPage = () => {
             title: event.data.title,
             description: event.data.description,
             content: event.data.content,
-            date: "2020-03-04",
+            date: event.data.date.toLocaleDateString("en-CA", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }),
           }}
         />
       ) : event.isError ? (
