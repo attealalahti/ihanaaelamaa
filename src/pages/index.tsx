@@ -8,10 +8,8 @@ import { appRouter } from "../server/trpc/router/_app";
 import superjson from "superjson";
 import { createContext } from "../server/trpc/context";
 import { trpc } from "../utils/trpc";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Page from "../components/page";
-import Link from "next/link";
+import EventBoard from "../components/event-board";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -78,35 +76,7 @@ const Home: NextPage = () => {
               <LinkButton href="/contact">Ota yhteyttä!</LinkButton>
             </div>
             {events.data && (
-              <section className="mt-4 w-full">
-                <h2 className="mt-2 w-full rounded-t-xl bg-gray-800 bg-opacity-50 p-3 text-2xl lg:mt-4 lg:text-3xl">
-                  Tulevat tapahtumat
-                </h2>
-                {events.data.map(({ id, title, description, date }, index) => (
-                  <Link
-                    key={index}
-                    href={`/events/${id}`}
-                    className={`${
-                      index === events.data.length - 1
-                        ? "rounded-b-xl"
-                        : "border-b border-slate-300"
-                    } group flex w-full flex-row items-stretch bg-white px-4 py-3 text-left text-black hover:bg-slate-200`}
-                  >
-                    <div className="flex-1">
-                      <p className="text-sm">{date.toLocaleDateString()}</p>
-                      <h3 className="text-lg font-bold group-hover:underline lg:text-xl">
-                        {title}
-                      </h3>
-                      <p>{description}</p>
-                    </div>
-                    <div className="flex">
-                      <span className="mt-auto p-1 pl-4 opacity-75 transition-all duration-300 group-hover:scale-[1.3] group-hover:opacity-100">
-                        <FontAwesomeIcon icon={faArrowRight} size="2x" />
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </section>
+              <EventBoard events={events.data} title="Tulevat tapahtumat" />
             )}
           </div>
         </main>
