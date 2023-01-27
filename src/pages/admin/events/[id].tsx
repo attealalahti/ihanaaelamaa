@@ -14,6 +14,7 @@ const EditEvent: NextPage = () => {
 
   const event = trpc.event.findOne.useQuery({ id });
   const update = trpc.event.update.useMutation();
+  const utils = trpc.useContext();
 
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement>,
@@ -25,7 +26,7 @@ const EditEvent: NextPage = () => {
     e.preventDefault();
     update.mutate(
       { id, title, description, content, date: new Date(date) },
-      { onSuccess: () => console.log("success") }
+      { onSuccess: () => utils.event.findOne.invalidate({ id }) }
     );
   };
 

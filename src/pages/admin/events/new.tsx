@@ -10,6 +10,7 @@ const NewEvent: NextPage = () => {
   const { data: session } = useSession();
 
   const create = trpc.event.create.useMutation();
+  const utils = trpc.useContext();
 
   const router = useRouter();
 
@@ -23,7 +24,12 @@ const NewEvent: NextPage = () => {
     e.preventDefault();
     create.mutate(
       { title, description, content, date: new Date(date) },
-      { onSuccess: () => router.push("/admin/events") }
+      {
+        onSuccess: () => {
+          utils.event.getAllProtected.invalidate();
+          router.push("/admin/events");
+        },
+      }
     );
   };
 
