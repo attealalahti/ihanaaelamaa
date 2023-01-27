@@ -26,7 +26,7 @@ const NewEvent: NextPage = () => {
       { title, description, content, date: new Date(date) },
       {
         onSuccess: () => {
-          utils.event.getAllProtected.invalidate();
+          utils.event.all.invalidate();
           router.push("/admin/events");
         },
       }

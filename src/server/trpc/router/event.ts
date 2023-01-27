@@ -2,10 +2,10 @@ import { router, publicProcedure, protectedProcedure } from "../trpc";
 import z from "zod";
 
 export const eventRouter = router({
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.posts.findMany();
+  visible: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.event.findMany();
   }),
-  getAllProtected: protectedProcedure.query(({ ctx }) => {
+  all: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.event.findMany();
   }),
   create: protectedProcedure
@@ -21,7 +21,7 @@ export const eventRouter = router({
       await ctx.prisma.event.create({ data: input });
       return;
     }),
-  findOne: publicProcedure
+  byId: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(({ ctx, input }) => {
       return ctx.prisma.event.findFirst({ where: { id: input.id } });

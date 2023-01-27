@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const AdminEvents: NextPage = () => {
   const { data: session } = useSession();
-  const events = trpc.event.getAllProtected.useQuery();
+  const events = trpc.event.all.useQuery();
 
   return (
     <AdminPage session={session}>

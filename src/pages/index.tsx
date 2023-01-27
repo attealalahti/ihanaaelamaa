@@ -11,6 +11,7 @@ import { trpc } from "../utils/trpc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Page from "../components/page";
+import Link from "next/link";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -18,7 +19,7 @@ export const getStaticProps = async () => {
     ctx: await createContext(),
     transformer: superjson,
   });
-  await ssg.event.getAll.prefetch();
+  await ssg.event.visible.prefetch();
   return {
     props: {
       trpcState: ssg.dehydrate(),
@@ -27,7 +28,7 @@ export const getStaticProps = async () => {
 };
 
 const Home: NextPage = () => {
-  const events = trpc.event.getAll.useQuery();
+  const events = trpc.event.visible.useQuery();
 
   return (
     <>
@@ -81,32 +82,29 @@ const Home: NextPage = () => {
                 <h2 className="mt-2 w-full rounded-t-xl bg-gray-800 bg-opacity-50 p-3 text-2xl lg:mt-4 lg:text-3xl">
                   Tulevat tapahtumat
                 </h2>
-                {events.data.map(({ id, text }, index) => (
-                  <button
+                {events.data.map(({ id, title, description, date }, index) => (
+                  <Link
                     key={index}
+                    href={`/events/${id}`}
                     className={`${
                       index === events.data.length - 1
                         ? "rounded-b-xl"
-                        : " border-b border-slate-300"
-                    } group grid w-full grid-flow-col bg-white px-4 py-3 text-left text-black hover:bg-slate-200`}
+                        : "border-b border-slate-300"
+                    } group flex w-full flex-row items-stretch bg-white px-4 py-3 text-left text-black hover:bg-slate-200`}
                   >
-                    <div>
-                      <p className="text-sm">1.1.2020 {id}</p>
+                    <div className="flex-1">
+                      <p className="text-sm">{date.toLocaleDateString()}</p>
                       <h3 className="text-lg font-bold group-hover:underline lg:text-xl">
-                        {text}
+                        {title}
                       </h3>
-                      <p>
-                        Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem
-                        ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum{" "}
-                        Lorem{" "}
-                      </p>
+                      <p>{description}</p>
                     </div>
-                    <div className="flex h-full">
+                    <div className="flex">
                       <span className="mt-auto p-1 pl-4 opacity-75 transition-all duration-300 group-hover:scale-[1.3] group-hover:opacity-100">
                         <FontAwesomeIcon icon={faArrowRight} size="2x" />
                       </span>
                     </div>
-                  </button>
+                  </Link>
                 ))}
               </section>
             )}

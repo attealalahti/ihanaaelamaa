@@ -12,7 +12,7 @@ const EditEvent: NextPage = () => {
   const router = useRouter();
   const id = Number(router.query.id);
 
-  const event = trpc.event.findOne.useQuery({ id });
+  const event = trpc.event.byId.useQuery({ id });
   const update = trpc.event.update.useMutation();
   const utils = trpc.useContext();
 
@@ -26,7 +26,7 @@ const EditEvent: NextPage = () => {
     e.preventDefault();
     update.mutate(
       { id, title, description, content, date: new Date(date) },
-      { onSuccess: () => utils.event.findOne.invalidate({ id }) }
+      { onSuccess: () => utils.event.byId.invalidate({ id }) }
     );
   };
 
