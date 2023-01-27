@@ -26,4 +26,26 @@ export const eventRouter = router({
     .query(({ ctx, input }) => {
       return ctx.prisma.event.findFirst({ where: { id: input.id } });
     }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        title: z.string(),
+        description: z.string(),
+        content: z.string(),
+        date: z.date(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.event.update({
+        where: { id: input.id },
+        data: {
+          title: input.title,
+          description: input.description,
+          content: input.content,
+          date: input.date,
+        },
+      });
+      return;
+    }),
 });

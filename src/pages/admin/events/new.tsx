@@ -29,7 +29,11 @@ const NewEvent: NextPage = () => {
 
   return (
     <AdminPage session={session}>
-      <EventForm handleSubmit={handleSubmit} saveButtonText="Luo tapahtuma" />
+      <EventForm
+        handleSubmit={handleSubmit}
+        saveButtonText="Luo tapahtuma"
+        isLoading={create.isLoading}
+      />
     </AdminPage>
   );
 };

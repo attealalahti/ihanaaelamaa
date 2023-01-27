@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   handleSubmit: (
@@ -15,12 +17,14 @@ type Props = {
     content: string;
     date: string;
   };
+  isLoading: boolean;
 };
 
 const EventForm: React.FC<Props> = ({
   handleSubmit,
   saveButtonText,
   defaultValues,
+  isLoading,
 }) => {
   const [title, setTitle] = useState<string>(defaultValues?.title ?? "");
   const [description, setDescription] = useState<string>(
@@ -93,9 +97,14 @@ const EventForm: React.FC<Props> = ({
       <div />
       <button
         type="submit"
-        className="rounded-xl border border-white bg-green-400 p-2 font-bold"
+        className="rounded-xl border border-white bg-green-400 p-2 font-bold hover:bg-green-500"
       >
         {saveButtonText}
+        {isLoading && (
+          <span className="ml-4">
+            <FontAwesomeIcon icon={faSpinner} pulse />
+          </span>
+        )}
       </button>
     </form>
   );

@@ -16,7 +16,7 @@ const AdminEvents: NextPage = () => {
         <section className="flex max-w-4xl flex-col items-center justify-center text-white">
           <Link
             href="/admin/events/new"
-            className="m-6 rounded-xl bg-white p-4 text-xl font-bold text-black"
+            className="m-6 rounded-xl bg-white p-4 text-xl font-bold text-black hover:bg-slate-200"
           >
             Luo uusi tapahtuma
             <span className="ml-2">

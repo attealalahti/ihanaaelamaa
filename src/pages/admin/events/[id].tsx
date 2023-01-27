@@ -13,6 +13,7 @@ const EditEvent: NextPage = () => {
   const id = Number(router.query.id);
 
   const event = trpc.event.findOne.useQuery({ id });
+  const update = trpc.event.update.useMutation();
 
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement>,
@@ -22,7 +23,10 @@ const EditEvent: NextPage = () => {
     date: string
   ) => {
     e.preventDefault();
-    return;
+    update.mutate(
+      { id, title, description, content, date: new Date(date) },
+      { onSuccess: () => console.log("success") }
+    );
   };
 
   return (
@@ -41,6 +45,7 @@ const EditEvent: NextPage = () => {
               day: "2-digit",
             }),
           }}
+          isLoading={update.isLoading}
         />
       ) : event.isError ? (
         <div className="text-white">Error</div>
