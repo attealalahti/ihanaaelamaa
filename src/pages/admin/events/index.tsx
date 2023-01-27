@@ -4,6 +4,7 @@ import AdminPage from "../../../components/admin-page";
 import { trpc } from "../../../utils/trpc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const AdminEvents: NextPage = () => {
   const { data: session } = useSession();
@@ -13,12 +14,15 @@ const AdminEvents: NextPage = () => {
     <AdminPage session={session}>
       {events.data ? (
         <section className="flex max-w-4xl flex-col items-center justify-center text-white">
-          <button className="m-6 rounded-xl bg-white p-4 text-xl font-bold text-black">
+          <Link
+            href="/admin/events/new"
+            className="m-6 rounded-xl bg-white p-4 text-xl font-bold text-black"
+          >
             Luo uusi tapahtuma
             <span className="ml-2">
               <FontAwesomeIcon icon={faPlus} size="lg" />
             </span>
-          </button>
+          </Link>
           {events.data.map(({ title, description, date }, index) => (
             <button
               key={index}
@@ -32,9 +36,9 @@ const AdminEvents: NextPage = () => {
             >
               <div>
                 <p className="text-sm">{date.toLocaleDateString()}</p>
-                <h3 className="text-lg font-bold group-hover:underline lg:text-xl">
+                <h2 className="text-lg font-bold group-hover:underline lg:text-xl">
                   {title}
-                </h3>
+                </h2>
                 <p>{description}</p>
               </div>
               <div className="flex h-full justify-end">
