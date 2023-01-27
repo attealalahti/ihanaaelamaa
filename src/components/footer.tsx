@@ -4,8 +4,7 @@ import instagramIcon from "../../public/images/instagram_icon.svg";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="flex w-full text-white">
-      <span className="flex-1" />
+    <footer className="flex w-full flex-wrap justify-end text-white">
       <a
         href="mailto:burleskia@ihanaaelamaa.fi"
         target="_blank"
@@ -26,7 +25,7 @@ const Footer: React.FC = () => {
         href="https://www.instagram.com/ihanaaelamaayhdistys/"
         target="_blank"
         rel="noreferrer"
-        className="mr-4 mb-2 p-2"
+        className="mr-2 mb-2 p-2"
       >
         <Image width={30} height={30} src={instagramIcon} alt="Instagram" />
       </a>
