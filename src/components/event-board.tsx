@@ -11,7 +11,7 @@ type Props = {
 const EventBoard: React.FC<Props> = ({ events, title }) => {
   return (
     <section className="mt-4 w-full">
-      <h2 className="mt-2 w-full rounded-t-xl bg-gray-800 bg-opacity-50 p-3 text-2xl lg:mt-4 lg:text-3xl">
+      <h2 className="mt-2 w-full rounded-t-xl bg-gray-800 bg-opacity-50 p-3 text-center text-2xl text-white lg:mt-4 lg:text-3xl">
         {title}
       </h2>
       {events.map(({ id, title, description, date }, index) => (
