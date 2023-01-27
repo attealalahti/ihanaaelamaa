@@ -35,7 +35,7 @@ const EventForm: React.FC<Props> = ({
 
   return (
     <form
-      className="grid grid-cols-2 gap-4 text-xl lg:w-80"
+      className="grid w-full gap-4 text-lg lg:grid-cols-2 lg:text-xl"
       onSubmit={(e) => handleSubmit(e, title, description, content, date)}
     >
       <div className="grid">
@@ -48,6 +48,7 @@ const EventForm: React.FC<Props> = ({
           className="w-full rounded p-1"
           maxLength={100}
           required={true}
+          autoComplete="off"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -62,11 +63,12 @@ const EventForm: React.FC<Props> = ({
           className="w-full rounded p-1"
           type="date"
           required={true}
+          autoComplete="off"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
       </div>
-      <div className="col-span-2 grid">
+      <div className="grid lg:col-span-2">
         <label htmlFor="description" className="text-white">
           Lyhyt kuvaus:
         </label>
@@ -76,20 +78,22 @@ const EventForm: React.FC<Props> = ({
           className="w-full rounded p-1"
           maxLength={1_000}
           required={true}
+          autoComplete="off"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
-      <div className="col-span-2 grid">
+      <div className="grid lg:col-span-2">
         <label htmlFor="content" className="text-white">
           Leipäteksti:
         </label>
         <textarea
           name="content"
           id="content"
-          className="w-full rounded p-1"
+          className="h-96 w-full rounded p-1"
           maxLength={10_000}
           required={true}
+          autoComplete="off"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
