@@ -51,4 +51,9 @@ export const eventRouter = router({
         data: { visible: input.visible },
       });
     }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.event.delete({ where: { id: input.id } });
+    }),
 });

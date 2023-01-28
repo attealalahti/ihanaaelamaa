@@ -23,6 +23,7 @@ const AdminEvents: NextPage = () => {
   } | null>(null);
 
   const utils = trpc.useContext();
+
   const events = trpc.event.all.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
@@ -44,8 +45,24 @@ const AdminEvents: NextPage = () => {
     },
   });
 
+  const deleteById = trpc.event.delete.useMutation({
+    onMutate: ({ id }) => {
+      // Optimistically remove deleted event
+      utils.event.all.setData((oldEvents) => {
+        if (!oldEvents) return oldEvents;
+        return oldEvents.filter((event) => event.id !== id);
+      });
+    },
+  });
+
   const toggleVisibility = (id: number, visible: boolean) => {
     updateVisibility.mutate({ id, visible });
+  };
+
+  const deleteEvent = (id: number | undefined) => {
+    setEventToDelete(null);
+    if (!id) return;
+    deleteById.mutate({ id });
   };
 
   return (
@@ -122,7 +139,10 @@ const AdminEvents: NextPage = () => {
                 >
                   Peruuta
                 </button>
-                <button className="rounded-lg border border-slate-700 bg-red-600 p-2 text-white hover:bg-red-700">
+                <button
+                  className="rounded-lg border border-slate-700 bg-red-600 p-2 text-white hover:bg-red-700"
+                  onClick={() => deleteEvent(eventToDelete?.id)}
+                >
                   Poista
                 </button>
               </div>
