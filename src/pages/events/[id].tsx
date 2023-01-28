@@ -47,7 +47,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   id,
 }) => {
-  const event = trpc.event.byId.useQuery({ id });
+  const event = trpc.event.byId.useQuery({ id }, { enabled: false });
 
   return (
     <>

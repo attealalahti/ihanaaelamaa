@@ -7,7 +7,7 @@ import Page from "../../components/page";
 import { trpc } from "../../utils/trpc";
 
 const Events: NextPage = () => {
-  const events = trpc.event.visible.useQuery();
+  const events = trpc.event.visible.useQuery(undefined, { enabled: false });
 
   return (
     <>

@@ -26,7 +26,7 @@ export const getStaticProps = async () => {
 };
 
 const Home: NextPage = () => {
-  const events = trpc.event.visible.useQuery();
+  const events = trpc.event.visible.useQuery(undefined, { enabled: false });
 
   return (
     <>
