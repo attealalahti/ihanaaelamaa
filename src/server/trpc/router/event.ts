@@ -3,7 +3,7 @@ import z from "zod";
 
 export const eventRouter = router({
   visible: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.event.findMany();
+    return ctx.prisma.event.findMany({ where: { visible: true } });
   }),
   all: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.event.findMany();

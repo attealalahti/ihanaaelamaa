@@ -34,7 +34,10 @@ export const getStaticProps = async (
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const events = await prisma.event.findMany({ select: { id: true } });
+  const events = await prisma.event.findMany({
+    select: { id: true },
+    where: { visible: true },
+  });
   return {
     paths: events.map(({ id }) => ({ params: { id: id.toString() } })),
     fallback: "blocking",
