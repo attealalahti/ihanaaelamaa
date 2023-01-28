@@ -82,47 +82,49 @@ const AdminEvents: NextPage = () => {
             {events.data.map(({ id, title, content, date, visible }, index) => (
               <div
                 key={id}
-                className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
-                  index === 0
-                    ? "rounded-t-lg"
-                    : index === events.data.length - 1
-                    ? "rounded-b-lg border-t border-slate-400"
-                    : "border-t border-slate-400"
-                }`}
+                className={`grid grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 sm:grid-flow-col ${
+                  index === 0 ? "rounded-t-lg" : "border-t border-slate-400"
+                } ${index === events.data.length - 1 ? "rounded-b-lg" : ""}`}
               >
                 <Link
                   href={`/admin/events/${id}`}
-                  className="group grid grid-flow-col grid-cols-8 gap-3 p-2"
+                  className="group grid grid-flow-row grid-cols-2 gap-3 p-2 md:grid-flow-col md:grid-cols-8"
                 >
-                  <div className="col-span-2 font-bold group-hover:underline">
+                  <div className="font-bold group-hover:underline md:col-span-2">
                     {title}
                   </div>
-                  <div className="col-span-5">{shortenText(content, 60)}</div>
-                  <div className="col-span-1">{date.toLocaleDateString()}</div>
+                  <div className="col-span-2 row-start-2 md:col-span-5 md:col-start-3 md:row-start-1">
+                    {shortenText(content, 60)}
+                  </div>
+                  <div className="col-span-1 col-start-2 row-start-1 md:col-start-8">
+                    {date.toLocaleDateString()}
+                  </div>
                 </Link>
-                <button
-                  className={`group relative p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100 ${
-                    visible ? "ml-1" : ""
-                  }`}
-                  onClick={() => toggleVisibility(id, !visible)}
-                >
-                  <span className="absolute right-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
-                    {visible ? "Piilota" : "Poista piilotus"}
-                  </span>
-                  <FontAwesomeIcon
-                    icon={visible ? faEye : faEyeSlash}
-                    size="lg"
-                  />
-                </button>
-                <button
-                  className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100"
-                  onClick={() => setEventToDelete({ id, title })}
-                >
-                  <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
-                    Poista
-                  </span>
-                  <FontAwesomeIcon icon={faTrashCan} size="lg" />
-                </button>
+                <div className="grid grid-flow-col">
+                  <button
+                    className={`group relative p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100 ${
+                      visible ? "ml-1" : ""
+                    }`}
+                    onClick={() => toggleVisibility(id, !visible)}
+                  >
+                    <span className="absolute right-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base lg:group-hover:inline">
+                      {visible ? "Piilota" : "Poista piilotus"}
+                    </span>
+                    <FontAwesomeIcon
+                      icon={visible ? faEye : faEyeSlash}
+                      size="lg"
+                    />
+                  </button>
+                  <button
+                    className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100"
+                    onClick={() => setEventToDelete({ id, title })}
+                  >
+                    <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base lg:group-hover:inline">
+                      Poista
+                    </span>
+                    <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
