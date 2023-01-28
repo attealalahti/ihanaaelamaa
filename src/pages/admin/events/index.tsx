@@ -10,6 +10,7 @@ import {
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { shortenText } from "../../../utils/text";
 
 const AdminEvents: NextPage = () => {
   const { data: session } = useSession();
@@ -52,53 +53,49 @@ const AdminEvents: NextPage = () => {
             </span>
           </Link>
           <div className="w-screen max-w-4xl p-4">
-            {events.data.map(
-              ({ id, title, description, date, visible }, index) => (
-                <div
-                  key={id}
-                  className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
-                    index === 0
-                      ? "rounded-t-lg"
-                      : index === events.data.length - 1
-                      ? "rounded-b-lg border-t border-slate-400"
-                      : "border-t border-slate-400"
-                  }`}
+            {events.data.map(({ id, title, content, date, visible }, index) => (
+              <div
+                key={id}
+                className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
+                  index === 0
+                    ? "rounded-t-lg"
+                    : index === events.data.length - 1
+                    ? "rounded-b-lg border-t border-slate-400"
+                    : "border-t border-slate-400"
+                }`}
+              >
+                <Link
+                  href={`/admin/events/${id}`}
+                  className="group grid grid-flow-col grid-cols-8 gap-3 p-2"
                 >
-                  <Link
-                    href={`/admin/events/${id}`}
-                    className="group grid grid-flow-col grid-cols-8 gap-3 p-2"
-                  >
-                    <div className="col-span-2 font-bold group-hover:underline">
-                      {title}
-                    </div>
-                    <div className="col-span-5">{description}</div>
-                    <div className="col-span-1">
-                      {date.toLocaleDateString()}
-                    </div>
-                  </Link>
-                  <button
-                    className={`group relative p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100 ${
-                      visible ? "ml-1" : ""
-                    }`}
-                    onClick={() => toggleVisibility(id, !visible)}
-                  >
-                    <span className="absolute right-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
-                      {visible ? "Piilota" : "Poista piilotus"}
-                    </span>
-                    <FontAwesomeIcon
-                      icon={visible ? faEye : faEyeSlash}
-                      size="lg"
-                    />
-                  </button>
-                  <button className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
-                    <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
-                      Poista
-                    </span>
-                    <FontAwesomeIcon icon={faTrashCan} size="lg" />
-                  </button>
-                </div>
-              )
-            )}
+                  <div className="col-span-2 font-bold group-hover:underline">
+                    {title}
+                  </div>
+                  <div className="col-span-5">{shortenText(content, 60)}</div>
+                  <div className="col-span-1">{date.toLocaleDateString()}</div>
+                </Link>
+                <button
+                  className={`group relative p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100 ${
+                    visible ? "ml-1" : ""
+                  }`}
+                  onClick={() => toggleVisibility(id, !visible)}
+                >
+                  <span className="absolute right-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
+                    {visible ? "Piilota" : "Poista piilotus"}
+                  </span>
+                  <FontAwesomeIcon
+                    icon={visible ? faEye : faEyeSlash}
+                    size="lg"
+                  />
+                </button>
+                <button className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                  <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
+                    Poista
+                  </span>
+                  <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                </button>
+              </div>
+            ))}
           </div>
         </section>
       ) : events.isError ? (
