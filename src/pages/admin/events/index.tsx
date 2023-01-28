@@ -83,7 +83,7 @@ const AdminEvents: NextPage = () => {
                     onClick={() => toggleVisibility(id, !visible)}
                   >
                     <span className="absolute right-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
-                      Piilota
+                      {visible ? "Piilota" : "Poista piilotus"}
                     </span>
                     <FontAwesomeIcon
                       icon={visible ? faEye : faEyeSlash}
