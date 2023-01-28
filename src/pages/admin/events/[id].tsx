@@ -19,13 +19,12 @@ const EditEvent: NextPage = () => {
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement>,
     title: string,
-    description: string,
     content: string,
     date: string
   ) => {
     e.preventDefault();
     update.mutate(
-      { id, title, description, content, date: new Date(date) },
+      { id, title, content, date: new Date(date) },
       { onSuccess: () => utils.event.byId.invalidate({ id }) }
     );
   };
@@ -38,7 +37,6 @@ const EditEvent: NextPage = () => {
           saveButtonText="Tallenna"
           defaultValues={{
             title: event.data.title,
-            description: event.data.description,
             content: event.data.content,
             date: event.data.date.toLocaleDateString("en-CA", {
               year: "numeric",

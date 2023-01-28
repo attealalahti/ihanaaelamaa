@@ -12,7 +12,6 @@ export const eventRouter = router({
     .input(
       z.object({
         title: z.string(),
-        description: z.string(),
         content: z.string(),
         date: z.date(),
       })
@@ -30,7 +29,6 @@ export const eventRouter = router({
       z.object({
         id: z.number(),
         title: z.string(),
-        description: z.string(),
         content: z.string(),
         date: z.date(),
       })
@@ -40,7 +38,6 @@ export const eventRouter = router({
         where: { id: input.id },
         data: {
           title: input.title,
-          description: input.description,
           content: input.content,
           date: input.date,
         },

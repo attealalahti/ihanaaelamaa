@@ -6,14 +6,12 @@ type Props = {
   handleSubmit: (
     e: React.FormEvent<HTMLFormElement>,
     title: string,
-    description: string,
     content: string,
     date: string
   ) => void;
   saveButtonText: string;
   defaultValues?: {
     title: string;
-    description: string;
     content: string;
     date: string;
   };
@@ -27,16 +25,13 @@ const EventForm: React.FC<Props> = ({
   isLoading,
 }) => {
   const [title, setTitle] = useState<string>(defaultValues?.title ?? "");
-  const [description, setDescription] = useState<string>(
-    defaultValues?.description ?? ""
-  );
   const [content, setContent] = useState<string>(defaultValues?.content ?? "");
   const [date, setDate] = useState<string>(defaultValues?.date ?? "");
 
   return (
     <form
       className="grid w-full gap-4 text-lg lg:grid-cols-2 lg:text-xl"
-      onSubmit={(e) => handleSubmit(e, title, description, content, date)}
+      onSubmit={(e) => handleSubmit(e, title, content, date)}
     >
       <div className="grid">
         <label htmlFor="title" className="text-white">
@@ -66,21 +61,6 @@ const EventForm: React.FC<Props> = ({
           autoComplete="off"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-      <div className="grid lg:col-span-2">
-        <label htmlFor="description" className="text-white">
-          Lyhyt kuvaus:
-        </label>
-        <input
-          name="description"
-          id="description"
-          className="w-full rounded p-1"
-          maxLength={1_000}
-          required={true}
-          autoComplete="off"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       <div className="grid lg:col-span-2">

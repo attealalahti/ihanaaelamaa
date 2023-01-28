@@ -17,13 +17,12 @@ const NewEvent: NextPage = () => {
   const handleSubmit = (
     e: React.FormEvent<HTMLFormElement>,
     title: string,
-    description: string,
     content: string,
     date: string
   ) => {
     e.preventDefault();
     create.mutate(
-      { title, description, content, date: new Date(date) },
+      { title, content, date: new Date(date) },
       {
         onSuccess: () => {
           utils.event.all.invalidate();
