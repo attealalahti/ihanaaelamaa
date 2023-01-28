@@ -32,7 +32,7 @@ const AdminEvents: NextPage = () => {
             {events.data.map(({ id, title, description, date }, index) => (
               <div
                 key={id}
-                className={`group grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
+                className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
                   index === 0
                     ? "rounded-t-lg"
                     : index === events.data.length - 1
@@ -42,7 +42,7 @@ const AdminEvents: NextPage = () => {
               >
                 <Link
                   href={`/admin/events/${id}`}
-                  className="grid grid-flow-col grid-cols-8 gap-3 p-2"
+                  className="group grid grid-flow-col grid-cols-8 gap-3 p-2"
                 >
                   <div className="col-span-2 font-bold group-hover:underline">
                     {title}
@@ -50,10 +50,16 @@ const AdminEvents: NextPage = () => {
                   <div className="col-span-5">{description}</div>
                   <div className="col-span-1">{date.toLocaleDateString()}</div>
                 </Link>
-                <button className="p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                <button className="group relative p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                  <span className="absolute right-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
+                    Piilota
+                  </span>
                   <FontAwesomeIcon icon={faEye} size="lg" />
                 </button>
-                <button className="mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                <button className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                  <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
+                    Poista
+                  </span>
                   <FontAwesomeIcon icon={faTrashCan} size="lg" />
                 </button>
               </div>
