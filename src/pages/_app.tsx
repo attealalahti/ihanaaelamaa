@@ -11,7 +11,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
-const rosario = Rosario({
+export const rosario = Rosario({
   subsets: ["latin"],
   variable: "--font-rosario",
 });

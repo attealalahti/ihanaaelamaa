@@ -11,10 +11,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { shortenText } from "../../../utils/text";
+import Modal from "../../../components/modal";
+import { useState } from "react";
 
 const AdminEvents: NextPage = () => {
   const { data: session } = useSession();
 
+  const [eventToDelete, setEventToDelete] = useState<{
+    id: number;
+    title: string;
+  } | null>(null);
+
+  const utils = trpc.useContext();
   const events = trpc.event.all.useQuery(undefined, {
     refetchOnWindowFocus: false,
   });
@@ -35,7 +43,6 @@ const AdminEvents: NextPage = () => {
       });
     },
   });
-  const utils = trpc.useContext();
 
   const toggleVisibility = (id: number, visible: boolean) => {
     updateVisibility.mutate({ id, visible });
@@ -90,7 +97,10 @@ const AdminEvents: NextPage = () => {
                     size="lg"
                   />
                 </button>
-                <button className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                <button
+                  className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100"
+                  onClick={() => setEventToDelete({ id, title })}
+                >
                   <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base group-hover:inline">
                     Poista
                   </span>
@@ -99,6 +109,25 @@ const AdminEvents: NextPage = () => {
               </div>
             ))}
           </div>
+          <Modal open={eventToDelete !== null}>
+            <div className="flex h-full w-full items-center justify-center text-xl">
+              <div className="grid grid-cols-2 gap-4 rounded-lg bg-white p-6 text-center text-black">
+                <div className="col-span-2 mb-4">
+                  Haluatko varmasti poistaa tapahtuman{" "}
+                  <b className="font-bold">{eventToDelete?.title}</b>?
+                </div>
+                <button
+                  className="rounded-lg border border-slate-700 bg-slate-100 p-2 hover:bg-slate-200"
+                  onClick={() => setEventToDelete(null)}
+                >
+                  Peruuta
+                </button>
+                <button className="rounded-lg border border-slate-700 bg-red-600 p-2 text-white hover:bg-red-700">
+                  Poista
+                </button>
+              </div>
+            </div>
+          </Modal>
         </section>
       ) : events.isError ? (
         <div className="text-white">Error</div>
