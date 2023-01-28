@@ -15,7 +15,9 @@ import { shortenText } from "../../../utils/text";
 const AdminEvents: NextPage = () => {
   const { data: session } = useSession();
 
-  const events = trpc.event.all.useQuery();
+  const events = trpc.event.all.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   const updateVisibility = trpc.event.updateVisibility.useMutation({
     onMutate: ({ id, visible }) => {
