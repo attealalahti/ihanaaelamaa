@@ -19,7 +19,6 @@ export const eventRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.event.create({ data: input });
-      return;
     }),
   byId: publicProcedure
     .input(z.object({ id: z.number() }))
@@ -46,6 +45,13 @@ export const eventRouter = router({
           date: input.date,
         },
       });
-      return;
+    }),
+  updateVisibility: protectedProcedure
+    .input(z.object({ id: z.number(), visible: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.event.update({
+        where: { id: input.id },
+        data: { visible: input.visible },
+      });
     }),
 });

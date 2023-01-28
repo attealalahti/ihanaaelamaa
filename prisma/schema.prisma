@@ -68,6 +68,7 @@ model Event {
   description String   @db.VarChar(1000)
   content     String   @db.VarChar(10000)
   date        DateTime @db.Date
+  visible     Boolean  @default(true)
 }
 
 model posts {
