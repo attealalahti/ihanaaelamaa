@@ -20,7 +20,7 @@ const AdminPage: React.FC<Props> = ({ children, session }) => {
       </Head>
       <Page admin>
         <AdminHeader session={session} />
-        <main className="flex w-screen flex-1 flex-col items-center justify-center p-6 lg:max-w-6xl">
+        <main className="flex w-screen flex-1 flex-col items-center justify-center gap-6 p-6 lg:max-w-6xl">
           {!session ? (
             <SignedOut />
           ) : !session.user?.isAdmin ? (

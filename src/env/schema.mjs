@@ -21,6 +21,7 @@ export const serverSchema = z.object({
   ),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
+  BUILD_HOOK_URL: z.string(),
 });
 
 /**

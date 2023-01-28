@@ -1,10 +1,10 @@
-import { router, publicProcedure, protectedProcedure } from "../trpc";
+import { router, protectedProcedure } from "../trpc";
+import axios from "axios";
+import { env } from "../../../env/server.mjs";
 
 export const authRouter = router({
-  getSession: publicProcedure.query(({ ctx }) => {
-    return ctx.session;
-  }),
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
+  build: protectedProcedure.mutation(async () => {
+    const res = await axios.post(env.BUILD_HOOK_URL, {});
+    console.log(res);
   }),
 });
