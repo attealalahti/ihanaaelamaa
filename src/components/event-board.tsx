@@ -26,7 +26,7 @@ const EventBoard: React.FC<Props> = ({ events, title }) => {
           } group flex w-full flex-row items-stretch bg-white px-4 py-3 text-left text-black hover:bg-slate-200`}
         >
           <div className="flex-1">
-            <p className="text-sm">{date.toLocaleDateString()}</p>
+            <p className="text-sm">{date.toLocaleDateString("fi-FI")}</p>
             <h3 className="text-lg font-bold group-hover:underline lg:text-xl">
               {title}
             </h3>

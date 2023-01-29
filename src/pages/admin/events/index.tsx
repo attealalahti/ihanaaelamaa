@@ -97,7 +97,7 @@ const AdminEvents: NextPage = () => {
                     {shortenText(content, 60)}
                   </div>
                   <div className="col-span-1 col-start-2 row-start-1 md:col-start-8">
-                    {date.toLocaleDateString()}
+                    {date.toLocaleDateString("fi-FI")}
                   </div>
                 </Link>
                 <div className="grid grid-flow-col">
