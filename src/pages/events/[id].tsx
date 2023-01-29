@@ -49,6 +49,19 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }) => {
   const event = trpc.event.byId.useQuery({ id }, { enabled: false });
 
+  const addLineBreaks = (content: string) => {
+    const lines = content.split("\n");
+    const elements: JSX.Element[] = [];
+    let i = 0;
+    for (const line of lines) {
+      elements.push(<span key={i}>{line}</span>);
+      i++;
+      elements.push(<br key={i} />);
+      i++;
+    }
+    return elements;
+  };
+
   return (
     <>
       <Head>
@@ -61,14 +74,12 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <main className="flex flex-1 flex-wrap items-center justify-center">
           {event.data && (
             <>
-              <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16">
+              <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16 lg:min-w-full">
                 <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
                   {event.data.title}
                 </h1>
-                <div className="flex flex-col gap-6 text-lg lg:text-xl">
-                  {event.data.content.split("\n").map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
+                <div className="text-lg lg:text-xl">
+                  {addLineBreaks(event.data.content)}
                 </div>
               </div>
               <></>
