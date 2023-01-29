@@ -20,7 +20,13 @@ export const eventRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.event.create({ data: input });
+      await ctx.prisma.$transaction([
+        ctx.prisma.event.create({ data: input }),
+        ctx.prisma.unpublishedChanges.update({
+          where: { id: 1 },
+          data: { value: true },
+        }),
+      ]);
     }),
   byIdVisible: publicProcedure
     .input(z.object({ id: z.number() }))
@@ -44,26 +50,44 @@ export const eventRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.event.update({
-        where: { id: input.id },
-        data: {
-          title: input.title,
-          content: input.content,
-          date: input.date,
-        },
-      });
+      await ctx.prisma.$transaction([
+        ctx.prisma.event.update({
+          where: { id: input.id },
+          data: {
+            title: input.title,
+            content: input.content,
+            date: input.date,
+          },
+        }),
+        ctx.prisma.unpublishedChanges.update({
+          where: { id: 1 },
+          data: { value: true },
+        }),
+      ]);
     }),
   updateVisibility: protectedProcedure
     .input(z.object({ id: z.number(), visible: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.event.update({
-        where: { id: input.id },
-        data: { visible: input.visible },
-      });
+      await ctx.prisma.$transaction([
+        ctx.prisma.event.update({
+          where: { id: input.id },
+          data: { visible: input.visible },
+        }),
+        ctx.prisma.unpublishedChanges.update({
+          where: { id: 1 },
+          data: { value: true },
+        }),
+      ]);
     }),
   delete: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.event.delete({ where: { id: input.id } });
+      await ctx.prisma.$transaction([
+        ctx.prisma.event.delete({ where: { id: input.id } }),
+        ctx.prisma.unpublishedChanges.update({
+          where: { id: 1 },
+          data: { value: true },
+        }),
+      ]);
     }),
 });
