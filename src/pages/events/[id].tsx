@@ -47,10 +47,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   id,
 }) => {
-  const event = trpc.event.byId.useQuery(
-    { id },
-    { enabled: typeof window === undefined }
-  );
+  const event = trpc.event.byId.useQuery({ id }, { enabled: false });
 
   const addLineBreaks = (content: string) => {
     const lines = content.split("\n");
