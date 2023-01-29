@@ -1,13 +1,33 @@
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { type NextPage } from "next";
 import Head from "next/head";
 import EventBoard from "../../components/event-board";
 import Footer from "../../components/footer";
 import Header from "../../components/header";
 import Page from "../../components/page";
+import { createContext } from "../../server/trpc/context";
+import { appRouter } from "../../server/trpc/router/_app";
 import { trpc } from "../../utils/trpc";
+import superjson from "superjson";
+
+export const getStaticProps = async () => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContext(),
+    transformer: superjson,
+  });
+  await ssg.event.visible.prefetch();
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};
 
 const Events: NextPage = () => {
-  const events = trpc.event.visible.useQuery(undefined, { enabled: false });
+  const events = trpc.event.visible.useQuery(undefined, {
+    enabled: typeof window === undefined,
+  });
 
   return (
     <>
