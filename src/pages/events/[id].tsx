@@ -14,6 +14,7 @@ import { createContext } from "../../server/trpc/context";
 import superjson from "superjson";
 import { prisma } from "../../server/db/client";
 import { trpc } from "../../utils/trpc";
+import Custom404 from "../../components/custom-404";
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>
@@ -24,7 +25,7 @@ export const getStaticProps = async (
     transformer: superjson,
   });
   const id = Number(context.params?.id);
-  await ssg.event.byId.prefetch({ id });
+  await ssg.event.byIdVisible.prefetch({ id });
   return {
     props: {
       trpcState: ssg.dehydrate(),
@@ -47,7 +48,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   id,
 }) => {
-  const event = trpc.event.byId.useQuery({ id }, { enabled: false });
+  const event = trpc.event.byIdVisible.useQuery({ id }, { enabled: false });
 
   const addLineBreaks = (content: string) => {
     const lines = content.split("\n");
@@ -62,6 +63,7 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     return elements;
   };
 
+  if (!event.data) return <Custom404 />;
   return (
     <>
       <Head>
@@ -72,19 +74,15 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Page>
         <Header />
         <main className="flex flex-1 flex-wrap items-center justify-center">
-          {event.data && (
-            <>
-              <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16 lg:min-w-full">
-                <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-                  {event.data.title}
-                </h1>
-                <div className="text-lg lg:text-xl">
-                  {addLineBreaks(event.data.content)}
-                </div>
-              </div>
-              <></>
-            </>
-          )}
+          <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16 lg:min-w-full">
+            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
+              {event.data.title}
+            </h1>
+            <div className="text-lg lg:text-xl">
+              {addLineBreaks(event.data.content)}
+            </div>
+          </div>
+          <></>
         </main>
         <Footer />
       </Page>

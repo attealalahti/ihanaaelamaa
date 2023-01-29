@@ -22,7 +22,14 @@ export const eventRouter = router({
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.event.create({ data: input });
     }),
-  byId: publicProcedure
+  byIdVisible: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.event.findFirst({
+        where: { id: input.id, visible: true },
+      });
+    }),
+  byId: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query(({ ctx, input }) => {
       return ctx.prisma.event.findFirst({ where: { id: input.id } });
