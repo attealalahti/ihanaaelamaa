@@ -82,6 +82,7 @@ const EventForm: React.FC<Props> = ({
       <button
         type="submit"
         className="rounded-xl border border-white bg-green-400 p-2 font-bold hover:bg-green-500"
+        disabled={isLoading}
       >
         {saveButtonText}
         {isLoading && (
