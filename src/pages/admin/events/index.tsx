@@ -8,6 +8,7 @@ import {
   faPlus,
   faEye,
   faEyeSlash,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { shortenText } from "../../../utils/text";
@@ -158,9 +159,9 @@ const AdminEvents: NextPage = () => {
           </Modal>
         </section>
       ) : events.isError ? (
-        <div className="text-white">Error</div>
+        <div className="text-xl text-white">Error</div>
       ) : (
-        <div className="text-white">Loading...</div>
+        <FontAwesomeIcon icon={faSpinner} size="2x" pulse color="white" />
       )}
     </AdminPage>
   );

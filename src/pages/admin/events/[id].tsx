@@ -1,3 +1,5 @@
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -52,9 +54,9 @@ const EditEvent: NextPage = () => {
           isLoading={update.isLoading}
         />
       ) : event.isError ? (
-        <div className="text-white">Error</div>
+        <div className="text-xl text-white">Error</div>
       ) : (
-        <div className="text-white">Loading...</div>
+        <FontAwesomeIcon icon={faSpinner} size="2x" pulse color="white" />
       )}
     </AdminPage>
   );
