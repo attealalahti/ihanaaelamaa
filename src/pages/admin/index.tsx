@@ -14,10 +14,13 @@ const AdminHome: NextPage = () => {
   const [publishModalOpen, setPublishModalOpen] = useState(false);
 
   const build = trpc.auth.build.useMutation();
+  const utils = trpc.useContext();
 
   const publish = () => {
     setPublishModalOpen(false);
-    build.mutate();
+    build.mutate(undefined, {
+      onSuccess: () => utils.auth.unpublishedChanges.invalidate(),
+    });
   };
 
   return (

@@ -25,7 +25,12 @@ const EditEvent: NextPage = () => {
     e.preventDefault();
     update.mutate(
       { id, title, content, date: new Date(date) },
-      { onSuccess: () => utils.event.byId.invalidate({ id }) }
+      {
+        onSuccess: () => {
+          utils.event.byId.invalidate({ id });
+          utils.auth.unpublishedChanges.invalidate();
+        },
+      }
     );
   };
 

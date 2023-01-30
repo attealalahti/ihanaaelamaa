@@ -26,6 +26,7 @@ const NewEvent: NextPage = () => {
       {
         onSuccess: () => {
           utils.event.all.invalidate();
+          utils.auth.unpublishedChanges.invalidate();
           router.push("/admin/events");
         },
       }

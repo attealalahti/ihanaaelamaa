@@ -56,13 +56,19 @@ const AdminEvents: NextPage = () => {
   });
 
   const toggleVisibility = (id: number, visible: boolean) => {
-    updateVisibility.mutate({ id, visible });
+    updateVisibility.mutate(
+      { id, visible },
+      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() }
+    );
   };
 
   const deleteEvent = (id: number | undefined) => {
     setEventToDelete(null);
     if (!id) return;
-    deleteById.mutate({ id });
+    deleteById.mutate(
+      { id },
+      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() }
+    );
   };
 
   return (
