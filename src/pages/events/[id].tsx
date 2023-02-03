@@ -15,7 +15,7 @@ import superjson from "superjson";
 import { prisma } from "../../server/db/client";
 import { trpc } from "../../utils/trpc";
 import Custom404 from "../../components/custom-404";
-import ReactHtmlParser from "react-html-parser";
+import Post from "../../components/post";
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>
@@ -61,16 +61,8 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </Head>
       <Page>
         <Header />
-        <main className="flex flex-1 flex-wrap items-center justify-center">
-          <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16 lg:min-w-full">
-            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-              {event.data.title}
-            </h1>
-            <div className="post text-lg lg:text-xl">
-              {ReactHtmlParser(event.data.content)}
-            </div>
-          </div>
-          <></>
+        <main className="flex flex-1">
+          <Post data={event.data} />
         </main>
         <Footer />
       </Page>
