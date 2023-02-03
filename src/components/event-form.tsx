@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import MyReactQuill from "./my-react-quill";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-type Props = {
+export type EventFormProps = {
   handleSubmit: (
-    e: React.FormEvent<HTMLFormElement>,
     title: string,
     content: string,
+    contentText: string,
     date: string
   ) => void;
   saveButtonText: string;
@@ -19,7 +20,7 @@ type Props = {
   isLoading: boolean;
 };
 
-const EventForm: React.FC<Props> = ({
+const EventForm: React.FC<EventFormProps> = ({
   handleSubmit,
   saveButtonText,
   defaultValues,
@@ -29,10 +30,22 @@ const EventForm: React.FC<Props> = ({
   const [content, setContent] = useState<string>(defaultValues?.content ?? "");
   const [date, setDate] = useState<string>(defaultValues?.date ?? "");
 
+  const quillRef = useRef<ReactQuill>(null);
+
   return (
     <form
       className="grid w-full gap-4 text-lg lg:grid-cols-2 lg:text-xl"
-      onSubmit={(e) => handleSubmit(e, title, content, date)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (quillRef.current) {
+          handleSubmit(
+            title,
+            content,
+            quillRef.current.getEditor().getText(),
+            date
+          );
+        }
+      }}
     >
       <div className="grid">
         <label htmlFor="title" className="text-white">
@@ -68,7 +81,24 @@ const EventForm: React.FC<Props> = ({
         <label htmlFor="content" className="text-white">
           Leipäteksti:
         </label>
-        <MyReactQuill value={content} onChange={setContent} />
+        <div>
+          <ReactQuill
+            ref={quillRef}
+            theme="snow"
+            value={content}
+            onChange={setContent}
+            modules={{
+              toolbar: [
+                [{ header: [false, 2] }],
+                ["bold", "italic", "underline", "strike"],
+                ["link"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["clean"],
+              ],
+            }}
+            className="bg-white"
+          />
+        </div>
       </div>
       <div />
       <button
@@ -88,3 +118,12 @@ const EventForm: React.FC<Props> = ({
 };
 
 export default EventForm;
+
+export const EventFormImportOptions = {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center">
+      <FontAwesomeIcon icon={faSpinner} pulse size="2x" color="white" />
+    </div>
+  ),
+};

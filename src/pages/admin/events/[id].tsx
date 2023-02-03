@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
 import AdminPage from "../../../components/admin-page";
-import EventForm from "../../../components/event-form";
 import { trpc } from "../../../utils/trpc";
+import DynamicEventForm from "../../../components/dynamic-event-form";
 
 const EditEvent: NextPage = () => {
   const { data: session } = useSession();
@@ -19,14 +19,13 @@ const EditEvent: NextPage = () => {
   const utils = trpc.useContext();
 
   const handleSubmit = (
-    e: React.FormEvent<HTMLFormElement>,
     title: string,
     content: string,
+    contentText: string,
     date: string
   ) => {
-    e.preventDefault();
     update.mutate(
-      { id, title, content, date: new Date(date) },
+      { id, title, content, contentText, date: new Date(date) },
       {
         onSuccess: () => {
           utils.event.byId.invalidate({ id });
@@ -39,7 +38,7 @@ const EditEvent: NextPage = () => {
   return (
     <AdminPage session={session}>
       {event.data ? (
-        <EventForm
+        <DynamicEventForm
           handleSubmit={handleSubmit}
           saveButtonText="Tallenna"
           defaultValues={{

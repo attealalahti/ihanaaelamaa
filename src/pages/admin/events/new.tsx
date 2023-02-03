@@ -3,8 +3,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
 import AdminPage from "../../../components/admin-page";
-import EventForm from "../../../components/event-form";
 import { trpc } from "../../../utils/trpc";
+import DynamicEventForm from "../../../components/dynamic-event-form";
 
 const NewEvent: NextPage = () => {
   const { data: session } = useSession();
@@ -15,14 +15,13 @@ const NewEvent: NextPage = () => {
   const router = useRouter();
 
   const handleSubmit = (
-    e: React.FormEvent<HTMLFormElement>,
     title: string,
     content: string,
+    contentText: string,
     date: string
   ) => {
-    e.preventDefault();
     create.mutate(
-      { title, content, date: new Date(date) },
+      { title, content, contentText, date: new Date(date) },
       {
         onSuccess: () => {
           utils.event.all.invalidate();
@@ -35,7 +34,7 @@ const NewEvent: NextPage = () => {
 
   return (
     <AdminPage session={session}>
-      <EventForm
+      <DynamicEventForm
         handleSubmit={handleSubmit}
         saveButtonText="Luo tapahtuma"
         isLoading={create.isLoading}

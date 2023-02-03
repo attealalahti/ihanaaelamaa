@@ -16,6 +16,7 @@ export const eventRouter = router({
       z.object({
         title: z.string(),
         content: z.string(),
+        contentText: z.string(),
         date: z.date(),
       })
     )
@@ -46,6 +47,7 @@ export const eventRouter = router({
         id: z.number(),
         title: z.string(),
         content: z.string(),
+        contentText: z.string(),
         date: z.date(),
       })
     )
@@ -53,11 +55,7 @@ export const eventRouter = router({
       await ctx.prisma.$transaction([
         ctx.prisma.event.update({
           where: { id: input.id },
-          data: {
-            title: input.title,
-            content: input.content,
-            date: input.date,
-          },
+          data: input,
         }),
         ctx.prisma.unpublishedChanges.update({
           where: { id: 1 },
