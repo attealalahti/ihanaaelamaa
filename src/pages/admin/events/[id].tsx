@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React from "react";
 import AdminPage from "../../../components/admin-page";
 import { trpc } from "../../../utils/trpc";
 import DynamicEventForm from "../../../components/dynamic-event-form";
@@ -52,6 +51,8 @@ const EditEvent: NextPage = () => {
           }}
           isLoading={update.isLoading}
         />
+      ) : event.error?.shape?.data.code === "NOT_FOUND" ? (
+        <div className="text-xl text-white">404 - Sivua ei löytynyt</div>
       ) : event.isError ? (
         <div className="text-xl text-white">Error</div>
       ) : (

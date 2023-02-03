@@ -1,5 +1,6 @@
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 import z from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const eventRouter = router({
   visible: publicProcedure.query(({ ctx }) => {
@@ -31,15 +32,21 @@ export const eventRouter = router({
     }),
   byIdVisible: publicProcedure
     .input(z.object({ id: z.number() }))
-    .query(({ ctx, input }) => {
-      return ctx.prisma.event.findFirst({
+    .query(async ({ ctx, input }) => {
+      const event = await ctx.prisma.event.findFirst({
         where: { id: input.id, visible: true },
       });
+      if (!event) throw new TRPCError({ code: "NOT_FOUND" });
+      return event;
     }),
   byId: protectedProcedure
     .input(z.object({ id: z.number() }))
-    .query(({ ctx, input }) => {
-      return ctx.prisma.event.findFirst({ where: { id: input.id } });
+    .query(async ({ ctx, input }) => {
+      const event = await ctx.prisma.event.findFirst({
+        where: { id: input.id },
+      });
+      if (!event) throw new TRPCError({ code: "NOT_FOUND" });
+      return event;
     }),
   update: protectedProcedure
     .input(
