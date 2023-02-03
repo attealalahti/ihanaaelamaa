@@ -15,6 +15,7 @@ import superjson from "superjson";
 import { prisma } from "../../server/db/client";
 import { trpc } from "../../utils/trpc";
 import Custom404 from "../../components/custom-404";
+import ReactHtmlParser from "react-html-parser";
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>
@@ -50,19 +51,6 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }) => {
   const event = trpc.event.byIdVisible.useQuery({ id }, { enabled: false });
 
-  const addLineBreaks = (content: string) => {
-    const lines = content.split("\n");
-    const elements: JSX.Element[] = [];
-    let i = 0;
-    for (const line of lines) {
-      elements.push(<span key={i}>{line}</span>);
-      i++;
-      elements.push(<br key={i} />);
-      i++;
-    }
-    return elements;
-  };
-
   if (!event.data) return <Custom404 />;
   return (
     <>
@@ -78,8 +66,8 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
               {event.data.title}
             </h1>
-            <div className="text-lg lg:text-xl">
-              {addLineBreaks(event.data.content)}
+            <div className="post text-lg lg:text-xl">
+              {ReactHtmlParser(event.data.content)}
             </div>
           </div>
           <></>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import MyReactQuill from "./my-react-quill";
 
 type Props = {
   handleSubmit: (
@@ -67,16 +68,7 @@ const EventForm: React.FC<Props> = ({
         <label htmlFor="content" className="text-white">
           Leipäteksti:
         </label>
-        <textarea
-          name="content"
-          id="content"
-          className="h-96 w-full rounded p-1"
-          maxLength={10_000}
-          required={true}
-          autoComplete="off"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
+        <MyReactQuill value={content} onChange={setContent} />
       </div>
       <div />
       <button
