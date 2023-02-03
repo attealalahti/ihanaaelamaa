@@ -32,6 +32,8 @@ const EventForm: React.FC<EventFormProps> = ({
 
   const quillRef = useRef<ReactQuill>(null);
 
+  const tooManyCharacters = content.length > 5000;
+
   return (
     <form
       className="grid w-full gap-4 text-lg lg:grid-cols-2 lg:text-xl"
@@ -103,10 +105,14 @@ const EventForm: React.FC<EventFormProps> = ({
       <div />
       <button
         type="submit"
-        className="rounded-xl border border-white bg-green-400 p-2 font-bold hover:bg-green-500"
-        disabled={isLoading}
+        className={`rounded-xl border border-white p-2 font-bold ${
+          tooManyCharacters
+            ? "bg-gray-300 text-red-600"
+            : "bg-green-400 hover:bg-green-500"
+        }`}
+        disabled={isLoading || tooManyCharacters}
       >
-        {saveButtonText}
+        {tooManyCharacters ? "Liian monta merkkiä!" : saveButtonText}
         {isLoading && (
           <span className="ml-4">
             <FontAwesomeIcon icon={faSpinner} pulse />
