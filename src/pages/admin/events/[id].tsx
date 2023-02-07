@@ -13,7 +13,10 @@ const EditEvent: NextPage = () => {
   const router = useRouter();
   const id = Number(router.query.id);
 
-  const event = trpc.event.byId.useQuery({ id });
+  const event = trpc.event.byId.useQuery(
+    { id },
+    { enabled: router.query.id !== undefined }
+  );
   const update = trpc.event.update.useMutation();
   const utils = trpc.useContext();
 
