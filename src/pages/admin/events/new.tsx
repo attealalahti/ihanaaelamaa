@@ -5,6 +5,7 @@ import React from "react";
 import AdminPage from "../../../components/admin-page";
 import { trpc } from "../../../utils/trpc";
 import DynamicEventForm from "../../../components/dynamic-event-form";
+import { type HandleEventSubmit } from "../../../components/event-form";
 
 const NewEvent: NextPage = () => {
   const { data: session } = useSession();
@@ -14,11 +15,11 @@ const NewEvent: NextPage = () => {
 
   const router = useRouter();
 
-  const handleSubmit = (
-    title: string,
-    content: string,
-    contentText: string,
-    date: string
+  const handleSubmit: HandleEventSubmit = (
+    title,
+    content,
+    contentText,
+    date
   ) => {
     create.mutate(
       { title, content, contentText, date: new Date(date) },

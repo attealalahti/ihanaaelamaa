@@ -4,14 +4,18 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Post from "./post";
+import useUnsavedChangesWarning from "../hooks/use-unsaved-changes-warning";
+
+export type HandleEventSubmit = (
+  title: string,
+  content: string,
+  contentText: string,
+  date: string,
+  setNewDefaults: (title: string, content: string, date: string) => void
+) => void;
 
 export type EventFormProps = {
-  handleSubmit: (
-    title: string,
-    content: string,
-    contentText: string,
-    date: string
-  ) => void;
+  handleSubmit: HandleEventSubmit;
   saveButtonText: string;
   defaultValues?: {
     title: string;
@@ -29,11 +33,25 @@ const EventForm: React.FC<EventFormProps> = ({
 }) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
-  const [title, setTitle] = useState<string>(defaultValues?.title ?? "");
-  const [content, setContent] = useState<string>(defaultValues?.content ?? "");
-  const [date, setDate] = useState<string>(defaultValues?.date ?? "");
+  const [defaultTitle, setDefaultTitle] = useState<string>(
+    defaultValues?.title ?? ""
+  );
+  const [defaultContent, setDefaultContent] = useState<string>(
+    defaultValues?.content ?? ""
+  );
+  const [defaultDate, setDefaultDate] = useState<string>(
+    defaultValues?.date ?? ""
+  );
+
+  const [title, setTitle] = useState<string>(defaultTitle);
+  const [content, setContent] = useState<string>(defaultContent);
+  const [date, setDate] = useState<string>(defaultDate);
 
   const quillRef = useRef<ReactQuill>(null);
+
+  useUnsavedChangesWarning(
+    title !== defaultTitle || content !== defaultContent || date !== defaultDate
+  );
 
   const tooManyCharacters = content.length > 5000;
 
@@ -55,7 +73,12 @@ const EventForm: React.FC<EventFormProps> = ({
                 title,
                 content,
                 quillRef.current.getEditor().getText(),
-                date
+                date,
+                (title, content, date) => {
+                  setDefaultTitle(title);
+                  setDefaultContent(content);
+                  setDefaultDate(date);
+                }
               );
             }
           }}

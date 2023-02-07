@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import AdminPage from "../../../components/admin-page";
 import { trpc } from "../../../utils/trpc";
 import DynamicEventForm from "../../../components/dynamic-event-form";
+import { type HandleEventSubmit } from "../../../components/event-form";
 
 const EditEvent: NextPage = () => {
   const { data: session } = useSession();
@@ -20,11 +21,12 @@ const EditEvent: NextPage = () => {
   const update = trpc.event.update.useMutation();
   const utils = trpc.useContext();
 
-  const handleSubmit = (
-    title: string,
-    content: string,
-    contentText: string,
-    date: string
+  const handleSubmit: HandleEventSubmit = (
+    title,
+    content,
+    contentText,
+    date,
+    setNewDefaults
   ) => {
     update.mutate(
       { id, title, content, contentText, date: new Date(date) },
@@ -32,6 +34,7 @@ const EditEvent: NextPage = () => {
         onSuccess: () => {
           utils.event.byId.invalidate({ id });
           utils.auth.unpublishedChanges.invalidate();
+          setNewDefaults(title, content, date);
         },
       }
     );
