@@ -9,6 +9,14 @@ export const eventRouter = router({
       orderBy: { date: "desc" },
     });
   }),
+  future: publicProcedure
+    .input(z.object({ today: z.date() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.event.findMany({
+        where: { visible: true, date: { gte: input.today } },
+        orderBy: { date: "asc" },
+      });
+    }),
   all: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.event.findMany({ orderBy: { date: "asc" } });
   }),

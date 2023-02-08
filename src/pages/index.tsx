@@ -1,4 +1,4 @@
-import { type NextPage } from "next";
+import { type InferGetStaticPropsType, type NextPage } from "next";
 import Head from "next/head";
 import Footer from "../components/footer";
 import Header from "../components/header";
@@ -17,16 +17,28 @@ export const getStaticProps = async () => {
     ctx: await createContext(),
     transformer: superjson,
   });
-  await ssg.event.visible.prefetch();
+  const todayString = new Date().toLocaleDateString("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  await ssg.event.future.prefetch({ today: new Date(todayString) });
   return {
     props: {
       trpcState: ssg.dehydrate(),
+      todayString,
     },
   };
 };
 
-const Home: NextPage = () => {
-  const events = trpc.event.visible.useQuery(undefined, { enabled: false });
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  todayString,
+}) => {
+  const events = trpc.event.future.useQuery(
+    { today: new Date(todayString) },
+    { enabled: false }
+  );
 
   return (
     <>
@@ -75,7 +87,7 @@ const Home: NextPage = () => {
               <LinkButton href="/join">Liity jäseneksi!</LinkButton>
               <LinkButton href="/contact">Ota yhteyttä!</LinkButton>
             </div>
-            {events.data && (
+            {events.data && events.data.length !== 0 && (
               <EventBoard events={events.data} title="Tulevat tapahtumat" />
             )}
           </div>
