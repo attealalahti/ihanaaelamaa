@@ -18,6 +18,7 @@ export const getStaticProps = async () => {
     ctx: await createContext(),
     transformer: superjson,
   });
+
   const todayString = new Date().toLocaleDateString("en-CA", {
     year: "numeric",
     month: "2-digit",
@@ -25,6 +26,8 @@ export const getStaticProps = async () => {
   });
 
   await ssg.event.future.prefetch({ today: new Date(todayString) });
+  await ssg.home.find.prefetch();
+
   return {
     props: {
       trpcState: ssg.dehydrate(),
@@ -41,6 +44,8 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     { enabled: false }
   );
 
+  const home = trpc.home.find.useQuery(undefined, { enabled: false });
+
   return (
     <>
       <Head>
@@ -51,7 +56,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Page>
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center">
-          <HomeContent data={{ title: "Title", content: "Content" }} />
+          {home.data && <HomeContent data={home.data} />}
           <div className="flex max-w-4xl flex-col items-center justify-center gap-16 p-8 text-center text-white">
             <div className="flex flex-wrap items-center justify-center gap-20">
               <LinkButton href="/join">Liity jäseneksi!</LinkButton>
