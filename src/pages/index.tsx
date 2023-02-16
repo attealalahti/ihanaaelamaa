@@ -26,7 +26,7 @@ export const getStaticProps = async () => {
   });
 
   await ssg.event.future.prefetch({ today: new Date(todayString) });
-  await ssg.home.find.prefetch();
+  await ssg.home.get.prefetch();
 
   return {
     props: {
@@ -44,7 +44,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
     { enabled: false }
   );
 
-  const home = trpc.home.find.useQuery(undefined, { enabled: false });
+  const home = trpc.home.get.useQuery(undefined, { enabled: false });
 
   return (
     <>

@@ -7,11 +7,13 @@ import { type PostProps } from "./post";
 import useUnsavedChangesWarning from "../hooks/use-unsaved-changes-warning";
 
 export type HandleEventSubmit = (
-  title: string,
-  content: string,
-  contentText: string,
-  date: string,
-  setNewDefaults: (title: string, content: string, date: string) => void
+  data: {
+    title: string;
+    content: string;
+    contentText: string;
+    date?: string;
+  },
+  setNewDefaults: (title: string, content: string, date?: string) => void
 ) => void;
 
 export type EventFormProps = {
@@ -20,9 +22,10 @@ export type EventFormProps = {
   defaultValues?: {
     title: string;
     content: string;
-    date: string;
+    date?: string;
   };
   isLoading: boolean;
+  hasDate: boolean;
   Preview: React.FC<PostProps>;
 };
 
@@ -31,6 +34,7 @@ const EventForm: React.FC<EventFormProps> = ({
   saveButtonText,
   defaultValues,
   isLoading,
+  hasDate,
   Preview,
 }) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
@@ -72,20 +76,22 @@ const EventForm: React.FC<EventFormProps> = ({
             e.preventDefault();
             if (quillRef.current) {
               handleSubmit(
-                title,
-                content,
-                quillRef.current.getEditor().getText(),
-                date,
+                {
+                  title,
+                  content,
+                  contentText: quillRef.current.getEditor().getText(),
+                  date,
+                },
                 (title, content, date) => {
                   setDefaultTitle(title);
                   setDefaultContent(content);
-                  setDefaultDate(date);
+                  if (date) setDefaultDate(date);
                 }
               );
             }
           }}
         >
-          <div className="grid">
+          <div className={`grid ${hasDate ? "" : "lg:col-span-2"}`}>
             <label htmlFor="title" className="text-white">
               Otsikko:
             </label>
@@ -100,21 +106,23 @@ const EventForm: React.FC<EventFormProps> = ({
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-          <div className="grid">
-            <label htmlFor="date" className="text-white">
-              Päivämäärä:
-            </label>
-            <input
-              name="date"
-              id="date"
-              className="w-full rounded p-1"
-              type="date"
-              required={true}
-              autoComplete="off"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
+          {hasDate && (
+            <div className="grid">
+              <label htmlFor="date" className="text-white">
+                Päivämäärä:
+              </label>
+              <input
+                name="date"
+                id="date"
+                className="w-full rounded p-1"
+                type="date"
+                required={hasDate}
+                autoComplete="off"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
+          )}
           <div className="grid lg:col-span-2">
             <label htmlFor="content" className="text-white">
               Leipäteksti:

@@ -15,12 +15,13 @@ const NewEvent: NextPage = () => {
 
   const router = useRouter();
 
-  const handleSubmit: HandleEventSubmit = (
+  const handleSubmit: HandleEventSubmit = ({
     title,
     content,
     contentText,
-    date
-  ) => {
+    date,
+  }) => {
+    if (!date) throw new Error("Date not found when submitting.");
     create.mutate(
       { title, content, contentText, date: new Date(date) },
       {
@@ -39,6 +40,7 @@ const NewEvent: NextPage = () => {
         handleSubmit={handleSubmit}
         saveButtonText="Luo tapahtuma"
         isLoading={create.isLoading}
+        hasDate={true}
         Preview={Post}
       />
     </AdminPage>

@@ -1,6 +1,7 @@
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 import z from "zod";
 import { TRPCError } from "@trpc/server";
+import { UNPUBLISHED_CHANGES_ID } from "../../../utils/constants";
 
 export const eventRouter = router({
   visible: publicProcedure.query(({ ctx }) => {
@@ -33,7 +34,7 @@ export const eventRouter = router({
       await ctx.prisma.$transaction([
         ctx.prisma.event.create({ data: input }),
         ctx.prisma.unpublishedChanges.update({
-          where: { id: 1 },
+          where: { id: UNPUBLISHED_CHANGES_ID },
           data: { value: true },
         }),
       ]);
@@ -73,7 +74,7 @@ export const eventRouter = router({
           data: input,
         }),
         ctx.prisma.unpublishedChanges.update({
-          where: { id: 1 },
+          where: { id: UNPUBLISHED_CHANGES_ID },
           data: { value: true },
         }),
       ]);
@@ -87,7 +88,7 @@ export const eventRouter = router({
           data: { visible: input.visible },
         }),
         ctx.prisma.unpublishedChanges.update({
-          where: { id: 1 },
+          where: { id: UNPUBLISHED_CHANGES_ID },
           data: { value: true },
         }),
       ]);
@@ -98,7 +99,7 @@ export const eventRouter = router({
       await ctx.prisma.$transaction([
         ctx.prisma.event.delete({ where: { id: input.id } }),
         ctx.prisma.unpublishedChanges.update({
-          where: { id: 1 },
+          where: { id: UNPUBLISHED_CHANGES_ID },
           data: { value: true },
         }),
       ]);

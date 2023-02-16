@@ -23,12 +23,10 @@ const EditEvent: NextPage = () => {
   const utils = trpc.useContext();
 
   const handleSubmit: HandleEventSubmit = (
-    title,
-    content,
-    contentText,
-    date,
+    { title, content, contentText, date },
     setNewDefaults
   ) => {
+    if (!date) throw new Error("Date not found when submitting.");
     update.mutate(
       { id, title, content, contentText, date: new Date(date) },
       {
@@ -57,6 +55,7 @@ const EditEvent: NextPage = () => {
             }),
           }}
           isLoading={update.isLoading}
+          hasDate={true}
           Preview={Post}
         />
       ) : event.error?.shape?.data.code === "NOT_FOUND" ? (
