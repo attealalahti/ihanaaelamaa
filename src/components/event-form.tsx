@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Post from "./post";
+import { type PostProps } from "./post";
 import useUnsavedChangesWarning from "../hooks/use-unsaved-changes-warning";
 
 export type HandleEventSubmit = (
@@ -23,6 +23,7 @@ export type EventFormProps = {
     date: string;
   };
   isLoading: boolean;
+  Preview: React.FC<PostProps>;
 };
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -30,6 +31,7 @@ const EventForm: React.FC<EventFormProps> = ({
   saveButtonText,
   defaultValues,
   isLoading,
+  Preview,
 }) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
@@ -155,19 +157,10 @@ const EventForm: React.FC<EventFormProps> = ({
           </button>
         </form>
       ) : (
-        <Post data={{ title, content, date: new Date(date) }} />
+        <Preview data={{ title, content, date: new Date(date) }} />
       )}
     </div>
   );
 };
 
 export default EventForm;
-
-export const EventFormImportOptions = {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-full w-full items-center justify-center">
-      <FontAwesomeIcon icon={faSpinner} pulse size="2x" color="white" />
-    </div>
-  ),
-};

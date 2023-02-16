@@ -26,6 +26,12 @@ const AdminHome: NextPage = () => {
   return (
     <AdminPage session={session}>
       <Link
+        href="/admin/home"
+        className="rounded-xl bg-white p-4 text-2xl text-black hover:bg-slate-200"
+      >
+        Kotisivu
+      </Link>
+      <Link
         href="/admin/events"
         className="rounded-xl bg-white p-4 text-2xl text-black hover:bg-slate-200"
       >

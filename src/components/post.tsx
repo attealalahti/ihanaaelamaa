@@ -1,14 +1,14 @@
 import ReactHtmlParser from "react-html-parser";
 
-type Props = {
+export type PostProps = {
   data: {
     title: string;
     content: string;
-    date: Date;
+    date?: Date;
   };
 };
 
-const Post: React.FC<Props> = ({ data }) => {
+const Post: React.FC<PostProps> = ({ data }) => {
   return (
     <div className="flex flex-1 flex-wrap items-center justify-center">
       <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16 lg:min-w-full">

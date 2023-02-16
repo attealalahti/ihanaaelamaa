@@ -7,6 +7,7 @@ import AdminPage from "../../../components/admin-page";
 import { trpc } from "../../../utils/trpc";
 import DynamicEventForm from "../../../components/dynamic-event-form";
 import { type HandleEventSubmit } from "../../../components/event-form";
+import Post from "../../../components/post";
 
 const EditEvent: NextPage = () => {
   const { data: session } = useSession();
@@ -56,6 +57,7 @@ const EditEvent: NextPage = () => {
             }),
           }}
           isLoading={update.isLoading}
+          Preview={Post}
         />
       ) : event.error?.shape?.data.code === "NOT_FOUND" ? (
         <div className="text-xl text-white">404 - Sivua ei löytynyt</div>
