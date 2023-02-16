@@ -61,7 +61,7 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </Head>
       <Page>
         <Header />
-        <main className="flex flex-1">
+        <main className="flex w-full max-w-4xl flex-1">
           <Post data={event.data} />
         </main>
         <Footer />

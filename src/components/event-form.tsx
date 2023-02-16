@@ -62,7 +62,7 @@ const EventForm: React.FC<EventFormProps> = ({
   const tooManyCharacters = content.length > 5000;
 
   return (
-    <div>
+    <div className="w-full max-w-4xl">
       <button
         className="relative m-4 rounded-lg border border-white bg-blue-600 p-3 px-6 text-lg font-bold text-white hover:bg-blue-700"
         onClick={() => setShowPreview((value) => !value)}
