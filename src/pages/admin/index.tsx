@@ -13,8 +13,14 @@ const AdminHome: NextPage = () => {
 
   const [publishModalOpen, setPublishModalOpen] = useState(false);
 
+  const unpublishedChanges = trpc.auth.unpublishedChanges.useQuery();
   const build = trpc.auth.build.useMutation();
   const utils = trpc.useContext();
+
+  const publishButtonEnabled =
+    unpublishedChanges.data !== undefined &&
+    unpublishedChanges.data &&
+    !build.isLoading;
 
   const publish = () => {
     setPublishModalOpen(false);
@@ -38,8 +44,13 @@ const AdminHome: NextPage = () => {
         Tapahtumat
       </Link>
       <button
-        className="rounded-xl border border-white bg-gradient-to-br from-rose-800 to-purple-800 p-4 text-2xl text-white hover:from-rose-900 hover:to-purple-900"
+        className={`rounded-xl p-4 text-2xl text-white  ${
+          publishButtonEnabled || build.isLoading
+            ? "border border-white bg-gradient-to-br from-rose-800 to-purple-800 hover:from-rose-900 hover:to-purple-900"
+            : "bg-gray-500 opacity-80"
+        }`}
         onClick={() => setPublishModalOpen(true)}
+        disabled={!publishButtonEnabled}
       >
         Julkaise muutokset
         {build.isLoading && (
