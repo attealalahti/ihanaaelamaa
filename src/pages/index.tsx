@@ -11,6 +11,7 @@ import Page from "../components/page";
 import HomeContent from "../components/home-content";
 import EventBoard from "../components/event-board";
 import LinkButton from "../components/link-button";
+import { dateToYYYYmmdd } from "../utils/text";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -19,11 +20,7 @@ export const getStaticProps = async () => {
     transformer: superjson,
   });
 
-  const todayString = new Date().toLocaleDateString("en-CA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  const todayString = dateToYYYYmmdd(new Date());
 
   await ssg.event.future.prefetch({ today: new Date(todayString) });
   await ssg.home.get.prefetch();

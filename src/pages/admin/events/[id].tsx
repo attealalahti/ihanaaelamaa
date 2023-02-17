@@ -8,6 +8,7 @@ import { trpc } from "../../../utils/trpc";
 import DynamicEventForm from "../../../components/dynamic-event-form";
 import { type HandleEventSubmit } from "../../../components/event-form";
 import Post from "../../../components/post";
+import { dateToYYYYmmdd } from "../../../utils/text";
 
 const EditEvent: NextPage = () => {
   const { data: session } = useSession();
@@ -48,11 +49,7 @@ const EditEvent: NextPage = () => {
           defaultValues={{
             title: event.data.title,
             content: event.data.content,
-            date: event.data.date.toLocaleDateString("en-CA", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            }),
+            date: dateToYYYYmmdd(event.data.date),
           }}
           isLoading={update.isLoading}
           hasDate={true}

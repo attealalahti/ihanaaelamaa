@@ -5,3 +5,13 @@ export const shortenText = (text: string, characterLimit: number) => {
   if (shortened) return trimmedShortText + "...";
   return trimmedShortText;
 };
+
+export const dateToYYYYmmdd = (date: Date) => {
+  return date
+    .toLocaleDateString("en-ZA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replaceAll("/", "-");
+};
