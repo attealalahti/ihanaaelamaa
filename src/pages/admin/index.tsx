@@ -3,8 +3,8 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import AdminPage from "../../components/admin-page";
-import Modal from "../../components/modal";
+import AdminPage from "../../components/admin/admin-page";
+import Modal from "../../components/control/modal";
 import { trpc } from "../../utils/trpc";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 

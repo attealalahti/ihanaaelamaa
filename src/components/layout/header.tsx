@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
-import NavButton from "./nav-button";
+import NavButton from "./../control/nav-button";
 
 const HAMBURGER_PATH =
   "M4,4 L27,4 C28,4 28,7 27,7 L4,7 C3,7 3,4 4,4 M4,14 L27,14 C28,14 28,17 27,17 L4,17 C3,17 3,14 4,14 M27,27 L4,27 C3,27 3,24 4,24 L27,24 C28,24 28,27 27,27";

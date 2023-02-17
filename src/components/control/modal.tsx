@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import { rosario } from "../pages/_app";
+import { rosario } from "../../pages/_app";
 
 type Props = {
   children: React.ReactNode;

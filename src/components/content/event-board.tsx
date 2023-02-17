@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { type Event } from "@prisma/client";
-import { shortenText } from "../utils/text";
+import { shortenText } from "../../utils/text";
 
 type Props = {
   events: Event[];

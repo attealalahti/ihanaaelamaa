@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { type PostProps } from "./post";
-import useUnsavedChangesWarning from "../hooks/use-unsaved-changes-warning";
+import { type PostProps } from "../content/post";
+import useUnsavedChangesWarning from "../../hooks/use-unsaved-changes-warning";
 
 export type HandleEventSubmit = (
   data: {

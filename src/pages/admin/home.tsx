@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
-import AdminPage from "../../components/admin-page";
-import DynamicEventForm from "../../components/dynamic-event-form";
-import { type HandleEventSubmit } from "../../components/event-form";
-import HomeContent from "../../components/home-content";
+import AdminPage from "../../components/admin/admin-page";
+import DynamicEventForm from "../../components/admin/dynamic-event-form";
+import { type HandleEventSubmit } from "../../components/admin/event-form";
+import HomeContent from "../../components/content/home-content";
 import { trpc } from "../../utils/trpc";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 

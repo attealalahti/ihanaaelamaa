@@ -1,11 +1,11 @@
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import AdminPage from "../../../components/admin-page";
+import AdminPage from "../../../components/admin/admin-page";
 import { trpc } from "../../../utils/trpc";
-import DynamicEventForm from "../../../components/dynamic-event-form";
-import { type HandleEventSubmit } from "../../../components/event-form";
-import Post from "../../../components/post";
+import DynamicEventForm from "../../../components/admin/dynamic-event-form";
+import { type HandleEventSubmit } from "../../../components/admin/event-form";
+import Post from "../../../components/content/post";
 
 const NewEvent: NextPage = () => {
   const { data: session } = useSession();

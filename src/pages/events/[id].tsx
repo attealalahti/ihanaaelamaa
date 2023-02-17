@@ -4,18 +4,18 @@ import type {
   NextPage,
   InferGetStaticPropsType,
 } from "next";
-import Header from "../../components/header";
+import Header from "../../components/layout/header";
 import Head from "next/head";
-import Footer from "../../components/footer";
-import Page from "../../components/page";
+import Footer from "../../components/layout/footer";
+import Page from "../../components/layout/page";
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { appRouter } from "../../server/trpc/router/_app";
 import { createContext } from "../../server/trpc/context";
 import superjson from "superjson";
 import { prisma } from "../../server/db/client";
 import { trpc } from "../../utils/trpc";
-import Custom404 from "../../components/custom-404";
-import Post from "../../components/post";
+import Custom404 from "../../components/layout/custom-404";
+import Post from "../../components/content/post";
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>

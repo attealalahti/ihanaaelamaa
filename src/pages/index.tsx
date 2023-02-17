@@ -1,16 +1,16 @@
 import { type InferGetStaticPropsType, type NextPage } from "next";
 import Head from "next/head";
-import Footer from "../components/footer";
-import Header from "../components/header";
+import Footer from "../components/layout/footer";
+import Header from "../components/layout/header";
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { appRouter } from "../server/trpc/router/_app";
 import superjson from "superjson";
 import { createContext } from "../server/trpc/context";
 import { trpc } from "../utils/trpc";
-import Page from "../components/page";
-import HomeContent from "../components/home-content";
-import EventBoard from "../components/event-board";
-import LinkButton from "../components/link-button";
+import Page from "../components/layout/page";
+import HomeContent from "../components/content/home-content";
+import EventBoard from "../components/content/event-board";
+import LinkButton from "../components/control/link-button";
 import { dateToYYYYmmdd } from "../utils/text";
 
 export const getStaticProps = async () => {

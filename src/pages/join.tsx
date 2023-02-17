@@ -1,10 +1,10 @@
 import { type NextPage } from "next";
-import Header from "../components/header";
+import Header from "../components/layout/header";
 import Image from "next/image";
 import joinImage from "../../public/images/liity.jpg";
 import Head from "next/head";
-import Footer from "../components/footer";
-import Page from "../components/page";
+import Footer from "../components/layout/footer";
+import Page from "../components/layout/page";
 
 const Join: NextPage = () => {
   return (

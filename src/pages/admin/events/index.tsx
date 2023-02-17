@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
-import AdminPage from "../../../components/admin-page";
+import AdminPage from "../../../components/admin/admin-page";
 import { trpc } from "../../../utils/trpc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { shortenText } from "../../../utils/text";
-import Modal from "../../../components/modal";
+import Modal from "../../../components/control/modal";
 import { useState } from "react";
 
 const AdminEvents: NextPage = () => {

@@ -1,10 +1,10 @@
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { type NextPage } from "next";
 import Head from "next/head";
-import EventBoard from "../../components/event-board";
-import Footer from "../../components/footer";
-import Header from "../../components/header";
-import Page from "../../components/page";
+import EventBoard from "../../components/content/event-board";
+import Footer from "../../components/layout/footer";
+import Header from "../../components/layout/header";
+import Page from "../../components/layout/page";
 import { createContext } from "../../server/trpc/context";
 import { appRouter } from "../../server/trpc/router/_app";
 import { trpc } from "../../utils/trpc";

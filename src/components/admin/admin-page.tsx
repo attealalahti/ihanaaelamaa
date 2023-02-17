@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Page from "./page";
+import Page from "./../layout/page";
 import AdminHeader from "./admin-header";
 import SignedOut from "./signed-out";
 import Unauthorized from "./unauthorized";
