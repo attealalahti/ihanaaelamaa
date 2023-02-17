@@ -6,6 +6,7 @@ import { trpc } from "../../../utils/trpc";
 import DynamicEventForm from "../../../components/admin/dynamic-event-form";
 import { type HandleEventSubmit } from "../../../components/admin/event-form";
 import Post from "../../../components/content/post";
+import { useEffect, useState } from "react";
 
 const NewEvent: NextPage = () => {
   const { data: session } = useSession();
@@ -15,12 +16,12 @@ const NewEvent: NextPage = () => {
 
   const router = useRouter();
 
-  const handleSubmit: HandleEventSubmit = ({
-    title,
-    content,
-    contentText,
-    date,
-  }) => {
+  const [navigateBack, setNavigateBack] = useState<boolean>(false);
+
+  const handleSubmit: HandleEventSubmit = (
+    { title, content, contentText, date },
+    setNewDefaults
+  ) => {
     if (!date) throw new Error("Date not found when submitting.");
     create.mutate(
       { title, content, contentText, date: new Date(date) },
@@ -28,11 +29,21 @@ const NewEvent: NextPage = () => {
         onSuccess: () => {
           utils.event.all.invalidate();
           utils.auth.unpublishedChanges.invalidate();
-          router.push("/admin/events");
+          setNewDefaults(title, content, date);
+          setNavigateBack(true);
         },
       }
     );
   };
+
+  // Used to get around navigation preventing events not being
+  // reset immediately after new defaults are set
+  useEffect(() => {
+    if (navigateBack) {
+      router.push("/admin/events");
+      setNavigateBack(false);
+    }
+  }, [navigateBack, router]);
 
   return (
     <AdminPage session={session} backHref="/admin/events">
