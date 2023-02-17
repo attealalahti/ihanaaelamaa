@@ -41,7 +41,7 @@ const EditEvent: NextPage = () => {
   };
 
   return (
-    <AdminPage session={session}>
+    <AdminPage session={session} backHref="/admin/events">
       {event.data ? (
         <DynamicEventForm
           handleSubmit={handleSubmit}

@@ -16,6 +16,7 @@ import { prisma } from "../../server/db/client";
 import { trpc } from "../../utils/trpc";
 import Custom404 from "../../components/layout/custom-404";
 import Post from "../../components/content/post";
+import BackButton from "../../components/control/back-button";
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>
@@ -61,7 +62,8 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </Head>
       <Page>
         <Header />
-        <main className="flex w-full max-w-4xl flex-1">
+        <BackButton href="/events" text="Kaikki tapahtumat" />
+        <main className="flex w-full max-w-4xl flex-1 flex-col">
           <Post data={event.data} />
         </main>
         <Footer />

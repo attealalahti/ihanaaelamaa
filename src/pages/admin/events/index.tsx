@@ -73,7 +73,7 @@ const AdminEvents: NextPage = () => {
   };
 
   return (
-    <AdminPage session={session}>
+    <AdminPage session={session} backHref="/admin">
       {events.data ? (
         <section className="flex max-w-4xl flex-col items-center justify-center text-white">
           <Link

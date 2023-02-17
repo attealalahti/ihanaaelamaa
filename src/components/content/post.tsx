@@ -11,7 +11,7 @@ export type PostProps = {
 const Post: React.FC<PostProps> = ({ data }) => {
   return (
     <div className="flex w-full flex-1 flex-wrap items-center justify-center">
-      <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16 lg:min-w-full">
+      <div className="m-10 mt-0 flex max-w-4xl flex-col gap-10 text-white md:gap-16 lg:min-w-full">
         <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
           {data.title}
         </h1>

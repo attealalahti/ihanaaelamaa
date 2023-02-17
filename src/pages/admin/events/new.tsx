@@ -35,7 +35,7 @@ const NewEvent: NextPage = () => {
   };
 
   return (
-    <AdminPage session={session}>
+    <AdminPage session={session} backHref="/admin/events">
       <DynamicEventForm
         handleSubmit={handleSubmit}
         saveButtonText="Luo tapahtuma"

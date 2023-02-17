@@ -4,13 +4,15 @@ import AdminHeader from "./admin-header";
 import SignedOut from "./signed-out";
 import Unauthorized from "./unauthorized";
 import { type Session } from "next-auth";
+import BackButton from "../control/back-button";
 
 type Props = {
   children: React.ReactNode;
   session: Session | null;
+  backHref?: string;
 };
 
-const AdminPage: React.FC<Props> = ({ children, session }) => {
+const AdminPage: React.FC<Props> = ({ children, session, backHref }) => {
   return (
     <>
       <Head>
@@ -20,7 +22,8 @@ const AdminPage: React.FC<Props> = ({ children, session }) => {
       </Head>
       <Page admin>
         <AdminHeader session={session} />
-        <main className="flex w-screen flex-1 flex-col items-center justify-center gap-6 p-6 lg:max-w-6xl">
+        {backHref && session?.user?.isAdmin && <BackButton href={backHref} />}
+        <main className="flex w-screen flex-1 flex-col items-center justify-center gap-6 p-6 pt-0">
           {!session ? (
             <SignedOut />
           ) : !session.user?.isAdmin ? (

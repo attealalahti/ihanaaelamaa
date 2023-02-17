@@ -32,7 +32,7 @@ const EditHome: NextPage = () => {
   };
 
   return (
-    <AdminPage session={session}>
+    <AdminPage session={session} backHref="/admin">
       {home.data ? (
         <DynamicEventForm
           handleSubmit={handleSubmit}
