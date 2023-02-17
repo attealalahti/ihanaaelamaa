@@ -12,6 +12,9 @@ import HomeContent from "../components/content/home-content";
 import EventBoard from "../components/content/event-board";
 import LinkButton from "../components/control/link-button";
 import { dateToYYYYmmdd } from "../utils/text";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -54,13 +57,24 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center">
           {home.data && <HomeContent data={home.data} />}
-          <div className="flex max-w-4xl flex-col items-center justify-center gap-16 p-8 text-center text-white">
-            <div className="flex flex-wrap items-center justify-center gap-20">
+          <div className="flex max-w-4xl flex-col items-center justify-center p-8 text-center text-white">
+            <div className="mb-10 flex flex-wrap items-center justify-center gap-20">
               <LinkButton href="/join">Liity jäseneksi!</LinkButton>
               <LinkButton href="/contact">Ota yhteyttä!</LinkButton>
             </div>
             {events.data && events.data.length !== 0 && (
-              <EventBoard events={events.data} title="Tulevat tapahtumat" />
+              <>
+                <EventBoard events={events.data} title="Tulevat tapahtumat" />
+                <Link
+                  className="mt-2 self-end rounded-3xl border border-transparent p-3 text-lg transition-colors duration-300 hover:border-white"
+                  href="/events"
+                >
+                  Kaikki tapahtumat
+                  <span className="ml-2">
+                    <FontAwesomeIcon icon={faArrowRight} color="white" />
+                  </span>
+                </Link>
+              </>
             )}
           </div>
         </main>
