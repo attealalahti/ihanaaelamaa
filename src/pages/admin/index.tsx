@@ -81,6 +81,11 @@ const AdminHome: NextPage = () => {
                 Julkinen sivusto rakennetaan uudelleen. Tämä kestää muutaman
                 minuutin.
               </p>
+              <p>
+                (Rakennukseen käytettäviä resursseja on paljon, mutta ei
+                rajattomasti, joten kannattaa julkaista vasta, kun kaikki
+                muutokset on tehty.)
+              </p>
             </div>
             <button
               className="rounded-lg border border-slate-700 bg-slate-100 p-2 hover:bg-slate-200"
