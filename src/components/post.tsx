@@ -16,6 +16,9 @@ const Post: React.FC<PostProps> = ({ data }) => {
           {data.title}
         </h1>
         <div className="post text-lg lg:text-xl">
+          {data.date && (
+            <p className="pb-3">{data.date.toLocaleDateString("fi-FI")}</p>
+          )}
           {ReactHtmlParser(data.content)}
         </div>
       </div>
