@@ -3,12 +3,14 @@ import { authRouter } from "./auth";
 import { eventRouter } from "./event";
 import { exampleRouter } from "./example";
 import { homeRouter } from "./home";
+import { imageRouter } from "./image";
 
 export const appRouter = router({
   example: exampleRouter,
   auth: authRouter,
   event: eventRouter,
   home: homeRouter,
+  image: imageRouter,
 });
 
 // export type definition of API

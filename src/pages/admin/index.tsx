@@ -7,6 +7,7 @@ import AdminPage from "../../components/admin/admin-page";
 import Modal from "../../components/control/modal";
 import { trpc } from "../../utils/trpc";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import ImageSelector from "../../components/control/image-selector";
 
 const AdminHome: NextPage = () => {
   const { data: session } = useSession();
@@ -31,6 +32,7 @@ const AdminHome: NextPage = () => {
 
   return (
     <AdminPage session={session}>
+      <ImageSelector />
       <Link
         href="/admin/home"
         className="rounded-xl bg-white p-4 text-2xl text-black hover:bg-slate-200"
