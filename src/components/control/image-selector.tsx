@@ -49,6 +49,7 @@ const ImageSelector: React.FC = () => {
     >
       <input
         type="file"
+        accept=".png,.jpg,.jpeg,.webp"
         required={true}
         multiple={true}
         onChange={(e) => setFiles(e.target.files)}
