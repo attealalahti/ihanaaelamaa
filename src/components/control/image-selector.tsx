@@ -7,8 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { trpc } from "../../utils/trpc";
 import Image from "next/image";
+import { env } from "../../env/client.mjs";
 
-const ImageSelector: React.FC = () => {
+type Props = {
+  selectedImageId: string | null;
+  setSelectedImageId: (id: string | null) => void;
+};
+
+const ImageSelector: React.FC<Props> = ({
+  selectedImageId,
+  setSelectedImageId,
+}) => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -22,34 +31,84 @@ const ImageSelector: React.FC = () => {
       const base64 = await toBase64(file);
       setFile(undefined);
 
-      const res = await axios.post("api/upload-image", { image: base64 });
+      const res = await axios.post(`${env.NEXT_PUBLIC_URL}/api/upload-image`, {
+        image: base64,
+      });
       console.log(res.data);
     },
     { onSuccess: () => utils.image.all.invalidate() }
   );
 
+  const selectedImageUrl = allImages.data?.find(
+    (image) => image.id === selectedImageId
+  )?.smallUrl;
+
   return (
     <>
-      <button onClick={() => setModalOpen(true)}>Vaihda kuva</button>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        {selectedImageId === null ? (
+          <div className="flex h-32 w-32 items-center justify-center bg-gray-300 text-lg font-bold">
+            <div>Ei kuvaa</div>
+          </div>
+        ) : selectedImageUrl ? (
+          <Image
+            className="h-32 w-32 object-cover"
+            src={selectedImageUrl}
+            alt=""
+            width={128}
+            height={128}
+          />
+        ) : (
+          <div className="h-32 w-32"></div>
+        )}
+        <button
+          className="rounded-lg bg-white p-2 hover:bg-slate-200"
+          type="button"
+          onClick={() => setModalOpen(true)}
+        >
+          Vaihda kuva
+        </button>
+      </div>
       <Modal open={modalOpen}>
         <div className="flex h-full w-full items-center justify-center">
           <div className="w-full max-w-4xl rounded-lg bg-white p-4">
             <div className="flex max-h-80 flex-wrap gap-2 overflow-y-scroll">
               {allImages.data ? (
-                allImages.data.map((image) => (
+                <>
                   <button
-                    key={image.id}
-                    className="rounded border-4 border-white bg-gray-400 hover:border-gray-500"
+                    className={`rounded border-4 bg-gray-300 ${
+                      !selectedImageId
+                        ? "border-blue-800"
+                        : "border-white hover:border-gray-500"
+                    }`}
+                    disabled={!selectedImageId}
+                    onClick={() => setSelectedImageId(null)}
                   >
-                    <Image
-                      className="h-32 w-32 object-cover"
-                      src={image.smallUrl}
-                      alt=""
-                      width={128}
-                      height={128}
-                    />
+                    <div className="flex h-32 w-32 items-center justify-center text-lg font-bold">
+                      <div>Ei kuvaa</div>
+                    </div>
                   </button>
-                ))
+                  {allImages.data.map((image) => (
+                    <button
+                      key={image.id}
+                      className={`rounded border-4 bg-gray-300 ${
+                        selectedImageId === image.id
+                          ? "border-blue-800"
+                          : "border-white hover:border-gray-500"
+                      }`}
+                      disabled={selectedImageId === image.id}
+                      onClick={() => setSelectedImageId(image.id)}
+                    >
+                      <Image
+                        className="h-32 w-32 object-cover"
+                        src={image.smallUrl}
+                        alt=""
+                        width={128}
+                        height={128}
+                      />
+                    </button>
+                  ))}
+                </>
               ) : (
                 <div className="flex h-64 w-full items-center justify-center">
                   <FontAwesomeIcon icon={faSpinner} pulse size="2x" />

@@ -69,8 +69,8 @@ model Event {
   date        DateTime @db.Date
   visible     Boolean  @default(true)
   contentText String   @map("content_text") @db.VarChar(5000)
-  image_id    String?  @db.VarChar(200)
-  image       Image?   @relation(fields: [image_id], references: [id])
+  imageId     String?  @map("image_id") @db.VarChar(200)
+  image       Image?   @relation(fields: [imageId], references: [id])
 }
 
 model posts {

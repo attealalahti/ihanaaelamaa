@@ -5,15 +5,22 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { type PostProps } from "../content/post";
 import useUnsavedChangesWarning from "../../hooks/use-unsaved-changes-warning";
+import ImageSelector from "../control/image-selector";
 
 export type HandleEventSubmit = (
   data: {
     title: string;
     content: string;
     contentText: string;
+    imageId: string | null;
     date?: string;
   },
-  setNewDefaults: (title: string, content: string, date?: string) => void
+  setNewDefaults: (data: {
+    title: string;
+    content: string;
+    imageId: string | null;
+    date?: string;
+  }) => void
 ) => void;
 
 export type EventFormProps = {
@@ -22,6 +29,7 @@ export type EventFormProps = {
   defaultValues?: {
     title: string;
     content: string;
+    imageId: string | null;
     date?: string;
   };
   isLoading: boolean;
@@ -48,15 +56,22 @@ const EventForm: React.FC<EventFormProps> = ({
   const [defaultDate, setDefaultDate] = useState<string>(
     defaultValues?.date ?? ""
   );
+  const [defaultImageId, setDefaultImageId] = useState<string | null>(
+    defaultValues?.imageId ?? null
+  );
 
   const [title, setTitle] = useState<string>(defaultTitle);
   const [content, setContent] = useState<string>(defaultContent);
   const [date, setDate] = useState<string>(defaultDate);
+  const [imageId, setImageId] = useState<string | null>(defaultImageId);
 
   const quillRef = useRef<ReactQuill>(null);
 
   useUnsavedChangesWarning(
-    title !== defaultTitle || content !== defaultContent || date !== defaultDate
+    title !== defaultTitle ||
+      content !== defaultContent ||
+      date !== defaultDate ||
+      imageId !== defaultImageId
   );
 
   const tooManyCharacters = content.length > 5000;
@@ -80,11 +95,13 @@ const EventForm: React.FC<EventFormProps> = ({
                   title,
                   content,
                   contentText: quillRef.current.getEditor().getText(),
+                  imageId,
                   date,
                 },
-                (title, content, date) => {
+                ({ title, content, date, imageId }) => {
                   setDefaultTitle(title);
                   setDefaultContent(content);
+                  setDefaultImageId(imageId);
                   if (date) setDefaultDate(date);
                 }
               );
@@ -146,7 +163,10 @@ const EventForm: React.FC<EventFormProps> = ({
               />
             </div>
           </div>
-          <div />
+          <ImageSelector
+            selectedImageId={imageId}
+            setSelectedImageId={setImageId}
+          />
           <button
             type="submit"
             className={`rounded-lg border border-white p-2 font-bold ${

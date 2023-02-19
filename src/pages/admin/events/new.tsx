@@ -19,17 +19,17 @@ const NewEvent: NextPage = () => {
   const [navigateBack, setNavigateBack] = useState<boolean>(false);
 
   const handleSubmit: HandleEventSubmit = (
-    { title, content, contentText, date },
+    { title, content, contentText, date, imageId },
     setNewDefaults
   ) => {
     if (!date) throw new Error("Date not found when submitting.");
     create.mutate(
-      { title, content, contentText, date: new Date(date) },
+      { title, content, contentText, date: new Date(date), imageId },
       {
         onSuccess: () => {
           utils.event.all.invalidate();
           utils.auth.unpublishedChanges.invalidate();
-          setNewDefaults(title, content, date);
+          setNewDefaults({ title, content, date, imageId });
           setNavigateBack(true);
         },
       }

@@ -25,7 +25,7 @@ const EditHome: NextPage = () => {
         onSuccess: () => {
           utils.home.invalidate();
           utils.auth.unpublishedChanges.invalidate();
-          setNewDefaults(title, content);
+          setNewDefaults({ title, content, imageId: null });
         },
       }
     );
@@ -40,6 +40,7 @@ const EditHome: NextPage = () => {
           defaultValues={{
             title: home.data.title,
             content: home.data.content,
+            imageId: null,
           }}
           isLoading={update.isLoading}
           hasDate={false}

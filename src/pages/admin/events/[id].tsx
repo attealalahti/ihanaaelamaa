@@ -24,17 +24,17 @@ const EditEvent: NextPage = () => {
   const utils = trpc.useContext();
 
   const handleSubmit: HandleEventSubmit = (
-    { title, content, contentText, date },
+    { title, content, contentText, date, imageId },
     setNewDefaults
   ) => {
     if (!date) throw new Error("Date not found when submitting.");
     update.mutate(
-      { id, title, content, contentText, date: new Date(date) },
+      { id, title, content, contentText, date: new Date(date), imageId },
       {
         onSuccess: () => {
           utils.event.byId.invalidate({ id });
           utils.auth.unpublishedChanges.invalidate();
-          setNewDefaults(title, content, date);
+          setNewDefaults({ title, content, imageId, date });
         },
       }
     );
@@ -49,6 +49,7 @@ const EditEvent: NextPage = () => {
           defaultValues={{
             title: event.data.title,
             content: event.data.content,
+            imageId: event.data.imageId,
             date: dateToYYYYmmdd(event.data.date),
           }}
           isLoading={update.isLoading}
