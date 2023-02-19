@@ -5,24 +5,28 @@ import { toBase64 } from "../../utils/text";
 import Modal from "./modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-
-const Square = () => {
-  return <div className=" h-32 w-32 bg-black"></div>;
-};
+import { trpc } from "../../utils/trpc";
+import Image from "next/image";
 
 const ImageSelector: React.FC = () => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const uploadImage = useMutation(async () => {
-    if (!file) throw new Error("No file selected.");
+  const allImages = trpc.image.all.useQuery();
+  const utils = trpc.useContext();
 
-    const base64 = await toBase64(file);
-    setFile(undefined);
+  const uploadImage = useMutation(
+    async () => {
+      if (!file) throw new Error("No file selected.");
 
-    const res = await axios.post("api/upload-image", { image: base64 });
-    console.log(res.data);
-  });
+      const base64 = await toBase64(file);
+      setFile(undefined);
+
+      const res = await axios.post("api/upload-image", { image: base64 });
+      console.log(res.data);
+    },
+    { onSuccess: () => utils.image.all.invalidate() }
+  );
 
   return (
     <>
@@ -31,14 +35,26 @@ const ImageSelector: React.FC = () => {
         <div className="flex h-full w-full items-center justify-center">
           <div className="w-full max-w-4xl rounded-lg bg-white p-4">
             <div className="flex max-h-80 flex-wrap gap-2 overflow-y-scroll">
-              <Square />
-              <Square />
-              <Square />
-              <Square />
-              <Square />
-              <Square />
-              <Square />
-              <Square />
+              {allImages.data ? (
+                allImages.data.map((image) => (
+                  <button
+                    key={image.id}
+                    className="rounded border-4 border-white bg-gray-400 hover:border-gray-500"
+                  >
+                    <Image
+                      className="h-32 w-32 object-cover"
+                      src={image.smallUrl}
+                      alt=""
+                      width={128}
+                      height={128}
+                    />
+                  </button>
+                ))
+              ) : (
+                <div className="flex h-64 w-full items-center justify-center">
+                  <FontAwesomeIcon icon={faSpinner} pulse size="2x" />
+                </div>
+              )}
             </div>
             <div className="mt-4 grid grid-cols-2">
               <form
