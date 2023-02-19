@@ -3,6 +3,7 @@ import { getServerAuthSession } from "../../server/common/get-server-auth-sessio
 import { v2 as cloudinary } from "cloudinary";
 import { env } from "../../env/server.mjs";
 import z from "zod";
+import { prisma } from "../../server/db/client";
 
 cloudinary.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
@@ -19,7 +20,7 @@ export const config = {
   },
 };
 
-const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
+const uploadImage = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerAuthSession({ req, res });
 
   const image = req.body.image as string;
@@ -30,19 +31,30 @@ const restricted = async (req: NextApiRequest, res: NextApiResponse) => {
   } else if (!parsed.success) {
     res.status(400).send("File missing");
   } else {
-    const resultFull = await cloudinary.uploader.upload(image, {
+    const uploadFull = cloudinary.uploader.upload(image, {
       resource_type: "image",
     });
-    console.log(resultFull);
 
-    const resultSmall = await cloudinary.uploader.upload(image, {
+    const uploadSmall = cloudinary.uploader.upload(image, {
       resource_type: "image",
       transformation: [{ width: 200, height: 200, crop: "limit" }],
     });
-    console.log(resultSmall);
 
-    res.send("done");
+    const [resultFull, resultSmall] = await Promise.all([
+      uploadFull,
+      uploadSmall,
+    ]);
+
+    await prisma.image.create({
+      data: {
+        id: resultFull.public_id,
+        largeUrl: resultFull.secure_url,
+        smallUrl: resultSmall.secure_url,
+      },
+    });
+
+    res.send("Image uploaded successfully.");
   }
 };
 
-export default restricted;
+export default uploadImage;

@@ -69,6 +69,8 @@ model Event {
   date        DateTime @db.Date
   visible     Boolean  @default(true)
   contentText String   @map("content_text") @db.VarChar(5000)
+  image_id    String?  @db.VarChar(200)
+  image       Image?   @relation(fields: [image_id], references: [id])
 }
 
 model posts {
@@ -82,11 +84,18 @@ model UnpublishedChanges {
 }
 
 model Article {
-  id           Int      @id @default(autoincrement())
-  created_at   DateTime @default(now()) @db.Timestamp(0)
-  updated_at   DateTime @default(now()) @db.Timestamp(0)
-  title        String   @db.VarChar(100)
-  content      String   @db.VarChar(5000)
-  visible      Boolean  @default(true)
-  contentText  String   @map("content_text") @db.VarChar(5000)
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
+  title       String   @db.VarChar(100)
+  content     String   @db.VarChar(5000)
+  visible     Boolean  @default(true)
+  contentText String   @map("content_text") @db.VarChar(5000)
+}
+
+model Image {
+  id       String  @id @db.VarChar(200)
+  largeUrl String  @map("large_url") @db.VarChar(200)
+  smallUrl String  @map("small_url") @db.VarChar(200)
+  Event    Event[]
 }
