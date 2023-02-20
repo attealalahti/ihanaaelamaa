@@ -32,7 +32,7 @@ const Post: React.FC<PostProps> = ({ data }) => {
           alt=""
           width={500}
           height={500}
-          className="m-10 bg-gray-300 shadow-md shadow-black"
+          className="m-10"
         />
       ) : (
         <></>

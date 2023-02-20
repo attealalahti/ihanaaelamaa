@@ -94,8 +94,9 @@ model Article {
 }
 
 model Image {
-  id       String  @id @db.VarChar(200)
-  largeUrl String  @map("large_url") @db.VarChar(200)
-  smallUrl String  @map("small_url") @db.VarChar(200)
-  Event    Event[]
+  id         String   @id @db.VarChar(200)
+  url        String   @db.VarChar(200)
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  updated_at DateTime @default(now()) @db.Timestamp(0)
+  Event      Event[]
 }

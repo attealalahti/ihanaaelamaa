@@ -41,7 +41,7 @@ const ImageSelector: React.FC<Props> = ({
 
   const selectedImageUrl = allImages.data?.find(
     (image) => image.id === selectedImageId
-  )?.smallUrl;
+  )?.url;
 
   return (
     <>
@@ -103,7 +103,7 @@ const ImageSelector: React.FC<Props> = ({
                     >
                       <Image
                         className="h-32 w-32 object-cover"
-                        src={image.smallUrl}
+                        src={image.url}
                         alt=""
                         width={128}
                         height={128}

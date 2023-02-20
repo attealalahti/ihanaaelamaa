@@ -79,7 +79,7 @@ const EventForm: React.FC<EventFormProps> = ({
   const previewImageUrl =
     imageId === null
       ? null
-      : allImages.data?.find((image) => image.id === imageId)?.largeUrl;
+      : allImages.data?.find((image) => image.id === imageId)?.url;
 
   const tooManyCharacters = content.length > 5000;
 

@@ -31,26 +31,12 @@ const uploadImage = async (req: NextApiRequest, res: NextApiResponse) => {
   } else if (!parsed.success) {
     res.status(400).send("File missing");
   } else {
-    const uploadFull = cloudinary.uploader.upload(image, {
+    const upload = await cloudinary.uploader.upload(image, {
       resource_type: "image",
     });
-
-    const uploadSmall = cloudinary.uploader.upload(image, {
-      resource_type: "image",
-      transformation: [{ width: 200, height: 200, crop: "limit" }],
-    });
-
-    const [resultFull, resultSmall] = await Promise.all([
-      uploadFull,
-      uploadSmall,
-    ]);
 
     await prisma.image.create({
-      data: {
-        id: resultFull.public_id,
-        largeUrl: resultFull.secure_url,
-        smallUrl: resultSmall.secure_url,
-      },
+      data: { id: upload.public_id, url: upload.secure_url },
     });
 
     res.send("Image uploaded successfully.");

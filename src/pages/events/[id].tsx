@@ -67,7 +67,7 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
           <Post
             data={{
               ...event.data,
-              imageUrl: event.data.image?.largeUrl ?? null,
+              imageUrl: event.data.image?.url ?? null,
             }}
           />
         </main>
