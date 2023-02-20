@@ -122,6 +122,7 @@ const ImageSelector: React.FC<Props> = ({
                 className="flex flex-wrap items-center justify-center gap-2 rounded border border-black p-2 text-xl"
                 onSubmit={async (e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   uploadImage.mutate();
                 }}
               >
