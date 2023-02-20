@@ -56,7 +56,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Page>
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center">
-          {home.data && <HomeContent data={home.data} />}
+          {home.data && <HomeContent data={{ ...home.data, imageUrl: null }} />}
           <div className="flex max-w-4xl flex-col items-center justify-center p-8 text-center text-white">
             <div className="mb-10 flex flex-wrap items-center justify-center gap-20">
               <LinkButton href="/join">Liity jäseneksi!</LinkButton>
