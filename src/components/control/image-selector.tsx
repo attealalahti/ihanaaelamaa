@@ -59,7 +59,9 @@ const ImageSelector: React.FC<Props> = ({
             height={128}
           />
         ) : (
-          <div className="h-32 w-32"></div>
+          <div className="flex h-32 w-32 items-center justify-center">
+            <FontAwesomeIcon icon={faSpinner} color="white" pulse size="2x" />
+          </div>
         )}
         <button
           className="rounded-lg bg-white p-2 hover:bg-slate-200"

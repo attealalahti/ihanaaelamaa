@@ -167,22 +167,24 @@ const EventForm: React.FC<EventFormProps> = ({
             selectedImageId={imageId}
             setSelectedImageId={setImageId}
           />
-          <button
-            type="submit"
-            className={`rounded-lg border border-white p-2 font-bold ${
-              tooManyCharacters
-                ? "bg-gray-300 text-red-600"
-                : "bg-green-400 hover:bg-green-500"
-            }`}
-            disabled={isLoading || tooManyCharacters}
-          >
-            {tooManyCharacters ? "Liian monta merkkiä!" : saveButtonText}
-            {isLoading && (
-              <span className="ml-4">
-                <FontAwesomeIcon icon={faSpinner} pulse />
-              </span>
-            )}
-          </button>
+          <div className="flex items-end">
+            <button
+              type="submit"
+              className={`w-full rounded-lg border border-white p-2 font-bold ${
+                tooManyCharacters
+                  ? "bg-gray-300 text-red-600"
+                  : "bg-green-400 hover:bg-green-500"
+              }`}
+              disabled={isLoading || tooManyCharacters}
+            >
+              {tooManyCharacters ? "Liian monta merkkiä!" : saveButtonText}
+              {isLoading && (
+                <span className="ml-4">
+                  <FontAwesomeIcon icon={faSpinner} pulse />
+                </span>
+              )}
+            </button>
+          </div>
         </form>
       ) : (
         <Preview data={{ title, content, date: new Date(date) }} />
