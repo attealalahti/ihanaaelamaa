@@ -63,8 +63,13 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Page>
         <Header />
         <BackButton href="/events" text="Kaikki tapahtumat" />
-        <main className="flex w-full max-w-4xl flex-1 flex-col">
-          <Post data={event.data} />
+        <main className="flex w-full flex-1 flex-col">
+          <Post
+            data={{
+              ...event.data,
+              imageUrl: event.data.image?.largeUrl ?? null,
+            }}
+          />
         </main>
         <Footer />
       </Page>

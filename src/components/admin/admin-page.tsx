@@ -23,7 +23,7 @@ const AdminPage: React.FC<Props> = ({ children, session, backHref }) => {
       <Page admin>
         <AdminHeader session={session} />
         {backHref && session?.user?.isAdmin && <BackButton href={backHref} />}
-        <main className="flex w-screen flex-1 flex-col items-center justify-center gap-6 p-6 pt-0">
+        <main className="flex w-full flex-1 flex-col items-center gap-6 p-6 pt-0">
           {!session ? (
             <SignedOut />
           ) : !session.user?.isAdmin ? (

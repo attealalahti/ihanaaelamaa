@@ -163,7 +163,9 @@ const AdminEvents: NextPage = () => {
       ) : events.isError ? (
         <div className="text-xl text-white">Error</div>
       ) : (
-        <FontAwesomeIcon icon={faSpinner} size="2x" pulse color="white" />
+        <div className="flex flex-1 items-center justify-center">
+          <FontAwesomeIcon icon={faSpinner} size="2x" pulse color="white" />
+        </div>
       )}
     </AdminPage>
   );

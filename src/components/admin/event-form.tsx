@@ -6,6 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { type PostProps } from "../content/post";
 import useUnsavedChangesWarning from "../../hooks/use-unsaved-changes-warning";
 import ImageSelector from "../control/image-selector";
+import { trpc } from "../../utils/trpc";
 
 export type HandleEventSubmit = (
   data: {
@@ -74,19 +75,25 @@ const EventForm: React.FC<EventFormProps> = ({
       imageId !== defaultImageId
   );
 
+  const allImages = trpc.image.all.useQuery();
+  const previewImageUrl =
+    imageId === null
+      ? null
+      : allImages.data?.find((image) => image.id === imageId)?.largeUrl;
+
   const tooManyCharacters = content.length > 5000;
 
   return (
-    <div className="w-full max-w-4xl">
+    <div className="flex h-full w-full flex-col items-center">
       <button
-        className="relative m-4 rounded-lg border border-white bg-blue-600 p-3 px-6 text-lg font-bold text-white hover:bg-blue-700"
+        className="relative m-4 self-start rounded-lg border border-white bg-blue-600 p-3 px-6 text-lg font-bold text-white hover:bg-blue-700"
         onClick={() => setShowPreview((value) => !value)}
       >
         {showPreview ? "Näytä muokkausnäkymä" : "Näytä esikatselu"}
       </button>
       {!showPreview ? (
         <form
-          className="grid w-full gap-4 text-lg lg:grid-cols-2 lg:text-xl"
+          className="grid w-full max-w-4xl gap-4 text-lg lg:grid-cols-2 lg:text-xl"
           onSubmit={(e) => {
             e.preventDefault();
             if (quillRef.current) {
@@ -187,7 +194,14 @@ const EventForm: React.FC<EventFormProps> = ({
           </div>
         </form>
       ) : (
-        <Preview data={{ title, content, date: new Date(date) }} />
+        <Preview
+          data={{
+            title,
+            content,
+            date: new Date(date),
+            imageUrl: previewImageUrl,
+          }}
+        />
       )}
     </div>
   );

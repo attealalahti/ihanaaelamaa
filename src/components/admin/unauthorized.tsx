@@ -7,7 +7,7 @@ type Props = {
 
 const Unauthorized: React.FC<Props> = ({ session }) => {
   return (
-    <>
+    <div className="flex flex-1 flex-col items-center justify-center gap-6">
       <div className="p-2 text-xl text-white">
         Kirjauduttu sisään nimellä {session.user?.name}
       </div>
@@ -20,7 +20,7 @@ const Unauthorized: React.FC<Props> = ({ session }) => {
       >
         Kirjaudu ulos
       </button>
-    </>
+    </div>
   );
 };
 

@@ -45,6 +45,7 @@ export const eventRouter = router({
     .query(async ({ ctx, input }) => {
       const event = await ctx.prisma.event.findFirst({
         where: { id: input.id, visible: true },
+        include: { image: true },
       });
       if (!event) throw new TRPCError({ code: "NOT_FOUND" });
       return event;
