@@ -6,7 +6,7 @@ import type { EventFormProps } from "./event-form";
 const EventForm = dynamic(() => import("./event-form"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex w-full flex-1 items-center justify-center">
       <FontAwesomeIcon icon={faSpinner} pulse size="2x" color="white" />
     </div>
   ),
