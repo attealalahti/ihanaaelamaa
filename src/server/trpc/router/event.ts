@@ -28,7 +28,7 @@ export const eventRouter = router({
         content: z.string(),
         contentText: z.string(),
         date: z.date(),
-        imageId: z.string().nullish(),
+        imageId: z.string().nullable(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -67,7 +67,7 @@ export const eventRouter = router({
         content: z.string(),
         contentText: z.string(),
         date: z.date(),
-        imageId: z.string().nullish(),
+        imageId: z.string().nullable(),
       })
     )
     .mutation(async ({ ctx, input }) => {

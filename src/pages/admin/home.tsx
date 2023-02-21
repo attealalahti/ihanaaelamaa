@@ -16,11 +16,11 @@ const EditHome: NextPage = () => {
   const utils = trpc.useContext();
 
   const handleSubmit: HandleEventSubmit = (
-    { title, content, contentText },
+    { title, content, contentText, imageId },
     setNewDefaults
   ) => {
     update.mutate(
-      { title, content, contentText },
+      { title, content, contentText, imageId },
       {
         onSuccess: () => {
           utils.home.invalidate();

@@ -25,7 +25,7 @@ const Post: React.FC<PostProps> = ({ data }) => {
         </div>
       </div>
       {data.imageUrl === undefined ? (
-        <div className="m-10 h-64 w-64 bg-gray-300 shadow-md shadow-black" />
+        <div className="m-10 h-[500px] w-[500px] bg-gray-300" />
       ) : data.imageUrl !== null ? (
         <Image
           src={data.imageUrl}

@@ -10,6 +10,7 @@ export const homeRouter = router({
   get: publicProcedure.query(async ({ ctx }) => {
     const homePage = await ctx.prisma.article.findFirst({
       where: { id: HOME_ARTICLE_ID },
+      include: { image: true },
     });
     if (!homePage)
       throw new TRPCError({
@@ -24,6 +25,7 @@ export const homeRouter = router({
         title: z.string(),
         content: z.string(),
         contentText: z.string(),
+        imageId: z.string().nullable(),
       })
     )
     .mutation(async ({ ctx, input }) => {
