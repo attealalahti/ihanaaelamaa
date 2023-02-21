@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { toBase64 } from "../../utils/text";
@@ -21,6 +21,8 @@ const ImageSelector: React.FC<Props> = ({
   const [file, setFile] = useState<File | undefined>(undefined);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const allImages = trpc.image.all.useQuery();
   const utils = trpc.useContext();
 
@@ -36,7 +38,14 @@ const ImageSelector: React.FC<Props> = ({
       });
       console.log(res.data);
     },
-    { onSuccess: () => utils.image.all.invalidate() }
+    {
+      onSuccess: () => utils.image.all.invalidate(),
+      onSettled: () => {
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+      },
+    }
   );
 
   const selectedImageUrl = allImages.data?.find(
@@ -127,6 +136,7 @@ const ImageSelector: React.FC<Props> = ({
                 }}
               >
                 <input
+                  ref={fileInputRef}
                   type="file"
                   accept=".png,.jpg,.jpeg,.webp"
                   required={true}
@@ -134,6 +144,9 @@ const ImageSelector: React.FC<Props> = ({
                     if (e.target.files) setFile(e.target.files[0]);
                   }}
                 />
+                {uploadImage.isError && (
+                  <div className="font-bold text-red-600">Tapahtui virhe</div>
+                )}
                 <button
                   type="submit"
                   className={`w-full rounded p-2 text-white ${
@@ -161,6 +174,7 @@ const ImageSelector: React.FC<Props> = ({
                   onClick={() => {
                     setModalOpen(false);
                     setFile(undefined);
+                    uploadImage.reset();
                   }}
                   disabled={uploadImage.isLoading}
                 >
