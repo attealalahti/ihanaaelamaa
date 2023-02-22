@@ -1,6 +1,7 @@
 import { router, protectedProcedure } from "../trpc";
 import z from "zod";
 import cloudinary from "../../common/cloudinary";
+import { UNPUBLISHED_CHANGES_ID } from "../../../utils/constants";
 
 export const imageRouter = router({
   all: protectedProcedure.query(({ ctx }) => {
@@ -19,6 +20,10 @@ export const imageRouter = router({
           data: { imageId: null },
         }),
         ctx.prisma.image.delete({ where: { id: input.imageId } }),
+        ctx.prisma.unpublishedChanges.update({
+          where: { id: UNPUBLISHED_CHANGES_ID },
+          data: { value: true },
+        }),
       ]);
 
       await cloudinary.uploader.destroy(input.imageId);
