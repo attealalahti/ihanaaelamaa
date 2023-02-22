@@ -6,7 +6,8 @@ export default function Document() {
       <Head />
       <body>
         <Main />
-        <div id="portal" />
+        <div id="portal1" />
+        <div id="portal2" />
         <NextScript />
       </body>
     </Html>

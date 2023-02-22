@@ -40,7 +40,7 @@ const EditHome: NextPage = () => {
           defaultValues={{
             title: home.data.title,
             content: home.data.content,
-            imageId: null,
+            imageId: home.data.imageId,
           }}
           isLoading={update.isLoading}
           hasDate={false}

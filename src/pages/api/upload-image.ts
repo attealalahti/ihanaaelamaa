@@ -1,16 +1,8 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { getServerAuthSession } from "../../server/common/get-server-auth-session";
-import { v2 as cloudinary } from "cloudinary";
-import { env } from "../../env/server.mjs";
 import z from "zod";
 import { prisma } from "../../server/db/client";
-
-cloudinary.config({
-  cloud_name: env.CLOUDINARY_CLOUD_NAME,
-  api_key: env.CLOUDINARY_API_KEY,
-  api_secret: env.CLOUDINARY_API_SECRET,
-  secure: true,
-});
+import cloudinary from "../../server/common/cloudinary";
 
 export const config = {
   api: {
