@@ -70,6 +70,14 @@ const AdminHeader: React.FC<Props> = ({ session }) => {
             <span className="w-screen p-2 md:w-auto">{session.user?.name}</span>
           </li>
           <li className="flex md:items-center md:justify-center">
+            <Link
+              href="/admin/privileges"
+              className="mb-3 w-screen rounded-xl bg-white p-2 text-center text-black hover:bg-slate-200 md:mb-0 md:w-auto"
+            >
+              Muokkausoikeudet
+            </Link>
+          </li>
+          <li className="flex md:items-center md:justify-center">
             <button
               className="w-screen rounded-xl bg-white p-2 text-black hover:bg-slate-200 md:w-auto"
               onClick={() => signOut()}
