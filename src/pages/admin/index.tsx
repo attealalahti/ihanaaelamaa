@@ -39,6 +39,12 @@ const AdminHome: NextPage = () => {
           Kotisivu
         </Link>
         <Link
+          href="/admin/join"
+          className="rounded-xl bg-white p-4 text-2xl text-black hover:bg-slate-200"
+        >
+          Liity-sivu
+        </Link>
+        <Link
           href="/admin/events"
           className="rounded-xl bg-white p-4 text-2xl text-black hover:bg-slate-200"
         >

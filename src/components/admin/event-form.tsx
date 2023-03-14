@@ -198,7 +198,7 @@ const EventForm: React.FC<EventFormProps> = ({
           data={{
             title,
             content,
-            date: new Date(date),
+            date: date === "" ? undefined : new Date(date),
             imageUrl: previewImageUrl,
           }}
         />

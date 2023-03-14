@@ -1,12 +1,36 @@
-import { type NextPage } from "next";
+import type { InferGetStaticPropsType, NextPage } from "next";
 import Header from "../components/layout/header";
-import Image from "next/image";
-import joinImage from "../../public/images/liity.jpg";
 import Head from "next/head";
 import Footer from "../components/layout/footer";
 import Page from "../components/layout/page";
+import Post from "../components/content/post";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { appRouter } from "../server/trpc/router/_app";
+import { createContext } from "../server/trpc/context";
+import superjson from "superjson";
+import { trpc } from "../utils/trpc";
+import Custom404 from "../components/layout/custom-404";
 
-const Join: NextPage = () => {
+export const getStaticProps = async () => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContext(),
+    transformer: superjson,
+  });
+
+  await ssg.join.get.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};
+
+const Join: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = () => {
+  const join = trpc.join.get.useQuery(undefined, { enabled: false });
+
+  if (!join.data) return <Custom404 />;
   return (
     <>
       <Head>
@@ -16,61 +40,9 @@ const Join: NextPage = () => {
       </Head>
       <Page>
         <Header />
-        <main className="flex flex-1 flex-wrap items-center justify-center">
-          <div className="m-10 flex max-w-4xl flex-col gap-10 text-white md:gap-16">
-            <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">
-              Liity IE Burleskipoppoon jäseneksi!
-            </h1>
-            <div className="flex flex-col gap-6 text-lg lg:text-xl">
-              <p>
-                Ihanaa Elämää ry on yhdistys, jonka alun perin perusti suurehko
-                kaveriporukka ympäri Suomen, jotka haluavat tarjota mielekästä
-                ja hauskaa vapaa-ajan tekemistä aikuisikäisille.
-              </p>
-              <p>
-                IE Burleskipoppoo on osa yhdistyksen toimintaa ja
-                puuhahenkilöidensä kotipaikan mukaan vaikuttaa eniten
-                Etelä-Pohjanmaalla, mutta tokikaan toiminta muuallakaan päin
-                Suomea ei ole poissuljettu.
-              </p>
-              <p>
-                Pyrimme jatkossa järkeistämään IE Burleskipoppoon toimintaa
-                siten, että tiedämme aidosti jäsenemme ja suuntaamme toimintaa
-                heille. Siksi pyydämmekin sinua liittymään IE
-                Burleskipoppooseen. Burleskipoppoo toimii itsenäisenä
-                alaosastona Ihanaa Elämää ry:ssä ja sen myötä jäsenyys IE
-                Burleskipoppoossa tarkoittaa kannatusjäsenyyttä Ihanaa Elämää
-                ry:ssä. Myös IE Burleskipoppoon infokirje postitetaan jatkossa
-                vain jäsenille.
-              </p>
-            </div>
-            <h2 className="text-xl font-bold lg:text-2xl">
-              Yksityishenkilön kannatusjäsenyys maksaa 5 euroa vuonna 2022.
-            </h2>
-            <div className="flex flex-col gap-6 text-lg lg:text-xl">
-              <p className="font-bold">
-                Jos haluat liittyä IE Burleskipoppooseen, toimi näin:
-              </p>
-              <p>
-                1) Täytä jäsentietolomake tästä linkistä{" "}
-                <a
-                  href="https://forms.gle/mpbTfS9tzJ2yLFav6"
-                  className="text-blue-300 hover:underline"
-                >
-                  https://forms.gle/mpbTfS9tzJ2yLFav6
-                </a>
-              </p>
-              <p>
-                2) Lähetämme sinulle tiedot kannatusjäsenmaksun maksamista
-                varten.
-              </p>
-            </div>
-          </div>
-          <Image
-            src={joinImage}
-            alt="Tule mukaan kannattajajäseneksi, vuosimaksu 5 euroa - no, mitä sillä saa? Jäsenemme ovat etusijalla Burleski-iltojen esiintyjävalinnoissa! Jäsenille tarjoamme mm. alennuksia työpajoista. Jäsenenä olet postituslistoillamme ja tiedät ensimmäisenä, mitä tapahtuu."
-            width={500}
-            className="m-10 shadow-md shadow-black"
+        <main className="flex w-full flex-1 flex-col">
+          <Post
+            data={{ ...join.data, imageUrl: join.data.image?.url ?? null }}
           />
         </main>
         <Footer />

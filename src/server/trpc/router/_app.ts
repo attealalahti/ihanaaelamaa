@@ -4,6 +4,7 @@ import { eventRouter } from "./event";
 import { exampleRouter } from "./example";
 import { homeRouter } from "./home";
 import { imageRouter } from "./image";
+import { joinRouter } from "./join";
 
 export const appRouter = router({
   example: exampleRouter,
@@ -11,6 +12,7 @@ export const appRouter = router({
   event: eventRouter,
   home: homeRouter,
   image: imageRouter,
+  join: joinRouter,
 });
 
 // export type definition of API
