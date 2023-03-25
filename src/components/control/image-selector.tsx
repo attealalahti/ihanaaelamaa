@@ -1,6 +1,4 @@
 import { useRef, useState } from "react";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
 import { toBase64 } from "../../utils/text";
 import Modal from "./modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,29 +28,24 @@ const ImageSelector: React.FC<Props> = ({
   const deleteImageMutation = trpc.image.delete.useMutation();
   const utils = trpc.useContext();
 
-  const uploadImage = useMutation(
-    async () => {
-      if (!file) throw new Error("No file selected.");
+  const addImage = trpc.image.add.useMutation();
 
-      const base64 = await toBase64(file);
-      setFile(undefined);
-
-      await axios.post(
-        `${process.env.URL ?? "http://localhost:3000"}/api/upload-image`,
-        {
-          image: base64,
-        }
-      );
-    },
-    {
-      onSuccess: () => utils.image.all.invalidate(),
-      onSettled: () => {
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
-        }
-      },
-    }
-  );
+  const uploadImage = async () => {
+    if (!file) return;
+    const base64 = await toBase64(file);
+    setFile(undefined);
+    addImage.mutate(
+      { image: base64 },
+      {
+        onSuccess: () => utils.image.all.invalidate(),
+        onSettled: () => {
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
+        },
+      }
+    );
+  };
 
   const deleteImage = (imageId: string) => {
     deleteImageMutation.mutate(
@@ -163,7 +156,7 @@ const ImageSelector: React.FC<Props> = ({
                 onSubmit={async (e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  uploadImage.mutate();
+                  await uploadImage();
                 }}
               >
                 <input
@@ -176,20 +169,20 @@ const ImageSelector: React.FC<Props> = ({
                     if (e.target.files) setFile(e.target.files[0]);
                   }}
                 />
-                {uploadImage.isError && (
+                {addImage.isError && (
                   <div className="font-bold text-red-600">Tapahtui virhe</div>
                 )}
                 <button
                   type="submit"
                   className={`w-full rounded p-2 text-white ${
-                    !file || uploadImage.isLoading
+                    !file || addImage.isLoading
                       ? "bg-gray-400"
                       : "bg-green-700 hover:bg-green-800"
                   }`}
-                  disabled={!file || uploadImage.isLoading}
+                  disabled={!file || addImage.isLoading}
                 >
                   Lisää kuva
-                  {uploadImage.isLoading && (
+                  {addImage.isLoading && (
                     <span className="ml-2">
                       <FontAwesomeIcon icon={faSpinner} pulse color="white" />
                     </span>
@@ -199,16 +192,16 @@ const ImageSelector: React.FC<Props> = ({
               <div className="flex items-end justify-end">
                 <button
                   className={`rounded-lg p-3 px-6 text-xl text-white ${
-                    uploadImage.isLoading
+                    addImage.isLoading
                       ? "bg-gray-400"
                       : "bg-green-700 hover:bg-green-800"
                   }`}
                   onClick={() => {
                     setImageSelectModalOpen(false);
                     setFile(undefined);
-                    uploadImage.reset();
+                    addImage.reset();
                   }}
-                  disabled={uploadImage.isLoading}
+                  disabled={addImage.isLoading}
                 >
                   Valmis
                 </button>

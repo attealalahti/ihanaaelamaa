@@ -4,6 +4,17 @@ import cloudinary from "../../common/cloudinary";
 import { UNPUBLISHED_CHANGES_ID } from "../../../utils/constants";
 
 export const imageRouter = router({
+  add: protectedProcedure
+    .input(z.object({ image: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const upload = await cloudinary.uploader.upload(input.image, {
+        resource_type: "image",
+      });
+
+      await ctx.prisma.image.create({
+        data: { id: upload.public_id, url: upload.secure_url },
+      });
+    }),
   all: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.image.findMany({ orderBy: { created_at: "asc" } });
   }),
