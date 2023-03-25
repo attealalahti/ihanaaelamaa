@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { trpc } from "../../utils/trpc";
 import Image from "next/image";
-import { env } from "../../env/client.mjs";
 
 type Props = {
   selectedImageId: string | null;
@@ -38,9 +37,12 @@ const ImageSelector: React.FC<Props> = ({
       const base64 = await toBase64(file);
       setFile(undefined);
 
-      await axios.post(`${env.NEXT_PUBLIC_URL}/api/upload-image`, {
-        image: base64,
-      });
+      await axios.post(
+        `${process.env.URL ?? "http://localhost:3000"}/api/upload-image`,
+        {
+          image: base64,
+        }
+      );
     },
     {
       onSuccess: () => utils.image.all.invalidate(),
