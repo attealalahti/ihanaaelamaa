@@ -43,5 +43,5 @@ export const clientSchema = z.object({
  * @type {{ [k in keyof z.infer<typeof clientSchema>]: z.infer<typeof clientSchema>[k] | undefined }}
  */
 export const clientEnv = {
-  NEXT_PUBLIC_URL: process.env.URL ?? "http://localhost:3000",
+  NEXT_PUBLIC_URL: process.env.PUBLIC_URL ?? "http://localhost:3000",
 };
