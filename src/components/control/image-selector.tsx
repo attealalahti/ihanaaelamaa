@@ -89,7 +89,7 @@ const ImageSelector: React.FC<Props> = ({
           </div>
         )}
         <button
-          className="rounded-lg bg-white p-2 hover:bg-slate-200"
+          className="rounded-lg bg-white p-2 text-lg hover:bg-slate-200"
           type="button"
           onClick={() => setImageSelectModalOpen(true)}
         >

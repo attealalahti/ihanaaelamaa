@@ -50,6 +50,12 @@ const AdminHome: NextPage = () => {
         >
           Tapahtumat
         </Link>
+        <Link
+          href="/admin/sponsors"
+          className="rounded-xl bg-white p-4 text-2xl text-black hover:bg-slate-200"
+        >
+          Sponsorit
+        </Link>
         <button
           className={`rounded-xl p-4 text-2xl text-white  ${
             publishButtonEnabled || build.isLoading
