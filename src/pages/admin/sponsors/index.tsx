@@ -1,4 +1,4 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
@@ -32,19 +32,24 @@ const Sponsors: NextPage = () => {
           {data.map((sponsor, index) => (
             <div
               key={index}
-              className={`grid grid-cols-2 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
+              className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
                 index === 0 ? "rounded-t-lg" : "border-t border-slate-400"
               } ${index === data.length - 1 ? "rounded-b-lg" : ""}`}
             >
               <Link
                 href={`/admin/sponsors/${sponsor}`}
-                className="grid grid-flow-row grid-cols-2 gap-3 p-2"
+                className="grid grid-flow-col grid-cols-1 gap-3 p-2"
               >
-                <div className="">{sponsor}</div>
+                <div className="my-auto overflow-clip">{sponsor}</div>
                 <Image src={facebookLogo} width={40} height={40} alt="" />
               </Link>
               <div className="grid grid-flow-col">
-                <button>Delete</button>
+                <button className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                  <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base lg:group-hover:inline">
+                    Poista
+                  </span>
+                  <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                </button>
               </div>
             </div>
           ))}
