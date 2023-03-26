@@ -9,11 +9,13 @@ import Image from "next/image";
 type Props = {
   selectedImageId: string | null;
   setSelectedImageId: (id: string | null) => void;
+  isSponsor: boolean;
 };
 
 const ImageSelector: React.FC<Props> = ({
   selectedImageId,
   setSelectedImageId,
+  isSponsor,
 }) => {
   const [file, setFile] = useState<File | undefined>(undefined);
   const [imageSelectModalOpen, setImageSelectModalOpen] =
@@ -24,7 +26,7 @@ const ImageSelector: React.FC<Props> = ({
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const allImages = trpc.image.all.useQuery();
+  const allImages = trpc.image.byIsSponsor.useQuery({ isSponsor });
   const deleteImageMutation = trpc.image.delete.useMutation();
   const utils = trpc.useContext();
 
@@ -35,9 +37,9 @@ const ImageSelector: React.FC<Props> = ({
     const base64 = await toBase64(file);
     setFile(undefined);
     addImage.mutate(
-      { image: base64 },
+      { image: base64, isSponsor },
       {
-        onSuccess: () => utils.image.all.invalidate(),
+        onSuccess: () => utils.image.byIsSponsor.invalidate(),
         onSettled: () => {
           if (fileInputRef.current) {
             fileInputRef.current.value = "";
@@ -52,7 +54,7 @@ const ImageSelector: React.FC<Props> = ({
       { imageId },
       {
         onSuccess: () => {
-          utils.image.all.setData((previous) =>
+          utils.image.byIsSponsor.setData((previous) =>
             previous?.filter((image) => image.id !== imageId)
           );
           if (selectedImageId === imageId) {

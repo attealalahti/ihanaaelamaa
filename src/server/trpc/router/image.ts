@@ -5,19 +5,28 @@ import { UNPUBLISHED_CHANGES_ID } from "../../../utils/constants";
 
 export const imageRouter = router({
   add: protectedProcedure
-    .input(z.object({ image: z.string() }))
+    .input(z.object({ image: z.string(), isSponsor: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
       const upload = await cloudinary.uploader.upload(input.image, {
         resource_type: "image",
       });
 
       await ctx.prisma.image.create({
-        data: { id: upload.public_id, url: upload.secure_url },
+        data: {
+          id: upload.public_id,
+          url: upload.secure_url,
+          isSponsor: input.isSponsor,
+        },
       });
     }),
-  all: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.image.findMany({ orderBy: { created_at: "asc" } });
-  }),
+  byIsSponsor: protectedProcedure
+    .input(z.object({ isSponsor: z.boolean() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.image.findMany({
+        where: { isSponsor: input.isSponsor },
+        orderBy: { created_at: "asc" },
+      });
+    }),
   delete: protectedProcedure
     .input(z.object({ imageId: z.string() }))
     .mutation(async ({ ctx, input }) => {

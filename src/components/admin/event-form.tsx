@@ -75,7 +75,7 @@ const EventForm: React.FC<EventFormProps> = ({
       imageId !== defaultImageId
   );
 
-  const allImages = trpc.image.all.useQuery();
+  const allImages = trpc.image.byIsSponsor.useQuery({ isSponsor: false });
   const previewImageUrl =
     imageId === null
       ? null
@@ -173,6 +173,7 @@ const EventForm: React.FC<EventFormProps> = ({
           <ImageSelector
             selectedImageId={imageId}
             setSelectedImageId={setImageId}
+            isSponsor={false}
           />
           <div className="flex items-end">
             <button
