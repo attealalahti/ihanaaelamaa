@@ -25,7 +25,7 @@ const NewSponsor: NextPage = () => {
       { imageId, link },
       {
         onSuccess: () => {
-          //utils.sponsor.all.invalidate();
+          utils.sponsor.all.invalidate();
           utils.auth.unpublishedChanges.invalidate();
           setNewDefaults({ imageId, link });
           navigateBack();

@@ -1,4 +1,4 @@
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure, publicProcedure } from "../trpc";
 import z from "zod";
 import { UNPUBLISHED_CHANGES_ID } from "../../../utils/constants";
 
@@ -14,4 +14,7 @@ export const sponsorRouter = router({
         }),
       ]);
     }),
+  all: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.sponsor.findMany({ include: { image: true } });
+  }),
 });

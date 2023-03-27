@@ -1,20 +1,20 @@
-import { faPlus, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faSpinner,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import AdminPage from "../../../components/admin/admin-page";
-import facebookLogo from "../../../../public/images/facebook_logo.svg";
+import { trpc } from "../../../utils/trpc";
 
 const Sponsors: NextPage = () => {
   const { data: session } = useSession();
 
-  const selectImageById = () => {
-    return;
-  };
-
-  const data = [1, 2, 3];
+  const sponsors = trpc.sponsor.all.useQuery();
 
   return (
     <AdminPage session={session} backHref="/admin">
@@ -29,30 +29,36 @@ const Sponsors: NextPage = () => {
           </span>
         </Link>
         <div className="w-screen max-w-4xl p-4">
-          {data.map((sponsor, index) => (
-            <div
-              key={index}
-              className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
-                index === 0 ? "rounded-t-lg" : "border-t border-slate-400"
-              } ${index === data.length - 1 ? "rounded-b-lg" : ""}`}
-            >
-              <Link
-                href={`/admin/sponsors/${sponsor}`}
-                className="grid grid-flow-col grid-cols-1 gap-3 p-2"
+          {sponsors.data ? (
+            sponsors.data.map(({ id, image, link }, index) => (
+              <div
+                key={index}
+                className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
+                  index === 0 ? "rounded-t-lg" : "border-t border-slate-400"
+                } ${index === sponsors.data.length - 1 ? "rounded-b-lg" : ""}`}
               >
-                <div className="my-auto overflow-clip">{sponsor}</div>
-                <Image src={facebookLogo} width={40} height={40} alt="" />
-              </Link>
-              <div className="grid grid-flow-col">
-                <button className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
-                  <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base lg:group-hover:inline">
-                    Poista
-                  </span>
-                  <FontAwesomeIcon icon={faTrashCan} size="lg" />
-                </button>
+                <Link
+                  href={`/admin/sponsors/${id}`}
+                  className="grid grid-flow-col grid-cols-1 gap-3 p-2"
+                >
+                  <div className="my-auto overflow-clip">{link}</div>
+                  <Image src={image.url} width={40} height={40} alt="" />
+                </Link>
+                <div className="grid grid-flow-col">
+                  <button className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100">
+                    <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base lg:group-hover:inline">
+                      Poista
+                    </span>
+                    <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                  </button>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="flex items-center justify-center">
+              <FontAwesomeIcon icon={faSpinner} pulse size="2x" />
             </div>
-          ))}
+          )}
         </div>
       </div>
     </AdminPage>
