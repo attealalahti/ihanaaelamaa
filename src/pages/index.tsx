@@ -27,6 +27,7 @@ export const getStaticProps = async () => {
 
   await ssg.event.future.prefetch({ today: new Date(todayString) });
   await ssg.home.get.prefetch();
+  await ssg.sponsor.all.prefetch();
 
   return {
     props: {

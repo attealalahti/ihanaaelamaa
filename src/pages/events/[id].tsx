@@ -26,8 +26,12 @@ export const getStaticProps = async (
     ctx: await createContext(),
     transformer: superjson,
   });
+
   const id = Number(context.params?.id);
+
   await ssg.event.byIdVisible.prefetch({ id });
+  await ssg.sponsor.all.prefetch();
+
   return {
     props: {
       trpcState: ssg.dehydrate(),

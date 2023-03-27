@@ -7,6 +7,26 @@ import instagramIcon from "../../public/images/instagram_logo.svg";
 import facebookIcon from "../../public/images/facebook_logo.svg";
 import Footer from "../components/layout/footer";
 import Page from "../components/layout/page";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { appRouter } from "../server/trpc/router/_app";
+import superjson from "superjson";
+import { createContext } from "../server/trpc/context";
+
+export const getStaticProps = async () => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContext(),
+    transformer: superjson,
+  });
+
+  await ssg.sponsor.all.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};
 
 const Contact: NextPage = () => {
   return (

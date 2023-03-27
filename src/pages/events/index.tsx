@@ -16,7 +16,10 @@ export const getStaticProps = async () => {
     ctx: await createContext(),
     transformer: superjson,
   });
+
   await ssg.event.visible.prefetch();
+  await ssg.sponsor.all.prefetch();
+
   return {
     props: {
       trpcState: ssg.dehydrate(),

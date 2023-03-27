@@ -19,6 +19,7 @@ export const getStaticProps = async () => {
   });
 
   await ssg.join.get.prefetch();
+  await ssg.sponsor.all.prefetch();
 
   return {
     props: {
