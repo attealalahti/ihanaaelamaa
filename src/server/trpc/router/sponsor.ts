@@ -17,4 +17,15 @@ export const sponsorRouter = router({
   all: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.sponsor.findMany({ include: { image: true } });
   }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.$transaction([
+        ctx.prisma.sponsor.delete({ where: { id: input.id } }),
+        ctx.prisma.unpublishedChanges.update({
+          where: { id: UNPUBLISHED_CHANGES_ID },
+          data: { value: true },
+        }),
+      ]);
+    }),
 });
