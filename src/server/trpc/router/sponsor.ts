@@ -1,6 +1,7 @@
 import { router, protectedProcedure, publicProcedure } from "../trpc";
 import z from "zod";
 import { UNPUBLISHED_CHANGES_ID } from "../../../utils/constants";
+import { TRPCError } from "@trpc/server";
 
 export const sponsorRouter = router({
   create: protectedProcedure
@@ -22,6 +23,32 @@ export const sponsorRouter = router({
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.$transaction([
         ctx.prisma.sponsor.delete({ where: { id: input.id } }),
+        ctx.prisma.unpublishedChanges.update({
+          where: { id: UNPUBLISHED_CHANGES_ID },
+          data: { value: true },
+        }),
+      ]);
+    }),
+  byId: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const sponsor = await ctx.prisma.sponsor.findFirst({
+        where: { id: input.id },
+      });
+      if (!sponsor) throw new TRPCError({ code: "NOT_FOUND" });
+      return sponsor;
+    }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        imageId: z.string(),
+        link: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.$transaction([
+        ctx.prisma.sponsor.update({ where: { id: input.id }, data: input }),
         ctx.prisma.unpublishedChanges.update({
           where: { id: UNPUBLISHED_CHANGES_ID },
           data: { value: true },

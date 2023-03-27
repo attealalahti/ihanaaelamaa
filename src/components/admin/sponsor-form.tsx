@@ -52,7 +52,7 @@ const SponsorForm: React.FC<Props> = ({
       }}
     >
       <div className="flex items-center justify-center">
-        <div className="flex w-full flex-col text-lg">
+        <div className="flex w-full flex-col text-xl">
           <label htmlFor="link" className="text-white">
             Linkki:
           </label>
