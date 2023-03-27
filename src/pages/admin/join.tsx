@@ -2,8 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import AdminPage from "../../components/admin/admin-page";
-import DynamicEventForm from "../../components/admin/dynamic-event-form";
-import { type HandleEventSubmit } from "../../components/admin/event-form";
+import DynamicPostForm from "../../components/admin/dynamic-post-form";
+import { type HandleEventSubmit } from "../../components/admin/post-form";
 import { trpc } from "../../utils/trpc";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Post from "../../components/content/post";
@@ -34,7 +34,7 @@ const EditJoin: NextPage = () => {
   return (
     <AdminPage session={session} backHref="/admin">
       {join.data ? (
-        <DynamicEventForm
+        <DynamicPostForm
           handleSubmit={handleSubmit}
           saveButtonText="Tallenna"
           defaultValues={{

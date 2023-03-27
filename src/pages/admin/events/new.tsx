@@ -2,8 +2,8 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import AdminPage from "../../../components/admin/admin-page";
 import { trpc } from "../../../utils/trpc";
-import DynamicEventForm from "../../../components/admin/dynamic-event-form";
-import { type HandleEventSubmit } from "../../../components/admin/event-form";
+import DynamicPostForm from "../../../components/admin/dynamic-post-form";
+import { type HandleEventSubmit } from "../../../components/admin/post-form";
 import Post from "../../../components/content/post";
 import useNavigateAfterRender from "../../../hooks/use-navigate-after-render";
 
@@ -37,7 +37,7 @@ const NewEvent: NextPage = () => {
 
   return (
     <AdminPage session={session} backHref="/admin/events">
-      <DynamicEventForm
+      <DynamicPostForm
         handleSubmit={handleSubmit}
         saveButtonText="Luo tapahtuma"
         isLoading={create.isLoading}

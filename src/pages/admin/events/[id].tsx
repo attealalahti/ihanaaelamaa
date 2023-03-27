@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import AdminPage from "../../../components/admin/admin-page";
 import { trpc } from "../../../utils/trpc";
-import DynamicEventForm from "../../../components/admin/dynamic-event-form";
-import { type HandleEventSubmit } from "../../../components/admin/event-form";
+import DynamicPostForm from "../../../components/admin/dynamic-post-form";
+import { type HandleEventSubmit } from "../../../components/admin/post-form";
 import Post from "../../../components/content/post";
 import { dateToYYYYmmdd } from "../../../utils/text";
 
@@ -43,7 +43,7 @@ const EditEvent: NextPage = () => {
   return (
     <AdminPage session={session} backHref="/admin/events">
       {event.data ? (
-        <DynamicEventForm
+        <DynamicPostForm
           handleSubmit={handleSubmit}
           saveButtonText="Tallenna"
           defaultValues={{

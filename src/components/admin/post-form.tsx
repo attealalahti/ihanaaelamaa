@@ -24,7 +24,7 @@ export type HandleEventSubmit = (
   }) => void
 ) => void;
 
-export type EventFormProps = {
+export type PostFormProps = {
   handleSubmit: HandleEventSubmit;
   saveButtonText: string;
   defaultValues?: {
@@ -38,7 +38,7 @@ export type EventFormProps = {
   Preview: React.FC<PostProps>;
 };
 
-const EventForm: React.FC<EventFormProps> = ({
+const PostForm: React.FC<PostFormProps> = ({
   handleSubmit,
   saveButtonText,
   defaultValues,
@@ -208,4 +208,4 @@ const EventForm: React.FC<EventFormProps> = ({
   );
 };
 
-export default EventForm;
+export default PostForm;

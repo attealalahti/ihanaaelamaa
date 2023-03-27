@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import type { EventFormProps } from "./event-form";
+import type { PostFormProps } from "./post-form";
 
-const EventForm = dynamic(() => import("./event-form"), {
+const PostForm = dynamic(() => import("./post-form"), {
   ssr: false,
   loading: () => (
     <div className="flex w-full flex-1 items-center justify-center">
@@ -12,8 +12,8 @@ const EventForm = dynamic(() => import("./event-form"), {
   ),
 });
 
-const DynamicEventForm: React.FC<EventFormProps> = (props) => {
-  return <EventForm {...props} />;
+const DynamicPostForm: React.FC<PostFormProps> = (props) => {
+  return <PostForm {...props} />;
 };
 
-export default DynamicEventForm;
+export default DynamicPostForm;
