@@ -1,55 +1,42 @@
-import { useState } from "react";
-import ImageSelector from "../control/image-selector";
+import { type FormEvent, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import useUnsavedChangesWarning from "../../hooks/use-unsaved-changes-warning";
+import { trpc } from "../../utils/trpc";
+import { toBase64 } from "../../utils/text";
 
-export type HandleSponsorSubmit = (
-  data: {
-    imageId: string;
-    link: string;
-  },
-  setNewDefaults: (data: { imageId: string | null; link: string }) => void
-) => void;
+const SponsorForm: React.FC = () => {
+  const [link, setLink] = useState<string>("");
+  const [file, setFile] = useState<File | undefined>(undefined);
 
-type Props = {
-  handleSubmit: HandleSponsorSubmit;
-  defaultValues?: {
-    imageId: string | null;
-    link: string;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const utils = trpc.useContext();
+  const create = trpc.sponsor.create.useMutation();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file) return;
+    const base64 = await toBase64(file);
+    create.mutate(
+      { image: base64, link },
+      {
+        onSuccess: () => {
+          utils.sponsor.all.invalidate();
+          utils.auth.unpublishedChanges.invalidate();
+        },
+      }
+    );
+    setLink("");
+    setFile(undefined);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
-  isLoading: boolean;
-};
-
-const SponsorForm: React.FC<Props> = ({
-  handleSubmit,
-  defaultValues,
-  isLoading,
-}) => {
-  const [defaultImageId, setDefaultImageId] = useState<string | null>(
-    defaultValues?.imageId ?? null
-  );
-  const [defaultLink, setDefaultLink] = useState<string>(
-    defaultValues?.link ?? ""
-  );
-
-  const [imageId, setImageId] = useState<string | null>(defaultImageId);
-  const [link, setLink] = useState<string>(defaultLink);
-
-  useUnsavedChangesWarning(imageId !== defaultImageId || link !== defaultLink);
 
   return (
     <form
-      className="flex w-full max-w-3xl flex-col gap-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (imageId !== null) {
-          handleSubmit({ imageId, link }, ({ imageId, link }) => {
-            setDefaultImageId(imageId);
-            setDefaultLink(link);
-          });
-        }
-      }}
+      className="flex w-full max-w-3xl flex-col gap-4 p-4 text-black"
+      onSubmit={handleSubmit}
     >
       <div className="flex items-center justify-center">
         <div className="flex w-full flex-col text-xl">
@@ -62,31 +49,31 @@ const SponsorForm: React.FC<Props> = ({
             maxLength={200}
             required={true}
             autoComplete="off"
-            className="rounded p-1"
+            className="rounded p-1 text-xl"
             value={link}
             onChange={(e) => setLink(e.target.value)}
           />
         </div>
       </div>
-      <div className="flex">
-        <ImageSelector
-          selectedImageId={imageId}
-          setSelectedImageId={setImageId}
-          isSponsor={true}
+      <div className="flex flex-wrap gap-3">
+        <input
+          type="file"
+          required={true}
+          ref={fileInputRef}
+          accept=".png,.jpg,.jpeg,.webp"
+          onChange={(e) => {
+            if (e.target.files) setFile(e.target.files[0]);
+          }}
+          className="text-white"
         />
         <div className="flex-1" />
         <div className="flex items-end">
           <button
             type="submit"
-            disabled={imageId === null || isLoading}
-            className={`rounded-lg border border-white p-2 text-lg font-bold ${
-              imageId === null
-                ? "bg-gray-300 text-red-600"
-                : "bg-green-400 hover:bg-green-500"
-            }`}
+            className="rounded-lg border border-white bg-green-400 p-2 text-lg font-bold hover:bg-green-500"
           >
-            {imageId === null ? "Kuvaa ei ole valittu" : "Tallenna"}
-            {isLoading && (
+            Lisää sponsori
+            {create.isLoading && (
               <span className="ml-4">
                 <FontAwesomeIcon icon={faSpinner} pulse />
               </span>

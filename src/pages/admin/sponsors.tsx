@@ -1,17 +1,13 @@
-import {
-  faPlus,
-  faSpinner,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import AdminPage from "../../../components/admin/admin-page";
-import Modal from "../../../components/control/modal";
-import { trpc } from "../../../utils/trpc";
+import AdminPage from "../../components/admin/admin-page";
+import Modal from "../../components/control/modal";
+import { trpc } from "../../utils/trpc";
+import SponsorForm from "../../components/admin/sponsor-form";
 
 const Sponsors: NextPage = () => {
   const { data: session } = useSession();
@@ -32,13 +28,17 @@ const Sponsors: NextPage = () => {
   const [sponsorToDelete, setSponsorToDelete] = useState<{
     id: number;
     link: string;
+    imageId: string;
   } | null>(null);
 
-  const deleteSponsor = (id: number | undefined) => {
+  const deleteSponsor = (
+    id: number | undefined,
+    imageId: string | undefined
+  ) => {
     setSponsorToDelete(null);
-    if (!id) return;
+    if (!id || !imageId) return;
     deleteById.mutate(
-      { id },
+      { id, imageId },
       { onSuccess: () => utils.auth.unpublishedChanges.invalidate() }
     );
   };
@@ -46,35 +46,26 @@ const Sponsors: NextPage = () => {
   return (
     <AdminPage session={session} backHref="/admin">
       <div className="flex max-w-4xl flex-col items-center justify-center text-white">
-        <Link
-          href="/admin/sponsors/new"
-          className="m-4 rounded-xl bg-white p-4 text-xl font-bold text-black hover:bg-slate-200 sm:grid-flow-col"
-        >
-          Lisää uusi sponsori
-          <span className="ml-2">
-            <FontAwesomeIcon icon={faPlus} size="lg" />
-          </span>
-        </Link>
-        <div className="w-screen max-w-4xl p-4">
+        <SponsorForm />
+        <div className="mt-10 w-screen max-w-4xl p-4">
           {sponsors.data ? (
             sponsors.data.map(({ id, image, link }, index) => (
               <div
                 key={index}
-                className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black hover:bg-slate-200 ${
+                className={`grid grid-flow-col grid-cols-1 gap-1 bg-white text-lg text-black  ${
                   index === 0 ? "rounded-t-lg" : "border-t border-slate-400"
                 } ${index === sponsors.data.length - 1 ? "rounded-b-lg" : ""}`}
               >
-                <Link
-                  href={`/admin/sponsors/${id}`}
-                  className="grid grid-flow-col grid-cols-1 gap-3 p-2"
-                >
+                <div className="grid grid-flow-col grid-cols-1 gap-3 p-2">
                   <div className="my-auto overflow-clip">{link}</div>
                   <Image src={image.url} width={40} height={40} alt="" />
-                </Link>
+                </div>
                 <div className="grid grid-flow-col">
                   <button
                     className="group relative mr-2 p-2 opacity-75 transition-all hover:scale-110 hover:opacity-100"
-                    onClick={() => setSponsorToDelete({ id, link })}
+                    onClick={() =>
+                      setSponsorToDelete({ id, link, imageId: image.id })
+                    }
                   >
                     <span className="absolute left-full hidden rounded border border-slate-300 bg-white p-1 text-center text-base lg:group-hover:inline">
                       Poista
@@ -106,7 +97,9 @@ const Sponsors: NextPage = () => {
             </button>
             <button
               className="rounded-lg border border-slate-700 bg-red-600 p-2 text-white hover:bg-red-700"
-              onClick={() => deleteSponsor(sponsorToDelete?.id)}
+              onClick={() =>
+                deleteSponsor(sponsorToDelete?.id, sponsorToDelete?.imageId)
+              }
             >
               Poista
             </button>
