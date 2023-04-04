@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { trpc } from "../../utils/trpc";
 import { toBase64 } from "../../utils/text";
+import { UPLOAD_SIZE_LIMIT } from "../../utils/constants";
 
 const SponsorForm: React.FC = () => {
   const [link, setLink] = useState<string>("");
@@ -13,9 +14,11 @@ const SponsorForm: React.FC = () => {
   const utils = trpc.useContext();
   const create = trpc.sponsor.create.useMutation();
 
+  const fileTooLarge = file && file.size > UPLOAD_SIZE_LIMIT;
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!file) return;
+    if (!file || fileTooLarge) return;
     const base64 = await toBase64(file);
     create.mutate(
       { image: base64, link },
@@ -64,15 +67,18 @@ const SponsorForm: React.FC = () => {
           onChange={(e) => {
             if (e.target.files) setFile(e.target.files[0]);
           }}
-          className="text-white"
+          className="text-lg text-white"
         />
         <div className="flex-1" />
         <div className="flex items-end">
           <button
             type="submit"
-            className="rounded-lg border border-white bg-green-400 p-2 text-lg font-bold hover:bg-green-500"
+            disabled={fileTooLarge}
+            className={`rounded-lg border border-white  p-2 text-lg font-bold ${
+              fileTooLarge ? "bg-gray-400" : "bg-green-400 hover:bg-green-500"
+            }`}
           >
-            Lisää sponsori
+            {fileTooLarge ? "Tiedosto on liian suuri" : "Lisää sponsori"}
             {create.isLoading && (
               <span className="ml-4">
                 <FontAwesomeIcon icon={faSpinner} pulse />

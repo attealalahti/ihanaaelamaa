@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { trpc } from "../../utils/trpc";
 import Image from "next/image";
+import { UPLOAD_SIZE_LIMIT } from "../../utils/constants";
 
 type Props = {
   selectedImageId: string | null;
@@ -32,8 +33,10 @@ const ImageSelector: React.FC<Props> = ({
 
   const addImage = trpc.image.add.useMutation();
 
+  const fileTooLarge = file && file.size > UPLOAD_SIZE_LIMIT;
+
   const uploadImage = async () => {
-    if (!file) return;
+    if (!file || fileTooLarge) return;
     const base64 = await toBase64(file);
     setFile(undefined);
     addImage.mutate(
@@ -174,14 +177,19 @@ const ImageSelector: React.FC<Props> = ({
                 {addImage.isError && (
                   <div className="font-bold text-red-600">Tapahtui virhe</div>
                 )}
+                {!addImage.isError && fileTooLarge && (
+                  <div className="font-bold text-red-600">
+                    Tiedosto on liian suuri
+                  </div>
+                )}
                 <button
                   type="submit"
                   className={`w-full rounded p-2 text-white ${
-                    !file || addImage.isLoading
+                    !file || addImage.isLoading || fileTooLarge
                       ? "bg-gray-400"
                       : "bg-green-700 hover:bg-green-800"
                   }`}
-                  disabled={!file || addImage.isLoading}
+                  disabled={!file || addImage.isLoading || fileTooLarge}
                 >
                   Lisää kuva
                   {addImage.isLoading && (
