@@ -1,5 +1,4 @@
 import { type InferGetStaticPropsType, type NextPage } from "next";
-import Head from "next/head";
 import Footer from "../components/layout/footer";
 import Header from "../components/layout/header";
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
@@ -15,6 +14,7 @@ import { dateToYYYYmmdd } from "../utils/text";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import CustomHead from "../components/layout/custom-head";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -50,11 +50,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead />
       <Page>
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center">

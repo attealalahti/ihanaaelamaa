@@ -1,6 +1,5 @@
 import type { InferGetStaticPropsType, NextPage } from "next";
 import Header from "../components/layout/header";
-import Head from "next/head";
 import Footer from "../components/layout/footer";
 import Page from "../components/layout/page";
 import Post from "../components/content/post";
@@ -10,6 +9,7 @@ import { createContext } from "../server/trpc/context";
 import superjson from "superjson";
 import { trpc } from "../utils/trpc";
 import Custom404 from "../components/layout/custom-404";
+import CustomHead from "../components/layout/custom-head";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -34,11 +34,7 @@ const Join: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = () => {
   if (!join.data) return <Custom404 />;
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead title="Liity" />
       <Page>
         <Header />
         <main className="flex w-full flex-1 flex-col">

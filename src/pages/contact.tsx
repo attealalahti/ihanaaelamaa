@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import Head from "next/head";
 import Header from "../components/layout/header";
 import SocialButton from "../components/control/social-button";
 import emailIcon from "../../public/images/email_icon.svg";
@@ -11,6 +10,7 @@ import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { appRouter } from "../server/trpc/router/_app";
 import superjson from "superjson";
 import { createContext } from "../server/trpc/context";
+import CustomHead from "../components/layout/custom-head";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -31,11 +31,7 @@ export const getStaticProps = async () => {
 const Contact: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead title="Yhteystiedot" />
       <Page>
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center gap-4 text-white lg:gap-6">

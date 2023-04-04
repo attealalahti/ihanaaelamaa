@@ -1,10 +1,10 @@
-import Head from "next/head";
 import Page from "./../layout/page";
 import AdminHeader from "./admin-header";
 import SignedOut from "./signed-out";
 import Unauthorized from "./unauthorized";
 import { type Session } from "next-auth";
 import BackButton from "../control/back-button";
+import CustomHead from "../layout/custom-head";
 
 type Props = {
   children: React.ReactNode;
@@ -15,11 +15,7 @@ type Props = {
 const AdminPage: React.FC<Props> = ({ children, session, backHref }) => {
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry - Admin</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead title="Admin" />
       <Page admin>
         <AdminHeader session={session} />
         {backHref && session?.user?.isAdmin && <BackButton href={backHref} />}

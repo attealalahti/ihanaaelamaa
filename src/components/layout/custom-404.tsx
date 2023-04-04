@@ -1,16 +1,12 @@
-import Head from "next/head";
 import Footer from "./footer";
 import Header from "./header";
 import Page from "./page";
+import CustomHead from "./custom-head";
 
 const Custom404: React.FC = () => {
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead title="Sivua ei löytynyt" />
       <Page>
         <Header />
         <main className="flex flex-1 flex-col items-center justify-center gap-5 text-white">

@@ -5,7 +5,6 @@ import type {
   InferGetStaticPropsType,
 } from "next";
 import Header from "../../components/layout/header";
-import Head from "next/head";
 import Footer from "../../components/layout/footer";
 import Page from "../../components/layout/page";
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
@@ -17,6 +16,7 @@ import { trpc } from "../../utils/trpc";
 import Custom404 from "../../components/layout/custom-404";
 import Post from "../../components/content/post";
 import BackButton from "../../components/control/back-button";
+import CustomHead from "../../components/layout/custom-head";
 
 export const getStaticProps = async (
   context: GetStaticPropsContext<{ id: string }>
@@ -59,11 +59,7 @@ const Event: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   if (!event.data) return <Custom404 />;
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead title={event.data.title} />
       <Page>
         <Header />
         <BackButton href="/events" text="Kaikki tapahtumat" />

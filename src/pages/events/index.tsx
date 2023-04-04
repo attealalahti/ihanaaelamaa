@@ -1,6 +1,5 @@
 import { createProxySSGHelpers } from "@trpc/react-query/ssg";
 import { type NextPage } from "next";
-import Head from "next/head";
 import EventBoard from "../../components/content/event-board";
 import Footer from "../../components/layout/footer";
 import Header from "../../components/layout/header";
@@ -9,6 +8,7 @@ import { createContext } from "../../server/trpc/context";
 import { appRouter } from "../../server/trpc/router/_app";
 import { trpc } from "../../utils/trpc";
 import superjson from "superjson";
+import CustomHead from "../../components/layout/custom-head";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -32,11 +32,7 @@ const Events: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <CustomHead title="Tapahtumat" />
       <Page>
         <Header />
         <main className="flex w-screen max-w-4xl flex-1 flex-col items-center justify-center p-4">
