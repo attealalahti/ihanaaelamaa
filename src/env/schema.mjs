@@ -19,8 +19,12 @@ export const serverSchema = z.object({
     // VERCEL_URL doesnt include `https` so it cant be validated as a URL
     process.env.VERCEL ? z.string() : z.string().url().nullish()
   ),
-  DISCORD_CLIENT_ID: z.string().nullish(),
-  DISCORD_CLIENT_SECRET: z.string().nullish(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+  BUILD_HOOK_URL: z.string(),
+  CLOUDINARY_CLOUD_NAME: z.string(),
+  CLOUDINARY_API_KEY: z.string(),
+  CLOUDINARY_API_SECRET: z.string(),
 });
 
 /**
@@ -28,9 +32,7 @@ export const serverSchema = z.object({
  * This way you can ensure the app isn't built with invalid env vars.
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
-export const clientSchema = z.object({
-  // NEXT_PUBLIC_BAR: z.string(),
-});
+export const clientSchema = z.object({});
 
 /**
  * You can't destruct `process.env` as a regular object, so you have to do
@@ -38,6 +40,4 @@ export const clientSchema = z.object({
  * and only used environment variables are included in the build.
  * @type {{ [k in keyof z.infer<typeof clientSchema>]: z.infer<typeof clientSchema>[k] | undefined }}
  */
-export const clientEnv = {
-  // NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
-};
+export const clientEnv = {};

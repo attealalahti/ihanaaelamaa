@@ -1,72 +1,89 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-
+import { type InferGetStaticPropsType, type NextPage } from "next";
+import Footer from "../components/layout/footer";
+import Header from "../components/layout/header";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { appRouter } from "../server/trpc/router/_app";
+import superjson from "superjson";
+import { createContext } from "../server/trpc/context";
 import { trpc } from "../utils/trpc";
+import Page from "../components/layout/page";
+import HomeContent from "../components/content/home-content";
+import EventBoard from "../components/content/event-board";
+import LinkButton from "../components/control/link-button";
+import { dateToYYYYmmdd } from "../utils/text";
+import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import CustomHead from "../components/layout/custom-head";
 
-const Home: NextPage = () => {
-  //const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+export const getStaticProps = async () => {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContext(),
+    transformer: superjson,
+  });
+
+  const todayString = dateToYYYYmmdd(new Date());
+
+  await ssg.event.future.prefetch({ today: new Date(todayString) });
+  await ssg.home.get.prefetch();
+  await ssg.sponsor.all.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+      todayString,
+    },
+    revalidate: 60 * 60 * 24,
+  };
+};
+
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  todayString,
+}) => {
+  const events = trpc.event.future.useQuery(
+    { today: new Date(todayString) },
+    { enabled: false }
+  );
+
+  const home = trpc.home.get.useQuery(undefined, { enabled: false });
 
   return (
     <>
-      <Head>
-        <title>Ihanaa Elämää ry</title>
-        <meta name="description" content="Burleskiyhdistys" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-rose-900 to-violet-900">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 text-center">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            Ihanaa Elämää ry
-          </h1>
-          <div className="text-4xl font-bold text-white">
-            🚧 Uusi sivusto on rakenteilla! 🚧
+      <CustomHead />
+      <Page>
+        <Header />
+        <main className="flex flex-1 flex-col items-center justify-center">
+          {home.data && (
+            <HomeContent
+              data={{ ...home.data, imageUrl: home.data.image?.url ?? null }}
+            />
+          )}
+          <div className="flex max-w-4xl flex-col items-center justify-center p-8 text-center text-white">
+            <div className="mb-10 flex flex-wrap items-center justify-center gap-20">
+              <LinkButton href="/join">Liity jäseneksi!</LinkButton>
+              <LinkButton href="/contact">Ota yhteyttä!</LinkButton>
+            </div>
+            {events.data && events.data.length !== 0 && (
+              <>
+                <EventBoard events={events.data} title="Tulevat tapahtumat" />
+                <Link
+                  className="mt-2 self-end rounded-3xl border border-transparent p-3 text-lg transition-colors duration-300 hover:border-white"
+                  href="/events"
+                >
+                  Kaikki tapahtumat
+                  <span className="ml-2">
+                    <FontAwesomeIcon icon={faArrowRight} color="white" />
+                  </span>
+                </Link>
+              </>
+            )}
           </div>
-          <div className="text-2xl text-white">
-            Tämä sivusto on vielä keskeneräinen. Löydät tiedot uusista
-            tapahtumista ja uutisista sosiaalisessa mediassa:
-          </div>
-          <div className="mt-6 flex flex-row flex-wrap justify-center gap-16 align-middle">
-            <Link href="https://www.facebook.com/ihanaaelamaa/">
-              <span className="rounded-xl border-4 border-blue-300 p-4 text-3xl font-bold text-blue-300 ring-blue-300 hover:underline">
-                Facebook
-              </span>
-            </Link>
-            <Link href="https://www.instagram.com/ihanaaelamaayhdistys/">
-              <span className="rounded-xl border-4 border-red-200 p-4 text-3xl font-bold text-red-200 ring-red-200 hover:underline">
-                Instagram
-              </span>
-            </Link>
-          </div>
-        </div>
-      </main>
+        </main>
+        <Footer />
+      </Page>
     </>
   );
 };
 
 export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = trpc.auth.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => signOut() : () => signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-};
