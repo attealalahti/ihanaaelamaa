@@ -9,17 +9,17 @@ const Footer: React.FC = () => {
   return (
     <footer className="mb-2 mt-10 flex w-full flex-wrap justify-end text-white">
       {sponsors.data && sponsors.data.length > 0 && (
-        <div className="flex flex-grow gap-10 px-10">
-          <div className="my-auto">Yhteistyössä:</div>
+        <div className="flex flex-grow flex-wrap px-5 lg:px-10">
+          <div className="my-auto pr-4">Yhteistyössä:</div>
           {sponsors.data.map(({ link, image }, index) => (
-            <a key={index} href={link} target="_blank" rel="noreferrer">
-              <Image
-                width={60}
-                height={60}
-                src={image.url}
-                alt=""
-                className="my-auto mb-0"
-              />
+            <a
+              key={index}
+              href={link}
+              target="_blank"
+              rel="noreferrer"
+              className="relative my-auto mb-0 h-16 w-52"
+            >
+              <Image fill src={image.url} alt="" className="object-contain" />
             </a>
           ))}
         </div>
