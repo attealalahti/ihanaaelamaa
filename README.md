@@ -1,5 +1,7 @@
 # ihanaaelamaa.fi
-### 🚧 UNDER CONSTRUCTION 🚧
+
 Website for Ihanaa Elämää ry.
 
-Development version of the site is available at https://ihanaaelamaa-dev.netlify.app
+Production version: https://www.ihanaaelamaa.fi
+
+Development version: https://ihanaaelamaa-dev.netlify.app
