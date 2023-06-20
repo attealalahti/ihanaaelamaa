@@ -15,7 +15,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CustomHead from "../components/layout/custom-head";
-import useDropshop from "../hooks/use-dropshop";
+import DynamicDropshop from "../components/content/dynamic-dropshop";
 
 export const getStaticProps = async () => {
   const ssg = createProxySSGHelpers({
@@ -49,13 +49,12 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   const home = trpc.home.get.useQuery(undefined, { enabled: false });
 
-  useDropshop();
-
   return (
     <>
       <CustomHead />
       <Page>
         <Header />
+        <DynamicDropshop />
         <main className="flex flex-1 flex-col items-center justify-center">
           {home.data && (
             <HomeContent
