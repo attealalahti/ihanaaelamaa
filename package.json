@@ -29,6 +29,7 @@
     "react-dom": "18.2.0",
     "react-html-parser": "^2.0.2",
     "react-quill": "^2.0.0",
+    "styled-jsx": "^5.1.2",
     "superjson": "1.9.1",
     "zod": "^3.20.2"
   },
