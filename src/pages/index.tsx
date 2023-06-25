@@ -49,7 +49,7 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   const home = trpc.home.get.useQuery(undefined, { enabled: false });
 
-  useDropshop();
+  //useDropshop();
 
   return (
     <>
