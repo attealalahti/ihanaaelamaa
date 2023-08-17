@@ -1,4 +1,4 @@
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import { type NextPage } from "next";
 import Custom404 from "../components/layout/custom-404";
 import { createContext } from "../server/trpc/context";
@@ -6,7 +6,7 @@ import { appRouter } from "../server/trpc/router/_app";
 import superjson from "superjson";
 
 export const getStaticProps = async () => {
-  const ssg = createProxySSGHelpers({
+  const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: await createContext(),
     transformer: superjson,

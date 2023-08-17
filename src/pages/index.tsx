@@ -1,7 +1,7 @@
 import { type InferGetStaticPropsType, type NextPage } from "next";
 import Footer from "../components/layout/footer";
 import Header from "../components/layout/header";
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "../server/trpc/router/_app";
 import superjson from "superjson";
 import { createContext } from "../server/trpc/context";
@@ -18,7 +18,7 @@ import CustomHead from "../components/layout/custom-head";
 import useDropshop from "../hooks/use-dropshop";
 
 export const getStaticProps = async () => {
-  const ssg = createProxySSGHelpers({
+  const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: await createContext(),
     transformer: superjson,
