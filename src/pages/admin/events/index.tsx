@@ -32,10 +32,10 @@ const AdminEvents: NextPage = () => {
   const updateVisibility = trpc.event.updateVisibility.useMutation({
     onMutate: ({ id, visible }) => {
       // Optimistically update event visibility
-      utils.event.all.setData((oldEvents) => {
+      utils.event.all.setData(undefined, (oldEvents) => {
         if (!oldEvents) return oldEvents;
         const eventToUpdateIndex = oldEvents.findIndex(
-          (event) => event.id === id
+          (event) => event.id === id,
         );
         const eventToUpdate = oldEvents[eventToUpdateIndex];
         if (!eventToUpdate) return oldEvents;
@@ -49,7 +49,7 @@ const AdminEvents: NextPage = () => {
   const deleteById = trpc.event.delete.useMutation({
     onMutate: ({ id }) => {
       // Optimistically remove deleted event
-      utils.event.all.setData((oldEvents) => {
+      utils.event.all.setData(undefined, (oldEvents) => {
         if (!oldEvents) return oldEvents;
         return oldEvents.filter((event) => event.id !== id);
       });
@@ -59,7 +59,7 @@ const AdminEvents: NextPage = () => {
   const toggleVisibility = (id: number, visible: boolean) => {
     updateVisibility.mutate(
       { id, visible },
-      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() }
+      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() },
     );
   };
 
@@ -68,7 +68,7 @@ const AdminEvents: NextPage = () => {
     if (!id) return;
     deleteById.mutate(
       { id },
-      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() }
+      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() },
     );
   };
 
@@ -134,7 +134,7 @@ const AdminEvents: NextPage = () => {
                     </button>
                   </div>
                 </div>
-              )
+              ),
             )}
           </div>
           <Modal open={eventToDelete !== null}>

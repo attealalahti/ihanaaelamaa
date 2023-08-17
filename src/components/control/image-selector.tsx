@@ -22,7 +22,7 @@ const ImageSelector: React.FC<Props> = ({
   const [imageSelectModalOpen, setImageSelectModalOpen] =
     useState<boolean>(false);
   const [imageIdToDelete, setImageIdToDelete] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,7 +48,7 @@ const ImageSelector: React.FC<Props> = ({
             fileInputRef.current.value = "";
           }
         },
-      }
+      },
     );
   };
 
@@ -57,20 +57,21 @@ const ImageSelector: React.FC<Props> = ({
       { imageId },
       {
         onSuccess: () => {
-          utils.image.byIsSponsor.setData((previous) =>
-            previous?.filter((image) => image.id !== imageId)
+          utils.image.byIsSponsor.setData(
+            { isSponsor },
+            (previous) => previous?.filter((image) => image.id !== imageId),
           );
           if (selectedImageId === imageId) {
             setSelectedImageId(null);
           }
           setImageIdToDelete(undefined);
         },
-      }
+      },
     );
   };
 
   const selectedImageUrl = allImages.data?.find(
-    (image) => image.id === selectedImageId
+    (image) => image.id === selectedImageId,
   )?.url;
 
   return (
@@ -123,7 +124,7 @@ const ImageSelector: React.FC<Props> = ({
                   {allImages.data.map((image) => (
                     <div className="group relative" key={image.id}>
                       <button
-                        className="absolute top-0 right-0 h-9 w-9 rounded border border-black bg-white opacity-0 group-hover:opacity-100"
+                        className="absolute right-0 top-0 h-9 w-9 rounded border border-black bg-white opacity-0 group-hover:opacity-100"
                         onClick={() => setImageIdToDelete(image.id)}
                         aria-label="Poista"
                       >

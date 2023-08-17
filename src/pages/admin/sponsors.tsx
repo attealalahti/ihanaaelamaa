@@ -18,7 +18,7 @@ const Sponsors: NextPage = () => {
   const deleteById = trpc.sponsor.delete.useMutation({
     onMutate: ({ id }) => {
       // Optimistically remove deleted sponsor
-      utils.sponsor.all.setData((oldSponsors) => {
+      utils.sponsor.all.setData(undefined, (oldSponsors) => {
         if (!oldSponsors) return oldSponsors;
         return oldSponsors.filter((sponsor) => sponsor.id !== id);
       });
@@ -33,13 +33,13 @@ const Sponsors: NextPage = () => {
 
   const deleteSponsor = (
     id: number | undefined,
-    imageId: string | undefined
+    imageId: string | undefined,
   ) => {
     setSponsorToDelete(null);
     if (!id || !imageId) return;
     deleteById.mutate(
       { id, imageId },
-      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() }
+      { onSuccess: () => utils.auth.unpublishedChanges.invalidate() },
     );
   };
 
