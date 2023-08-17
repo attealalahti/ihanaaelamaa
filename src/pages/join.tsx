@@ -3,7 +3,7 @@ import Header from "../components/layout/header";
 import Footer from "../components/layout/footer";
 import Page from "../components/layout/page";
 import Post from "../components/content/post";
-import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import { createServerSideHelpers } from "@trpc/react-query/server";
 import { appRouter } from "../server/trpc/router/_app";
 import { createContext } from "../server/trpc/context";
 import superjson from "superjson";
@@ -12,7 +12,7 @@ import Custom404 from "../components/layout/custom-404";
 import CustomHead from "../components/layout/custom-head";
 
 export const getStaticProps = async () => {
-  const ssg = createProxySSGHelpers({
+  const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: await createContext(),
     transformer: superjson,
