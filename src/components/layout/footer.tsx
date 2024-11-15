@@ -37,15 +37,15 @@ const Footer: React.FC = () => {
           href="https://www.facebook.com/ihanaaelamaa/"
           target="_blank"
           rel="noreferrer"
-          className="mr-2 mb-2 mt-auto p-2"
+          className="mb-2 mr-2 mt-auto p-2"
         >
           <Image width={30} height={30} src={facebookIcon} alt="Facebook" />
         </a>
         <a
-          href="https://www.instagram.com/ihanaaelamaayhdistys/"
+          href="https://www.instagram.com/ihanaaelamaary/"
           target="_blank"
           rel="noreferrer"
-          className="mr-2 mb-2 mt-auto p-2"
+          className="mb-2 mr-2 mt-auto p-2"
         >
           <Image width={30} height={30} src={instagramIcon} alt="Instagram" />
         </a>

@@ -55,7 +55,7 @@ const Contact: NextPage = () => {
               text="@ihanaaelamaayhdistys"
               imageSrc={instagramIcon}
               imageAlt="Instagram"
-              href="https://www.instagram.com/ihanaaelamaayhdistys/"
+              href="https://www.instagram.com/ihanaaelamaary/"
             />
           </div>
         </main>
