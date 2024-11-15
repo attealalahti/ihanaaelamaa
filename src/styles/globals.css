@@ -33,7 +33,3 @@
 .home ul {
   @apply pl-0;
 }
-
-#dropshop-loader {
-  @apply hidden;
-}

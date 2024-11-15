@@ -15,7 +15,6 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CustomHead from "../components/layout/custom-head";
-import useDropshop from "../hooks/use-dropshop";
 
 export const getStaticProps = async () => {
   const ssg = createServerSideHelpers({
@@ -44,12 +43,10 @@ const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 }) => {
   const events = trpc.event.future.useQuery(
     { today: new Date(todayString) },
-    { enabled: false }
+    { enabled: false },
   );
 
   const home = trpc.home.get.useQuery(undefined, { enabled: false });
-
-  useDropshop();
 
   return (
     <>
