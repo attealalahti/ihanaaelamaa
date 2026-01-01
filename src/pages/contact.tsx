@@ -11,6 +11,7 @@ import { appRouter } from "../server/trpc/router/_app";
 import superjson from "superjson";
 import { createContext } from "../server/trpc/context";
 import CustomHead from "../components/layout/custom-head";
+import { contacts } from "../utils/constants";
 
 export const getStaticProps = async () => {
   const ssg = createServerSideHelpers({
@@ -40,22 +41,22 @@ const Contact: NextPage = () => {
           </h1>
           <div className="mb-10 flex flex-col gap-6">
             <SocialButton
-              text="burleskia@ihanaaelamaa.fi"
+              text={contacts.email.text}
               imageSrc={emailIcon}
               imageAlt="Sähköposti"
-              href="mailto:burleskia@ihanaaelamaa.fi"
+              href={contacts.email.link}
             />
             <SocialButton
-              text="facebook.com/ihanaaelamaa"
+              text={contacts.facebook.text}
               imageSrc={facebookIcon}
               imageAlt="Facebook"
-              href="https://www.facebook.com/ihanaaelamaa/"
+              href={contacts.facebook.link}
             />
             <SocialButton
-              text="@ihanaaelamaayhdistys"
+              text={contacts.instagram.text}
               imageSrc={instagramIcon}
               imageAlt="Instagram"
-              href="https://www.instagram.com/ihanaaelamaary/"
+              href={contacts.instagram.link}
             />
           </div>
         </main>
