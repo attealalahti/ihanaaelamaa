@@ -2,6 +2,7 @@ import Image from "next/image";
 import facebookIcon from "../../../public/images/facebook_icon.svg";
 import instagramIcon from "../../../public/images/instagram_icon.svg";
 import { trpc } from "../../utils/trpc";
+import { contacts } from "../../utils/constants";
 
 const Footer: React.FC = () => {
   const sponsors = trpc.sponsor.all.useQuery(undefined, { enabled: false });
@@ -26,15 +27,15 @@ const Footer: React.FC = () => {
       )}
       <div className="flex">
         <a
-          href="mailto:burleskia@ihanaaelamaa.fi"
+          href={contacts.email.link}
           target="_blank"
           rel="noreferrer"
           className="my-auto mr-2 flex justify-center p-2 align-middle hover:underline"
         >
-          burleskia@ihanaaelamaa.fi
+          {contacts.email.text}
         </a>
         <a
-          href="https://www.facebook.com/ihanaaelamaa/"
+          href={contacts.facebook.link}
           target="_blank"
           rel="noreferrer"
           className="mb-2 mr-2 mt-auto p-2"
@@ -42,7 +43,7 @@ const Footer: React.FC = () => {
           <Image width={30} height={30} src={facebookIcon} alt="Facebook" />
         </a>
         <a
-          href="https://www.instagram.com/ihanaaelamaary/"
+          href={contacts.instagram.link}
           target="_blank"
           rel="noreferrer"
           className="mb-2 mr-2 mt-auto p-2"
