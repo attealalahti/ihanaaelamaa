@@ -21,7 +21,7 @@ export type HandleEventSubmit = (
     content: string;
     imageId: string | null;
     date?: string;
-  }) => void
+  }) => void,
 ) => void;
 
 export type PostFormProps = {
@@ -49,16 +49,16 @@ const PostForm: React.FC<PostFormProps> = ({
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const [defaultTitle, setDefaultTitle] = useState<string>(
-    defaultValues?.title ?? ""
+    defaultValues?.title ?? "",
   );
   const [defaultContent, setDefaultContent] = useState<string>(
-    defaultValues?.content ?? ""
+    defaultValues?.content ?? "",
   );
   const [defaultDate, setDefaultDate] = useState<string>(
-    defaultValues?.date ?? ""
+    defaultValues?.date ?? "",
   );
   const [defaultImageId, setDefaultImageId] = useState<string | null>(
-    defaultValues?.imageId ?? null
+    defaultValues?.imageId ?? null,
   );
 
   const [title, setTitle] = useState<string>(defaultTitle);
@@ -72,7 +72,7 @@ const PostForm: React.FC<PostFormProps> = ({
     title !== defaultTitle ||
       content !== defaultContent ||
       date !== defaultDate ||
-      imageId !== defaultImageId
+      imageId !== defaultImageId,
   );
 
   const allImages = trpc.image.byIsSponsor.useQuery({ isSponsor: false });
@@ -110,7 +110,7 @@ const PostForm: React.FC<PostFormProps> = ({
                   setDefaultContent(content);
                   setDefaultImageId(imageId);
                   if (date) setDefaultDate(date);
-                }
+                },
               );
             }
           }}
@@ -161,6 +161,7 @@ const PostForm: React.FC<PostFormProps> = ({
                   toolbar: [
                     [{ header: [false, 2] }],
                     ["bold", "italic", "underline", "strike"],
+                    [{ color: [] }],
                     ["link"],
                     [{ list: "ordered" }, { list: "bullet" }],
                     ["clean"],
